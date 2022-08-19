@@ -1,29 +1,84 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <div v-if="$store.state.isLoggedIn" class="app-content-wrapper">
+    <nav-bar id="app-navbar" :menus="menus"></nav-bar>
+    <router-view id="app-content" />
+  </div>
+  <div v-else class="app-content-wrapper" style="flex-direction: column;">
+    <nav-bar id="app-navbar" :menus="menus" style="flex-direction: row; justify-content: flex-end"></nav-bar>
+    <router-view id="app-content" />
+  </div>
 </template>
 
+<script>
+import NavBar from "@/components/NavBar.vue";
+
+export default {
+  components: { NavBar },
+  data() {
+    return {
+      menus: [
+        // Menu 1
+        [
+          { name: 'Dashboard', href: '/dashboard', icon: 'space_dashboard' },
+          { name: 'Todo', href: '/todo', icon: 'check' },
+          { name: 'Calendar', href: '/calendar', icon: 'calendar_month' },
+          { name: 'Flashcards', href: '/flashcards', icon: 'school' },
+          { name: 'Projects', href: '/projects', icon: 'view_kanban' },
+          { name: 'Settings', href: '/settings', icon: 'settings' },
+        ],
+      ]
+    }
+  },
+}
+</script>
+
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+* {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  color: inherit;
+  text-decoration: none;
 }
 
-nav {
-  padding: 30px;
+button {
+  cursor: pointer;
+}
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+// a {
+//   color: inherit;
+//   text-decoration: none;
+// }
 
-    &.router-link-exact-active {
-      color: #42b983;
+body {
+  margin: 0;
+  min-height: 100vh;
+  height: 100vh;
+  // Let flexbox deal with width
+  // min-width: 100vw;
+  // width: 100vw;
+  display: flex;
+
+  #app {
+    display: flex;
+    flex: 1;
+
+    .app-content-wrapper {
+      font-family: Avenir, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-align: center;
+      color: #2c3e50;
+      display: flex;
+      margin: 0.5rem;
+      gap: 1rem;
+      flex: 1;
+
+      // .navbar {}
+
+      #app-content {
+        flex: 1;
+      }
     }
   }
 }
