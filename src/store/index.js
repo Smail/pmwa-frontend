@@ -8,6 +8,12 @@ export default createStore({
   getters: {
   },
   mutations: {
+    setUsername(state, username) {
+      state.username = username;
+    },
+    setIsLoggedIn(state, isLoggedIn) {
+      state.isLoggedIn = isLoggedIn;
+    },
   },
   actions: {
   },
