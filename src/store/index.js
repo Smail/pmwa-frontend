@@ -62,6 +62,12 @@ export default createStore({
         throw new Error('Could not sign in user');
       }
     },
+    logOut(context) {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      context.commit('setUsername', '');
+      context.commit('setIsLoggedIn', false);
+    },
   },
   modules: {
   }
