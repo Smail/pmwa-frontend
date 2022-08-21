@@ -32,7 +32,13 @@
             {{ menuItem.name }}
           </router-link>
         </li>
-        <hr v-if="index < menus.length - 1">
+        <!-- Log out button -->
+        <li style="margin-top: auto" class="menu">
+          <button @click="$store.commit('logOut')">
+            <span class="material-symbols-outlined">logout</span>
+            Log out
+          </button>
+        </li>
       </ul>
     </template>
     <template v-else>
