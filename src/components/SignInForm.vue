@@ -2,12 +2,12 @@
   <form class="login-form" @submit.prevent="signIn">
     <h2 v-if="title != null" class="login-form-title">{{ title }}</h2>
     <label class="login-form-label">Username
-      <input class="login-form-input" name="username" placeholder="Username" type="text" autocomplete="username"
-        required v-model="username" />
+      <input v-model="username" autocomplete="username" class="login-form-input" name="username" placeholder="Username"
+             required type="text"/>
     </label>
     <label class="login-form-label">Password
-      <input class="login-form-input" name="password" placeholder="Password" type="password"
-        autocomplete="current-password" required v-model="password" />
+      <input v-model="password" autocomplete="current-password" class="login-form-input" name="password"
+             placeholder="Password" required type="password"/>
     </label>
     <button class="login-form-btn login-form-input" type="submit">Login</button>
   </form>

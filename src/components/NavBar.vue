@@ -1,9 +1,11 @@
 <template>
   <nav class="navbar">
-    <!-- User avatar -->
+    <!-- If user IS logged in -->
     <template v-if="$store.state.isLoggedIn">
+      <!-- User avatar -->
       <div class="user-avatar">
-        <img v-if="$store.state.userAvatarImgSrc" class="user-avatar-icon" :src="$store.state.userAvatarImgSrc">
+        <img v-if="$store.state.userAvatarImgSrc" :src="$store.state.userAvatarImgSrc" alt="User avatar"
+             class="user-avatar-icon">
         <span v-else class="material-symbols-outlined user-avatar-icon">
           account_circle
         </span>
@@ -23,7 +25,7 @@
         </h4>
       </template>
       <hr v-if="menus.length > 0">
-      <ul v-for="(menu, index) in menus" class="links">
+      <ul v-for="menu in menus" class="links">
         <li v-for="menuItem in menu" class="menu">
           <router-link :to="menuItem.href">
             <span v-if="menuItem.icon" class="material-symbols-outlined">
@@ -33,7 +35,7 @@
           </router-link>
         </li>
         <!-- Log out button -->
-        <li style="margin-top: auto" class="menu">
+        <li class="menu" style="margin-top: auto">
           <button @click="$store.commit('logOut')">
             <span class="material-symbols-outlined">logout</span>
             Log out
@@ -41,6 +43,7 @@
         </li>
       </ul>
     </template>
+    <!-- If user IS NOT logged in -->
     <template v-else>
       <ul class="links">
         <li v-for="menuItem in loggedOutMenu" class="menu">

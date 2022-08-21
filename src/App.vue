@@ -95,7 +95,8 @@ export default {
 
           // A refresh token is only valid once,
           // so if it has failed here already,
-          // then this token will never work anyways and we can simply delete it.
+          // then this token will never work anyway,
+          // and we can simply delete it.
           // This also prevents subsequent refresh token requests if the user reloads the page.
           localStorage.removeItem('refreshToken');
         });

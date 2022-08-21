@@ -19,8 +19,7 @@ export default createStore({
     showClock: true,
     showClockSeconds: false,
   },
-  getters: {
-  },
+  getters: {},
   mutations: {
     setUsername(state, username) {
       state.username = username;
@@ -35,7 +34,7 @@ export default createStore({
     toggleShowClockSeconds(state) {
       // TODO update server
       state.showClockSeconds = !state.showClockSeconds;
-    }
+    },
   },
   actions: {
     async signIn(context, { username, password }) {
@@ -69,6 +68,5 @@ export default createStore({
       context.commit('setIsLoggedIn', false);
     },
   },
-  modules: {
-  }
+  modules: {}
 })
