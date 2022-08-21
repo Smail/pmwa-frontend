@@ -21,7 +21,7 @@ export default {
   name: 'TaskList',
   methods: {
     loadTasks() {
-      this.$http.get('http://localhost:8090/tasks/', {
+      this.$http.get(`${process.env.VUE_APP_SERVER_URL}/tasks`, {
         headers: {
           Authorization: localStorage.getItem('accessToken'),
         }

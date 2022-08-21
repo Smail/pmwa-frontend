@@ -34,7 +34,7 @@ export default {
       return JSON.parse(jsonPayload);
     },
     signIn() {
-      this.$http.post('http://localhost:8090/auth/signin', {
+      this.$http.post(`${ process.env.VUE_APP_SERVER_URL }/auth/signin`, {
         username: this.username,
         password: this.password,
       }).then((response) => {
