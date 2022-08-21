@@ -24,34 +24,9 @@ export default {
     }
   },
   methods: {
-    parseJwt(token) {
-      const base64Url = token.split('.')[1];
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function (c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-      }).join(''));
-
-      return JSON.parse(jsonPayload);
-    },
-    signIn() {
-      this.$http.post(`${ process.env.VUE_APP_SERVER_URL }/auth/signin`, {
-        username: this.username,
-        password: this.password,
-      }).then((response) => {
-        console.log(response.data);
-        localStorage.setItem('accessToken', response.data.accessToken);
-        // TODO https://medium.com/@sadnub/simple-and-secure-api-authentication-for-spas-e46bcea592ad
-        localStorage.setItem('refreshToken', response.data.refreshToken);
-        const payload = this.parseJwt(response.data.accessToken);
-        console.log(payload);
-
-        this.$store.commit('setUsername', payload.username);
-        this.$store.commit('setIsLoggedIn', true);
-
-        this.$router.push('/');
-      }).catch(error => {
-        alert(error.response.data.message);
-      });
+    async signIn() {
+      await this.$store.dispatch('signIn', { username: this.username, password: this.password });
+      this.$router.push('/');
     }
   }
 }
