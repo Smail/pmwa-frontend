@@ -35,6 +35,9 @@ export default {
       }
     }
   },
+  created() {
+    this.loadTasks();
+  },
   data() {
     return {
       tasks: [],
