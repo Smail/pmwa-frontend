@@ -36,7 +36,7 @@
         </li>
         <!-- Log out button -->
         <li class="menu" style="margin-top: auto">
-          <button @click="$store.commit('logOut')">
+          <button @click="$store.dispatch('logOut')">
             <span class="material-symbols-outlined">logout</span>
             Log out
           </button>
