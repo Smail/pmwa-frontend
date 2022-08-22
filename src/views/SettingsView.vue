@@ -107,7 +107,7 @@ export default {
       if (this.$store.state.username.toLowerCase() === this.newUsername.toLowerCase()) {
         alert('Same username');
       } else {
-        this.$http.post(`${ process.env.VUE_APP_SERVER_URL }/auth/change-username`, {
+        this.$http.post('auth/change-username', {
           username: this.$store.state.username,
           newUsername: this.newUsername,
         }, {
