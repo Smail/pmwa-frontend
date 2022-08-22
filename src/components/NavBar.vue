@@ -11,7 +11,8 @@
         </span>
         <div class="user-avatar-greeting">
           <p>Good Day 👋</p>
-          <h2 v-if="$store.state.username">{{ $store.state.username }}</h2>
+          <h2 v-if="$store.state.displayName">{{ $store.state.displayName }}</h2>
+          <h2 v-else-if="$store.state.username">{{ $store.state.username }}</h2>
           <h2 v-else>Error: User is logged in, but username is not defined.</h2>
         </div>
       </div>
@@ -27,7 +28,7 @@
       <hr v-if="menus.length > 0">
       <ul v-for="menu in menus" class="links">
         <li v-for="menuItem in menu" class="menu">
-          <router-link :to="menuItem.href">
+          <router-link :to="menuItem.href" class="menu-content">
             <span v-if="menuItem.icon" class="material-symbols-outlined">
               {{ menuItem.icon }}
             </span>
@@ -36,10 +37,10 @@
         </li>
         <!-- Log out button -->
         <li class="menu" style="margin-top: auto">
-          <button @click="$store.dispatch('logOut')">
+          <router-link class="menu-content" to="/signin" @click="$store.dispatch('logOut')">
             <span class="material-symbols-outlined">logout</span>
             Log out
-          </button>
+          </router-link>
         </li>
       </ul>
     </template>

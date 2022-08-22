@@ -11,6 +11,12 @@
           <button class="settings-change-btn" type="button" @click="changeUsername">Change</button>
         </li>
         <li class="settings-list-item">
+          <h4>Display name:</h4>
+          <input :value="$store.state.displayName" class="settings-change-input" name="new-display-name" spellcheck="false"
+                 type="text" @change="newDisplayName /* TODO */"/>
+          <button class="settings-change-btn" type="button" @click="changeUsername">Change</button>
+        </li>
+        <li class="settings-list-item">
           <h4>Locale:</h4>
           <p>{{ $store.state.locale }}</p>
         </li>
@@ -101,7 +107,7 @@ export default {
       if (this.$store.state.username.toLowerCase() === this.newUsername.toLowerCase()) {
         alert('Same username');
       } else {
-        this.$http.post(`${process.env.VUE_APP_SERVER_URL}/auth/change-username`, {
+        this.$http.post(`${ process.env.VUE_APP_SERVER_URL }/auth/change-username`, {
           username: this.$store.state.username,
           newUsername: this.newUsername,
         }, {
