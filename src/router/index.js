@@ -11,11 +11,13 @@ const routes = [
   {
     path: '/signin',
     name: 'signin',
+    alias: '/login',
     component: () => import('../views/SignInView.vue')
   },
   {
     path: '/signup',
     name: 'signup',
+    alias: '/register',
     component: () => import('../views/SignUpView.vue')
   },
   {
