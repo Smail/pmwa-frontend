@@ -11,6 +11,25 @@ function parseJwt(token) {
   return JSON.parse(jsonPayload);
 }
 
+function hasTokenExpired(token) {
+  return Date.now() < token.exp * 1000;
+}
+
+async function requestNewTokenPair(refreshToken) {
+  console.debug('Requesting new token pair');
+  if (refreshToken == null) throw new Error('No refresh token found in local storage');
+  if (hasTokenExpired(refreshToken)) throw new Error('Refresh token has expired');
+  const refreshTokenPayload = parseJwt(refreshToken);
+  const response = await axios.post(`${ process.env.VUE_APP_SERVER_URL }/auth/refresh-token`, {
+    username: refreshTokenPayload.username,
+    refreshToken: refreshToken,
+  });
+  return {
+    newAccessToken: response.data.accessToken,
+    newRefreshToken: response.data.refreshToken
+  };
+}
+
 export default createStore({
   state: {
     username: '',
@@ -37,6 +56,32 @@ export default createStore({
     },
   },
   actions: {
+    async signInViaToken(context) {
+      let accessToken = localStorage['accessToken'];
+      const refreshToken = localStorage['refreshToken'];
+      const isAccessTokenValid = (accessToken != null && !hasTokenExpired(accessToken));
+      const isRefreshTokenValid = (refreshToken != null && !hasTokenExpired(refreshToken));
+
+      if (!isAccessTokenValid && !isRefreshTokenValid) {
+        return false;
+      }
+
+      if (!isAccessTokenValid && isRefreshTokenValid) {
+        // Remove old refresh token in case the request fails
+        localStorage.removeItem('refreshToken');
+        // Request new token when no access token is available and the refresh token is valid.
+        const { newAccessToken, newRefreshToken } = await requestNewTokenPair(localStorage['refreshToken']);
+        localStorage.setItem('accessToken', (accessToken = newAccessToken));
+        localStorage.setItem('refreshToken', newRefreshToken);
+      }
+
+      const accessTokenPayload = parseJwt(accessToken);
+
+      context.commit('setUsername', accessTokenPayload.username);
+      context.commit('setIsLoggedIn', true);
+
+      return true;
+    },
     async signInViaCredentials(context, { username, password }) {
       if (!username) throw new Error('Invalid argument. Username is falsy.');
       if (!password) throw new Error('Invalid arguments. Password is falsy.');

@@ -41,71 +41,10 @@ export default {
     }
   },
   async created() {
-    // this.$store.commit('setIsLoggedIn', true);
-    // Check if there is a (valid) access or refresh token in storage.
-    const accessToken = localStorage.getItem('accessToken');
-    const refreshToken = localStorage.getItem('refreshToken');
-    let shouldRefreshToken = true;
-
-    if (accessToken != null) {
-      const accessTokenPayload = this.parseJwt(accessToken);
-
-      // Did token already expire?
-      if (Date.now() >= accessTokenPayload.exp * 1000) {
-        // Token expired. Request new one with refresh token
-        console.debug('Access token expired');
-      } else {
-        // Access token is still valid. Use it.
-        console.debug('Logging user in with access token');
-
-        this.$store.commit('setUsername', accessTokenPayload.username);
-        this.$store.commit('setIsLoggedIn', true);
-
-        shouldRefreshToken = false;
-      }
-    } else {
-      console.debug('No access token available');
-    }
-
-    if (refreshToken != null && shouldRefreshToken) {
-      const refreshTokenPayload = this.parseJwt(refreshToken);
-
-      console.debug('Requesting token refresh');
-
-      // Did token already expire?
-      if (!(Date.now() >= refreshTokenPayload.exp * 1000)) {
-        // Refresh token did NOT expire.
-        // Request new token.
-        this.$http.post('http://localhost:8090/auth/refresh-token', {
-          username: refreshTokenPayload.username,
-          refreshToken: refreshToken,
-        }).then(response => {
-          const payload = this.parseJwt(response.data.accessToken);
-
-          localStorage.setItem('accessToken', response.data.accessToken);
-          // TODO https://medium.com/@sadnub/simple-and-secure-api-authentication-for-spas-e46bcea592ad
-          localStorage.setItem('refreshToken', response.data.refreshToken);
-
-          this.$store.commit('setUsername', payload.username);
-          this.$store.commit('setIsLoggedIn', true);
-
-          // this.$router.push('/');
-        }).catch(error => {
-          console.error(error.response.data.message);
-
-          // A refresh token is only valid once,
-          // so if it has failed here already,
-          // then this token will never work anyway,
-          // and we can simply delete it.
-          // This also prevents subsequent refresh token requests if the user reloads the page.
-          localStorage.removeItem('refreshToken');
-        });
-      } else {
-        console.debug('Refresh token expired');
-      }
-    } else if (refreshToken == null) {
-      console.debug('No refresh token available');
-    }
+    // Try to log in via tokens
+    this.$store.dispatch('signInViaToken').then(isSuccessful => {
+      if (isSuccessful) console.debug('Logged in via tokens'); else console.debug('Could not login via tokens')
+    });
   }
 }
 </script>
