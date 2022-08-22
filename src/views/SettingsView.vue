@@ -110,10 +110,6 @@ export default {
         this.$http.post('auth/change-username', {
           username: this.$store.state.username,
           newUsername: this.newUsername,
-        }, {
-          headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
-          }
         }).then(response => {
           console.debug('Successfully renamed user');
           this.$store.commit('setUsername', this.newUsername);

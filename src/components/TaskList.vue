@@ -22,9 +22,7 @@ export default {
   methods: {
     async loadTasks() {
       try {
-        const response = await this.$http.get('tasks', {
-          headers: { Authorization: `Bearer ${ localStorage['accessToken'] }`, }
-        });
+        const response = await this.$http.get('tasks');
 
         this.tasks.splice(0, this.tasks.length);
         for (const task of response.data.tasks) {

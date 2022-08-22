@@ -75,6 +75,7 @@ export default createStore({
         localStorage.removeItem('refreshToken');
         // Request new token when no access token is available and the refresh token is valid.
         const { newAccessToken, newRefreshToken } = await requestNewTokenPair(localStorage['refreshToken']);
+
         localStorage.setItem('accessToken', (accessToken = newAccessToken));
         localStorage.setItem('refreshToken', newRefreshToken);
       }
@@ -83,6 +84,8 @@ export default createStore({
 
       context.commit('setUsername', accessTokenPayload.username);
       context.commit('setIsLoggedIn', true);
+
+      axios.defaults.headers.common['Authorization'] = `Bearer ${ localStorage['accessToken'] }`;
     },
     async signInViaCredentials(context, { username, password }) {
       if (!username) throw new Error('Invalid argument. Username is falsy.');
@@ -97,6 +100,8 @@ export default createStore({
 
         context.commit('setUsername', payload.username);
         context.commit('setIsLoggedIn', true);
+
+        axios.defaults.headers.common['Authorization'] = `Bearer ${ localStorage['accessToken'] }`;
       } catch (error) {
         if (error.response.data.message) {
           alert(error.response.data.message);
@@ -109,8 +114,7 @@ export default createStore({
       }
     },
     async fillInUserData(context) {
-      axios.get(`users/${ context.state.username }/display-name`,
-        { headers: { 'Authorization': `Bearer ${ localStorage['accessToken'] }` } })
+      axios.get(`users/${ context.state.username }/display-name`)
         .then(response => context.commit('setDisplayName', response.data));
     },
     logOut(context) {
