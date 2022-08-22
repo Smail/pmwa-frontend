@@ -37,7 +37,7 @@ export default createStore({
     },
   },
   actions: {
-    async signIn(context, { username, password }) {
+    async signInViaCredentials(context, { username, password }) {
       if (!username) throw new Error('Invalid argument. Username is falsy.');
       if (!password) throw new Error('Invalid arguments. Password is falsy.');
 
