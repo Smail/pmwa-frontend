@@ -20,19 +20,19 @@
 export default {
   name: 'TaskList',
   methods: {
-    loadTasks() {
-      this.$http.get(`${process.env.VUE_APP_SERVER_URL}/tasks`, {
-        headers: {
-          Authorization: localStorage.getItem('accessToken'),
-        }
-      }).then(response => {
+    async loadTasks() {
+      try {
+        const response = await this.$http.get('tasks', {
+          headers: { Authorization: `Bearer ${ localStorage['accessToken'] }`, }
+        });
+
         this.tasks.splice(0, this.tasks.length);
         for (const task of response.data.tasks) {
           this.tasks.push(task);
         }
-      }).catch(error => {
+      } catch (error) {
         console.error(error);
-      });
+      }
     }
   },
   data() {

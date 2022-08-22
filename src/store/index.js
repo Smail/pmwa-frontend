@@ -20,7 +20,7 @@ async function requestNewTokenPair(refreshToken) {
   if (refreshToken == null) throw new Error('No refresh token found in local storage');
   if (hasTokenExpired(refreshToken)) throw new Error('Refresh token has expired');
   const refreshTokenPayload = parseJwt(refreshToken);
-  const response = await axios.post(`${ process.env.VUE_APP_SERVER_URL }/auth/refresh-token`, {
+  const response = await axios.post('auth/refresh-token', {
     username: refreshTokenPayload.username,
     refreshToken: refreshToken,
   });
@@ -89,7 +89,7 @@ export default createStore({
       if (!password) throw new Error('Invalid arguments. Password is falsy.');
 
       try {
-        const response = await axios.post(`${ process.env.VUE_APP_SERVER_URL }/auth/signin`, { username, password, });
+        const response = await axios.post(`${ process.env.VUE_APP_API_ENDPOINT }/auth/signin`, { username, password, });
         const payload = parseJwt(response.data.accessToken);
 
         localStorage.setItem('accessToken', response.data.accessToken);
@@ -109,7 +109,7 @@ export default createStore({
       }
     },
     async fillInUserData(context) {
-      axios.get(`${ process.env.VUE_APP_SERVER_URL }/users/${ context.state.username }/display-name`,
+      axios.get(`users/${ context.state.username }/display-name`,
         { headers: { 'Authorization': `Bearer ${ localStorage['accessToken'] }` } })
         .then(response => context.commit('setDisplayName', response.data));
     },
