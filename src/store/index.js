@@ -63,7 +63,7 @@ export default createStore({
       const isRefreshTokenValid = (refreshToken != null && !hasTokenExpired(refreshToken));
 
       if (!isAccessTokenValid && !isRefreshTokenValid) {
-        return false;
+        throw new Error('No tokens available');
       }
 
       if (!isAccessTokenValid && isRefreshTokenValid) {
@@ -79,8 +79,6 @@ export default createStore({
 
       context.commit('setUsername', accessTokenPayload.username);
       context.commit('setIsLoggedIn', true);
-
-      return true;
     },
     async signInViaCredentials(context, { username, password }) {
       if (!username) throw new Error('Invalid argument. Username is falsy.');

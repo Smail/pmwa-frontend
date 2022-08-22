@@ -31,9 +31,13 @@ export default {
   },
   async created() {
     // Try to log in via tokens
-    this.$store.dispatch('signInViaToken').then(isSuccessful => {
-      if (isSuccessful) console.debug('Logged in via tokens'); else console.debug('Could not login via tokens')
-    });
+    const accessToken = localStorage['accessToken'];
+    const refreshToken = localStorage['refreshToken'];
+    if (accessToken || refreshToken) {
+      this.$store.dispatch('signInViaToken').catch(error => console.error(error));
+    } else {
+      console.debug('No tokens available');
+    }
   }
 }
 </script>
