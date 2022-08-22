@@ -1,11 +1,11 @@
 <template>
   <div v-if="$store.state.isLoggedIn" class="app-content-wrapper">
     <nav-bar id="app-navbar" :menus="menus"></nav-bar>
-    <router-view id="app-content" />
+    <router-view id="app-content"/>
   </div>
   <div v-else class="app-content-wrapper" style="flex-direction: column;">
     <nav-bar id="app-navbar" :menus="menus" style="flex-direction: row; justify-content: flex-end"></nav-bar>
-    <router-view id="app-content" />
+    <router-view id="app-content"/>
   </div>
 </template>
 

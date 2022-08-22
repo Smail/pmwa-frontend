@@ -6,8 +6,8 @@
       <ul class="settings-account settings-list">
         <li class="settings-list-item">
           <h4>Username:</h4>
-          <input class="settings-change-input" type="text" name="new-username" :value="$store.state.username"
-            spellcheck="false" autocomplete="username" @change="newUsername" />
+          <input :value="$store.state.username" autocomplete="username" class="settings-change-input" name="new-username"
+                 spellcheck="false" type="text" @change="newUsername"/>
           <button class="settings-change-btn" type="button" @click="changeUsername">Change</button>
         </li>
         <li class="settings-list-item">
@@ -16,12 +16,12 @@
         </li>
         <li class="settings-list-item">
           <h4>Show Clock:</h4>
-          <toggle-button @click="$store.commit('toggleShowClock')" :isActive="$store.state.showClock">
+          <toggle-button :isActive="$store.state.showClock" @click="$store.commit('toggleShowClock')">
           </toggle-button>
         </li>
         <li class="settings-list-item">
           <h4>Show Clock Seconds:</h4>
-          <toggle-button @click="$store.commit('toggleShowClockSeconds')" :isActive="$store.state.showClockSeconds">
+          <toggle-button :isActive="$store.state.showClockSeconds" @click="$store.commit('toggleShowClockSeconds')">
           </toggle-button>
         </li>
       </ul>
