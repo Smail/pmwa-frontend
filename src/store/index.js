@@ -74,7 +74,7 @@ export default createStore({
         // Remove old refresh token in case the request fails
         localStorage.removeItem('refreshToken');
         // Request new token when no access token is available and the refresh token is valid.
-        const { newAccessToken, newRefreshToken } = await requestNewTokenPair(localStorage['refreshToken']);
+        const { newAccessToken, newRefreshToken } = await requestNewTokenPair(refreshToken);
 
         localStorage.setItem('accessToken', (accessToken = newAccessToken));
         localStorage.setItem('refreshToken', newRefreshToken);
