@@ -1,10 +1,10 @@
 <template>
-  <div v-if="$store.state.isLoggedIn" class="app-content-wrapper">
-    <nav-bar id="app-navbar" :menus="menus"></nav-bar>
-    <router-view id="app-content"/>
-  </div>
-  <div v-else class="app-content-wrapper" style="flex-direction: column;">
-    <nav-bar id="app-navbar" :menus="menus" style="flex-direction: row; justify-content: flex-end"></nav-bar>
+  <div :class="{
+          'logged-in': this.$store.state.isLoggedIn,
+          'logged-out': !this.$store.state.isLoggedIn
+        }"
+       class="app-content-wrapper">
+    <nav-bar id="app-navbar"></nav-bar>
     <router-view id="app-content"/>
   </div>
 </template>
@@ -14,21 +14,6 @@ import NavBar from "@/components/NavBar.vue";
 
 export default {
   components: { NavBar },
-  data() {
-    return {
-      menus: [
-        // Menu 1
-        [
-          { name: 'Dashboard', href: '/dashboard', icon: 'space_dashboard' },
-          { name: 'Todo', href: '/todo', icon: 'check' },
-          { name: 'Calendar', href: '/calendar', icon: 'calendar_month' },
-          { name: 'Flashcards', href: '/flashcards', icon: 'school' },
-          { name: 'Projects', href: '/projects', icon: 'view_kanban' },
-          { name: 'Settings', href: '/settings', icon: 'settings' },
-        ],
-      ]
-    }
-  },
   async created() {
     // Try to log in via tokens
     const accessToken = localStorage['accessToken'];
@@ -85,6 +70,14 @@ body {
       flex: 1;
 
       // .navbar {}
+
+      &.logged-out {
+        flex-direction: column;
+      }
+
+      &.logged-in {
+        flex-direction: row;
+      }
 
       #app-content {
         flex: 1;
