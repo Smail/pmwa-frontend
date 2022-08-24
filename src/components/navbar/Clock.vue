@@ -29,9 +29,8 @@ export default {
       interval: null,
     }
   },
-  created() {
-    // update the time every second
-    this.interval = setInterval(() => {
+  methods: {
+    setTime() {
       // Concise way to format time according to system locale.
       // In my case this returns "3:48:00 am"
       const options = {
@@ -44,10 +43,17 @@ export default {
       }
 
       this.time = Intl.DateTimeFormat(this.$store.state.locale, options).format();
+    }
+  },
+  created() {
+    this.setTime();
+    // Update the time every second
+    this.interval = setInterval(() => {
+      this.setTime();
     }, 1000);
   },
   unmounted() {
-    // prevent memory leak
+    // Prevent memory leak
     clearInterval(this.interval);
   },
 }
