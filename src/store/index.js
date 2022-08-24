@@ -33,7 +33,6 @@ async function requestNewTokenPair(refreshToken) {
 export default createStore({
   state: {
     username: '',
-    displayName: null,
     isLoggedIn: false,
     locale: navigator.language, // TODO add to backend (and jwt)
     showClock: true,
@@ -55,9 +54,6 @@ export default createStore({
       // TODO update server
       state.showClockSeconds = !state.showClockSeconds;
     },
-    setDisplayName(state, { displayName }) {
-      state.displayName = displayName;
-    }
   },
   actions: {
     async signInViaToken(context) {
@@ -112,10 +108,6 @@ export default createStore({
 
         throw new Error('Could not sign in user');
       }
-    },
-    async fillInUserData(context) {
-      axios.get(`users/${ context.state.username }/display-name`)
-        .then(response => context.commit('setDisplayName', response.data));
     },
     logOut(context) {
       localStorage.removeItem('accessToken');

@@ -35,7 +35,6 @@ export default {
     const refreshToken = localStorage['refreshToken'];
     if (accessToken || refreshToken) {
       this.$store.dispatch('signInViaToken').catch(error => console.error(error));
-      this.$store.dispatch('fillInUserData').catch(error => console.error(error));
     } else {
       console.debug('No tokens available');
     }
