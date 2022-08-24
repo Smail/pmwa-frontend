@@ -1,7 +1,13 @@
 <template>
   <div v-if="isSequential" class="calendar-sequential">
-    <div v-for="(_, i) in numberOfDaysShowing" class="calendar-sequential-day">
-      <span class="calendar-sequential-day-short">{{ shortDayString(iterateDays(today, i)) }}</span>
+    <div v-for="day in numberOfDaysShowing" class="calendar-sequential-day">
+      <span class="calendar-sequential-day-short">{{ shortDayString(iterateDays(today, day - 1)) }}</span>
+
+      <div class="hours-wrapper">
+        <hour v-for="h in 24" :numMinuteSegments="4" :show-border-bottom="h === 24"
+              :show-border-left="true" :show-border-right="day === numberOfDaysShowing" :show-border-top="true"
+        ></hour>
+      </div>
     </div>
   </div>
 </template>
@@ -13,20 +19,30 @@
   grid-auto-flow: column;
   grid-auto-columns: minmax(0, 1fr);
 
-  *:nth-child(even) {
-    background-color: aqua;
+  .calendar-sequential-day {
+    display: flex;
+    flex-direction: column;
   }
 
   .calendar-sequential-day-short {
     text-transform: uppercase;
     font-weight: bold;
   }
+
+  .hours-wrapper {
+    flex: 1;
+    display: grid;
+    grid-auto-rows: minmax(0, 24fr);
+  }
 }
 </style>
 
 <script>
+import Hour from "@/components/calendar/Hour";
+
 export default {
   name: 'Calendar',
+  components: { Hour },
   computed: {
     isSequential() {
       return this.viewType === 'sequential';
