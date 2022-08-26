@@ -103,10 +103,11 @@ export default createStore({
 
         axios.defaults.headers.common['Authorization'] = `Bearer ${ localStorage['accessToken'] }`;
       } catch (error) {
-        if (error.response.data.message) {
-          alert(error.response.data.message);
+        if (error && error.response && error.response.data && error.response.data.message) {
           console.error(error.response.data.message);
+          alert(error.response.data.message);
         } else {
+          console.error(error);
           alert('Error: Could not sign in user');
         }
 
