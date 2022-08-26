@@ -1,6 +1,6 @@
 <template>
   <form class="new-task-form" @submit.prevent="createTask">
-    <input class="new-task-content" type="text" autocomplete="off" v-model="content"/>
+    <input class="task-input" type="text" autocomplete="off" v-model="content" placeholder="New task"/>
     <button class="new-task-submit" type="submit">Add</button>
   </form>
 </template>
@@ -10,11 +10,17 @@
   display: flex;
   gap: 0.5rem;
 
-  .new-task-content {
+  .task-input {
     flex: 1;
   }
 
-  .new-task-submit {}
+  .task-input::placeholder {
+    color: white;
+  }
+
+  .new-task-submit {
+    padding: 0 0.5rem;
+  }
 }
 </style>
 

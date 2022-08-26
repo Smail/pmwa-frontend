@@ -1,7 +1,7 @@
 <template>
   <div class="task">
     <input class="task-checkbox" type="checkbox" autocomplete="off" v-model="taskModel.isDone" @input="toggleCheckbox"/>
-    <input class="task-content" type="text" autocomplete="off" v-model="taskModel.content" @input="updateServer"/>
+    <input class="task-input" type="text" autocomplete="off" v-model="taskModel.content" @focusout="updateServer"/>
   </div>
 </template>
 
@@ -10,9 +10,11 @@
   display: flex;
   gap: 0.5rem;
 
-  .task-checkbox {}
+  .task-checkbox {
+    cursor: pointer;
+  }
 
-  .task-content {
+  .task-input {
     flex: 1;
   }
 }
@@ -38,10 +40,10 @@ export default {
   },
   computed: {
     taskUuid() {
-      return this.taskModel.content;
+      return this.taskModel.uuid;
     },
     userUuid() {
-      return this.taskModel.content;
+      return this.taskModel.userUuid;
     },
     content() {
       return this.taskModel.content;
@@ -55,6 +57,7 @@ export default {
       }).catch(_ => this.$emit['refreshTasks']);
     },
     updateServer() {
+      if (this.oldTaskContent === this.content) return;
       axios.post('tasks/update', {
         uuid: this.taskUuid,
         content: this.content,
@@ -64,6 +67,7 @@ export default {
   data() {
     return {
       taskModel: this.task,
+      oldTaskContent: this.task.content,
     }
   },
 }

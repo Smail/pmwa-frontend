@@ -1,10 +1,10 @@
 <template>
   <ul class="task-list">
-    <li v-for="(task, i) in tasks" :key="i">
-      <task class="task" :task="task" @refresh-tasks="loadTasks"></task>
+    <li v-for="(task, i) in $store.state.tasks" :key="i">
+      <task class="task-wrapper" :task="task" @refresh-tasks="loadTasks"></task>
     </li>
     <li>
-      <create-task @refresh-tasks="loadTasks"></create-task>
+      <create-task class="new-task-wrapper" @refresh-tasks="loadTasks"></create-task>
     </li>
   </ul>
 </template>
@@ -20,8 +20,25 @@
     display: flex;
     align-items: stretch;
 
-    .task, .new-task-form {
+    .task-wrapper, .new-task-wrapper {
       flex: 1;
+    }
+
+    .task-checkbox {
+      zoom: 1.5;
+    }
+
+    .task-input {
+      background: red;
+      border: none;
+      border-radius: 0.25rem;
+      padding: 0.5em;
+      font-size: 1rem;
+      outline: #860000 solid 1px;
+    }
+
+    .task-input:focus {
+      outline: aqua solid 1px;
     }
   }
 }
@@ -45,28 +62,12 @@ export default {
   name: 'TaskList',
   components: { CreateTask, Task },
   methods: {
-    async loadTasks() {
-      try {
-        const response = await this.$http.get('tasks');
-        this.tasks.splice(0, this.tasks.length);
-
-        for (const task of response.data) {
-          console.log(task);
-          this.tasks.push(task);
-        }
-        console.log(this.tasks);
-      } catch (error) {
-        console.error(error);
-      }
+    loadTasks() {
+      this.$store.dispatch('loadTasks');
     }
   },
   created() {
     this.loadTasks();
-  },
-  data() {
-    return {
-      tasks: [],
-    }
   }
 }
 </script>
