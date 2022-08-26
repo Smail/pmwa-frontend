@@ -1,7 +1,7 @@
 <template>
   <div class="todo">
     <h1>Tasks</h1>
-    <task-list></task-list>
+    <task-list class="task-list"></task-list>
   </div>
 </template>
 
@@ -9,10 +9,17 @@
 .todo {
   display: flex;
   flex-direction: column;
-  margin: 1rem 0;
+  margin: 0;
+  gap: 0.5rem;
 
   h1 {
     align-self: flex-start;
+  }
+
+  .task-list {
+    background-color: whitesmoke;
+    padding: 1rem;
+    border-radius: 1rem;
   }
 }
 </style>
