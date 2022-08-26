@@ -2,6 +2,7 @@
   <div class="task">
     <input v-model="taskModel.isDone" autocomplete="off" class="task-checkbox" type="checkbox" @input="toggleCheckbox"/>
     <input v-model="taskModel.content" autocomplete="off" class="task-input" type="text" @focusout="updateServer"/>
+    <button class="delete-task-btn material-symbols-outlined" @click="deleteTask">delete</button>
   </div>
 </template>
 
@@ -16,6 +17,14 @@
 
   .task-input {
     flex: 1;
+  }
+
+  .delete-task-btn {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    border: none;
+    background: transparent;
   }
 }
 </style>
@@ -60,6 +69,10 @@ export default {
         uuid: this.taskUuid,
         content: this.content,
       }).catch(error => console.log(error));
+      this.$emit('refreshTasks');
+    },
+    deleteTask() {
+      axios.delete(`tasks/${this.taskUuid}`).catch(error => console.log(error));
       this.$emit('refreshTasks');
     }
   },
