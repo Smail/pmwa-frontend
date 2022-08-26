@@ -42,9 +42,6 @@ export default {
     taskUuid() {
       return this.taskModel.uuid;
     },
-    userUuid() {
-      return this.taskModel.userUuid;
-    },
     content() {
       return this.taskModel.content;
     }
