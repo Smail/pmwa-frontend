@@ -1,7 +1,7 @@
 <template>
   <div class="task">
-    <input class="task-checkbox" type="checkbox" autocomplete="off" v-model="taskModel.isDone" @input="toggleCheckbox"/>
-    <input class="task-input" type="text" autocomplete="off" v-model="taskModel.content" @focusout="updateServer"/>
+    <input v-model="taskModel.isDone" autocomplete="off" class="task-checkbox" type="checkbox" @input="toggleCheckbox"/>
+    <input v-model="taskModel.content" autocomplete="off" class="task-input" type="text" @focusout="updateServer"/>
   </div>
 </template>
 
