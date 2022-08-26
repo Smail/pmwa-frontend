@@ -37,6 +37,7 @@ export default createStore({
     locale: navigator.language, // TODO add to backend (and jwt)
     showClock: true,
     showClockSeconds: false,
+    tasks: [],
   },
   getters: {},
   mutations: {
@@ -54,6 +55,9 @@ export default createStore({
       // TODO update server
       state.showClockSeconds = !state.showClockSeconds;
     },
+    setTasks(state, tasks) {
+      state.tasks = tasks;
+    }
   },
   actions: {
     async signInViaToken(context) {
@@ -115,6 +119,14 @@ export default createStore({
       context.commit('setUsername', '');
       context.commit('setIsLoggedIn', false);
     },
+    async loadTasks(context) {
+      axios.get('tasks')
+        .then(response => context.commit('setTasks', response.data))
+        .catch(error => {
+          console.error(error);
+          alert('Could not load tasks.');
+        });
+    }
   },
   modules: {}
 })
