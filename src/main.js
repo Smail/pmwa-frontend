@@ -9,8 +9,8 @@ axios.defaults.baseURL = `${ process.env.VUE_APP_API_ENDPOINT }`;
 
 // Check if the Authorization header is a valid Bearer Authorization header
 axios.interceptors.request.use(function (config) {
-  if (config.headers.Authorization != null) {
-    const authHeaderComponents = config.headers.Authorization.split(' ');
+  if (config.headers.common.Authorization != null) {
+    const authHeaderComponents = config.headers.common.Authorization.split(' ');
 
     if (authHeaderComponents.length !== 2) {
       new Error(`Invalid number of Authorization header components! Expected 2, but is = ${ authHeaderComponents.length }`);
