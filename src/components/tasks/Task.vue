@@ -51,14 +51,16 @@ export default {
       axios.put('tasks/update', {
         uuid: this.taskUuid,
         isDone: this.taskModel.isDone,
-      }).catch(_ => this.$emit['refreshTasks']);
+      }).catch(error => console.log(error));
+      this.$emit('refreshTasks');
     },
     updateServer() {
       if (this.oldTaskContent === this.content) return;
       axios.post('tasks/update', {
         uuid: this.taskUuid,
         content: this.content,
-      }).catch(_ => this.$emit['refreshTasks']);
+      }).catch(error => console.log(error));
+      this.$emit('refreshTasks');
     }
   },
   data() {
