@@ -43,7 +43,12 @@
   gap: 0.5rem;
 
   h1 {
-    align-self: flex-start;
+    margin: 0;
+    align-self: stretch;
+    text-align: left;
+    background-color: whitesmoke;
+    padding: 1rem;
+    border-radius: 1rem;
   }
 
   .settings-overview {

@@ -11,7 +11,12 @@
   flex-direction: column;
 
   h1 {
-    align-self: flex-start;
+    margin: 0;
+    align-self: stretch;
+    text-align: left;
+    background-color: whitesmoke;
+    padding: 1rem;
+    border-radius: 1rem;
   }
 
   .calendar-component {
