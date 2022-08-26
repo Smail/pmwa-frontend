@@ -48,7 +48,6 @@ button {
 body {
   margin: 0;
   min-height: 100vh;
-  height: 100vh;
   // Let flexbox deal with width
   // min-width: 100vw;
   // width: 100vw;
