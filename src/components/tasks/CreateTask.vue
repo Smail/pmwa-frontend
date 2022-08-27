@@ -65,6 +65,26 @@ export default {
       }
     }
   },
+  created() {
+    // Confirm that the user doesn't want to save their changes.
+    // Unsaved changes are, e.g., that the task name is not empty (falsy).
+    const $this = this;
+    window.addEventListener('beforeunload', function (event) {
+      if (!$this.name) return;
+      event.preventDefault();
+      event.returnValue = '';
+    });
+  },
+  beforeMount() {
+    // Load potential unsaved changes from local storage
+    if (localStorage['newTaskName']) this.name = localStorage['newTaskName'];
+  },
+  beforeUnmount() {
+    // Save unsaved changes to local storage
+    if (this.name) localStorage['newTaskName'] = this.name;
+    // There are no unsaved changes => remove key
+    else delete localStorage['newTaskName'];
+  },
   data() {
     return {
       name: '',
