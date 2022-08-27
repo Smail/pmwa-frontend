@@ -1,7 +1,7 @@
 <template>
-  <form class="new-task-form" @submit.prevent="clearInputField(); createTask();">
-    <input v-model="name" autocomplete="off" class="task-input" placeholder="New task" type="text"/>
-    <button class="new-task-submit" type="submit">Add</button>
+  <form class="new-task-form" @submit.prevent="createTask(); clearInputField();">
+    <input v-model="name" autocomplete="off" class="task-input" placeholder="New task" required type="text"/>
+    <button class="new-task-submit material-symbols-outlined" type="submit">add</button>
   </form>
 </template>
 
