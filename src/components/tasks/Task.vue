@@ -60,15 +60,22 @@ export default {
     isDone() {
       return this.taskModel.isDone;
     },
-  },
-  methods: {
-    async update() {
-      const data = { uuid: this.uuid };
+    changedData() {
+      const data = {};
 
       if (this.oldModel.name !== this.name) data['name'] = this.name;
       if (this.oldModel.isDone !== this.isDone) data['isDone'] = this.isDone;
       if (this.oldModel.content !== this.content) data['content'] = this.content;
-      // Check if any data was updated. Data was updated if the object has more keys than initially.
+
+      return data;
+    },
+  },
+  methods: {
+    async update() {
+      const data = { uuid: this.uuid, ...this.changedData };
+
+      // Check if any data was updated. Data was updated if the changedData object has more keys than one key.
+      // Hence, if the length of data is 1, it means changedData has length 0: 1 + 0 = 1 => nothing has changed.
       if (Object.keys(data).length === 1) return;
 
       try {
