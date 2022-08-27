@@ -95,6 +95,10 @@ export default {
       }
     }
   },
+  created() {
+    // Save changes when user leaves the page without unnecessarily notifying them.
+    window.addEventListener('beforeunload', () => this.update());
+  },
   data() {
     return {
       taskModel: structuredClone(this.task),
