@@ -1,6 +1,6 @@
 <template>
   <form class="new-task-form" @submit.prevent="clearInputField(); createTask();">
-    <input id="new-task" class="task-input" type="text" autocomplete="off" v-model="name" placeholder="New task"/>
+    <input v-model="name" autocomplete="off" class="task-input" placeholder="New task" type="text"/>
     <button class="new-task-submit" type="submit">Add</button>
   </form>
 </template>
@@ -32,7 +32,7 @@ export default {
   emits: ['refreshTasks'],
   methods: {
     clearInputField() {
-      document.getElementById('new-task').value = '';
+      this.name = '';
     },
     async createTask() {
       try {
