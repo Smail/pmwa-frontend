@@ -20,6 +20,21 @@
 
   .new-task-submit {
     padding: 0 0.5rem;
+    background: inherit;
+
+    // If the button is a material icons buttons
+    &.material-symbols-outlined {
+      $color: rgb(0, 122, 255);
+      color: $color;
+      background: lighten($color, 40);
+      border: none;
+      border-radius: 0.5rem;
+
+      &:hover {
+        color: lighten($color, 10);
+        background: lighten($color, 42.5);
+      }
+    }
   }
 }
 </style>
