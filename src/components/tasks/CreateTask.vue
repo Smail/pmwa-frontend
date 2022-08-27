@@ -19,7 +19,11 @@
   }
 
   .new-task-submit {
+    display: flex;
+    align-items: center;
+    justify-items: center;
     padding: 0 0.5rem;
+    border: none;
     background: inherit;
 
     // If the button is a material icons buttons
@@ -29,10 +33,15 @@
       background: lighten($color, 40);
       border: none;
       border-radius: 0.5rem;
+      outline: $color solid 0.1rem;
+      box-shadow: inset 0 0 0.2rem white,
+      0 0 0.2rem darken($color, 20);
+      transition: all 250ms;
 
-      &:hover {
-        color: lighten($color, 10);
+      &:hover, &:focus  {
+        //font-size: 2rem;
         background: lighten($color, 42.5);
+        transform: scale(1.05) translateZ(0) ;
       }
     }
   }

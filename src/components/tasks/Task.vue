@@ -20,12 +20,31 @@
   }
 
   .delete-task-btn {
+    $color: rgb(255, 59, 48);
     display: flex;
     align-items: center;
     justify-items: center;
+    padding: 0 0.5rem;
     border: none;
-    background: transparent;
-    color: rgb(255, 59, 48);
+    background: inherit;
+
+    // If the button is a material icons buttons
+    &.material-symbols-outlined {
+      color: $color;
+      background: lighten($color, 30);
+      border: none;
+      border-radius: 0.5rem;
+      outline: $color solid 0.1rem;
+      box-shadow: inset 0 0 0.2rem white,
+      0 0 0.2rem darken($color, 20);
+      transition: all 250ms;
+
+      &:hover, &:focus  {
+        //font-size: 2rem;
+        background: lighten($color, 35);
+        transform: scale(1.05) translateZ(0) ;
+      }
+    }
   }
 }
 </style>
@@ -72,6 +91,9 @@ export default {
     },
   },
   methods: {
+    removeFocus() {
+      document.activeElement.blur();
+    },
     async update() {
       const data = { uuid: this.uuid, ...this.changedData };
 
@@ -81,7 +103,7 @@ export default {
 
       try {
         await axios.post('tasks/update', data);
-        this.oldModel = this.taskModel;
+        this.oldModel = structuredClone(this.taskModel);
         this.$emit('refreshTasks');
       } catch (error) {
         console.error(error);
