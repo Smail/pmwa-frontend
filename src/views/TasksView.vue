@@ -1,12 +1,12 @@
 <template>
-  <div class="todo">
+  <div class="task-view">
     <h1>Tasks</h1>
     <task-list class="task-list"></task-list>
   </div>
 </template>
 
 <style lang="scss">
-.todo {
+.task-view {
   display: flex;
   flex-direction: column;
   margin: 0;
@@ -32,7 +32,7 @@
 <script>
 import TaskList from "@/components/TaskList.vue";
 export default {
-    name: "TodoView",
+    name: "TaskView",
     components: { TaskList }
 }
 </script>

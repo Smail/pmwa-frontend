@@ -34,10 +34,11 @@ const routes = [
     component: () => import('../views/CalendarView.vue')
   },
   {
-    path: '/todo',
-    name: 'todo',
+    path: '/tasks',
+    name: 'tasks',
+    alias: '/todo',
     meta: { needsAuthentication: true },
-    component: () => import('../views/TodoView.vue')
+    component: () => import('../views/TasksView.vue')
   },
   {
     path: '/flashcards',

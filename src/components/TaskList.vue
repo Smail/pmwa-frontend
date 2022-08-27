@@ -42,16 +42,6 @@
     }
   }
 }
-
-.todo {
-  display: flex;
-  flex-direction: column;
-  margin: 1rem 0;
-
-  h1 {
-    align-self: flex-start;
-  }
-}
 </style>
 
 <script>
