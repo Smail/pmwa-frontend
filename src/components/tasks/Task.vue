@@ -1,7 +1,7 @@
 <template>
   <div class="task">
-    <input v-model="taskModel.isDone" autocomplete="off" class="task-checkbox" type="checkbox" @input="toggleCheckbox"/>
-    <input v-model="taskModel.content" autocomplete="off" class="task-input" type="text" @focusout="updateServer"/>
+    <input v-model="taskModel.isDone" autocomplete="off" class="task-checkbox" type="checkbox" @focusout="update"/>
+    <input v-model="taskModel.name" autocomplete="off" class="task-input" type="text" @focusout="update"/>
     <button class="delete-task-btn material-symbols-outlined" @click="deleteTask">delete</button>
   </div>
 </template>
@@ -48,38 +48,50 @@ export default {
     }
   },
   computed: {
-    taskUuid() {
+    uuid() {
       return this.taskModel.uuid;
+    },
+    name() {
+      return this.taskModel.name;
     },
     content() {
       return this.taskModel.content;
-    }
+    },
+    isDone() {
+      return this.taskModel.isDone;
+    },
   },
   methods: {
-    toggleCheckbox() {
-      axios.put('tasks/update', {
-        uuid: this.taskUuid,
-        isDone: this.taskModel.isDone,
-      }).catch(error => console.log(error));
-      this.$emit('refreshTasks');
+    async update() {
+      const data = { uuid: this.uuid };
+
+      if (this.oldModel.name !== this.name) data['name'] = this.name;
+      if (this.oldModel.isDone !== this.isDone) data['isDone'] = this.isDone;
+      if (this.oldModel.content !== this.content) data['content'] = this.content;
+      // Check if any data was updated. Data was updated if the object has more keys than initially.
+      if (Object.keys(data).length === 1) return;
+
+      try {
+        await axios.post('tasks/update', data);
+        this.oldModel = this.taskModel;
+        this.$emit('refreshTasks');
+      } catch (error) {
+        console.error(error);
+      }
     },
-    updateServer() {
-      if (this.oldTaskContent === this.content) return;
-      axios.post('tasks/update', {
-        uuid: this.taskUuid,
-        content: this.content,
-      }).catch(error => console.log(error));
-      this.$emit('refreshTasks');
-    },
-    deleteTask() {
-      axios.delete(`tasks/${this.taskUuid}`).catch(error => console.log(error));
-      this.$emit('refreshTasks');
+    async deleteTask() {
+      try {
+        await axios.delete(`tasks/${this.uuid}`);
+        this.$emit('refreshTasks');
+      } catch (error) {
+        console.error(error);
+      }
     }
   },
   data() {
     return {
-      taskModel: this.task,
-      oldTaskContent: this.task.content,
+      taskModel: structuredClone(this.task),
+      oldModel: structuredClone(this.task),
     }
   },
 }
