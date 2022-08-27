@@ -1,5 +1,5 @@
 <template>
-  <div class="task" @focusout="update" @submit="update">
+  <div class="task" @focusout="update" @keydown.enter="removeFocus">
     <input v-model="taskModel.isDone" autocomplete="off" class="task-checkbox" type="checkbox"/>
     <input v-model="taskModel.name" autocomplete="off" class="task-input" type="text"/>
     <button class="delete-task-btn material-symbols-outlined" @click="deleteTask">delete</button>
