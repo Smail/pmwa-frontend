@@ -15,6 +15,7 @@
   flex-direction: column;
   align-items: stretch;
   gap: 0.5rem;
+  $color: rgb(0, 122, 255);
 
   li {
     display: flex;
@@ -26,19 +27,20 @@
 
     .task-checkbox {
       zoom: 1.5;
+      accent-color: $color;
+      height: 100%;
     }
 
     .task-input {
-      background: red;
       border: none;
       border-radius: 0.25rem;
       padding: 0.5em;
       font-size: 1rem;
-      outline: #860000 solid 1px;
-    }
+      outline: $color solid 0.1rem;
 
-    .task-input:focus {
-      outline: aqua solid 1px;
+      &:focus {
+        outline: darken($color, 10) dashed 0.1rem;
+      }
     }
   }
 }
