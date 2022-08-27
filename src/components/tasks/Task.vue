@@ -25,6 +25,7 @@
     justify-items: center;
     border: none;
     background: transparent;
+    color: rgb(255, 59, 48);
   }
 }
 </style>
