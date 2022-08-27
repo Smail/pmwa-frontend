@@ -1,6 +1,6 @@
 <template>
   <form class="new-task-form" @submit.prevent="createTask">
-    <input class="task-input" type="text" autocomplete="off" v-model="content" placeholder="New task"/>
+    <input id="new-task" class="task-input" type="text" autocomplete="off" v-model="name" placeholder="New task"/>
     <button class="new-task-submit" type="submit">Add</button>
   </form>
 </template>
@@ -34,7 +34,7 @@ export default {
     async createTask() {
       try {
         const response = await axios.post('tasks/create', {
-          content: this.content
+          name: this.name,
         });
 
         if (!response.data.uuid) throw new Error('Property UUID was not found in response: ' +
@@ -49,7 +49,7 @@ export default {
   },
   data() {
     return {
-      content: '',
+      name: '',
     }
   },
 }
