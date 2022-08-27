@@ -1,5 +1,5 @@
 <template>
-  <form class="new-task-form" @submit.prevent="createTask">
+  <form class="new-task-form" @submit.prevent="clearInputField(); createTask();">
     <input id="new-task" class="task-input" type="text" autocomplete="off" v-model="name" placeholder="New task"/>
     <button class="new-task-submit" type="submit">Add</button>
   </form>
@@ -31,6 +31,9 @@ export default {
   name: "CreateTask",
   emits: ['refreshTasks'],
   methods: {
+    clearInputField() {
+      document.getElementById('new-task').value = '';
+    },
     async createTask() {
       try {
         const response = await axios.post('tasks/create', {
