@@ -56,7 +56,7 @@ export default {
         });
 
         if (!response.data.uuid) throw new Error('Property UUID was not found in response: ' +
-            JSON.stringify(response));
+          JSON.stringify(response));
 
         this.$emit('refreshTasks');
       } catch (error) {
