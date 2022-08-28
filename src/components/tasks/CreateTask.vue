@@ -9,9 +9,19 @@
 .new-task-form {
   display: flex;
   gap: 0.5rem;
+  $color: rgb(0, 122, 255);
 
   .task-input {
     flex: 1;
+    border: none;
+    border-radius: 0.25rem;
+    padding: 0.5em;
+    font-size: 1rem;
+    outline: $color solid 0.1rem;
+
+    &:focus {
+      outline: darken($color, 10) dashed 0.1rem;
+    }
   }
 
   .task-input::placeholder {

@@ -1,7 +1,10 @@
 <template>
   <div class="task" @focusout="update" @keydown.enter="removeFocus">
     <input v-model="taskModel.isDone" autocomplete="off" class="task-checkbox" type="checkbox"/>
-    <input v-model="taskModel.name" autocomplete="off" class="task-input" type="text"/>
+    <div class="task-input-tag-wrapper">
+      <input v-model="taskModel.name" autocomplete="off" class="task-input" type="text"/>
+      <tag-list :task-uuid="task.uuid"></tag-list>
+    </div>
     <button class="delete-task-btn material-symbols-outlined" @click="deleteTask">delete</button>
   </div>
 </template>
@@ -15,8 +18,26 @@
     cursor: pointer;
   }
 
-  .task-input {
+  .task-input-tag-wrapper {
+    $color: rgb(0, 122, 255);
     flex: 1;
+    display: flex;
+    outline: $color solid 0.1rem;
+    border-radius: 0.25rem;
+    padding: 0.5em;
+    background: white;
+
+    &:focus-within {
+      outline: darken($color, 10) dashed 0.1rem;
+    }
+
+    .task-input {
+      outline: none;
+      background: inherit;
+      flex: 1;
+      border: none;
+      font-size: 1rem;
+    }
   }
 
   .delete-task-btn {
@@ -39,10 +60,10 @@
       0 0 0.2rem darken($color, 20);
       transition: all 250ms;
 
-      &:hover, &:focus  {
+      &:hover, &:focus {
         //font-size: 2rem;
         background: lighten($color, 35);
-        transform: scale(1.05) translateZ(0) ;
+        transform: scale(1.05) translateZ(0);
       }
     }
   }
@@ -51,9 +72,11 @@
 
 <script>
 import axios from "axios";
+import TagList from "@/components/tasks/TagList";
 
 export default {
   name: 'Task',
+  components: { TagList },
   props: {
     'task': {
       type: Object,

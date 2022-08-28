@@ -30,18 +30,6 @@
       accent-color: $color;
       height: 100%;
     }
-
-    .task-input {
-      border: none;
-      border-radius: 0.25rem;
-      padding: 0.5em;
-      font-size: 1rem;
-      outline: $color solid 0.1rem;
-
-      &:focus {
-        outline: darken($color, 10) dashed 0.1rem;
-      }
-    }
   }
 }
 </style>
