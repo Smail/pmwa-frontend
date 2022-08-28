@@ -5,22 +5,32 @@
     <hr v-if="$store.state.showClock">
     <clock v-if="$store.state.showClock"></clock>
 
-    <hr v-if="menus.length > 0">
+    <hr>
 
-    <ul v-for="menu in menus" class="links">
+    <ul class="links">
       <li v-for="menuItem in menu" class="menu">
-        <router-link :to="menuItem.href" class="menu-content">
-          <span v-if="menuItem.icon" class="material-symbols-outlined">{{ menuItem.icon }}</span>
-          {{ menuItem.name }}
-        </router-link>
+        <nav-bar-link :icon="menuItem.icon" :name="menuItem.name" :sub-menu="menuItem.subMenu" :to="menuItem.href"
+                      class="wrapper"></nav-bar-link>
+
+        <!--        <router-link :to="menuItem.href" class="menu-link">-->
+        <!--          <div class="menu-title">-->
+        <!--            <span v-if="menuItem.icon" class="material-symbols-outlined">{{ menuItem.icon }}</span>-->
+        <!--            {{ menuItem.name }}-->
+        <!--          </div>-->
+        <!--          <ul v-show="menuItem.subMenu && menuItem.subMenu.length > 0" class="sub-menu-list">-->
+        <!--            <li v-for="subMenu in menuItem.subMenu">-->
+        <!--              <router-link :to="`${menuItem.href}/filter/tags/${subMenu}`" class="menu-link">-->
+        <!--                {{ subMenu }}-->
+        <!--              </router-link>-->
+        <!--            </li>-->
+        <!--          </ul>-->
+        <!--        </router-link>-->
       </li>
 
       <!-- Log out button -->
       <li class="menu" style="margin-top: auto">
-        <router-link class="menu-content" to="/signin" @click="$store.dispatch('logOut')">
-          <span class="material-symbols-outlined">logout</span>
-          Log out
-        </router-link>
+        <nav-bar-link class="wrapper" icon="logout" name="Log out" to="/signin"
+                      @click="$store.dispatch('logOut')"></nav-bar-link>
       </li>
     </ul>
   </nav>
@@ -29,30 +39,70 @@
 <script>
 import UserAvatar from "@/components/navbar/UserAvatar";
 import Clock from "@/components/navbar/Clock";
+import axios from "axios";
+import NavBarLink from "@/components/navbar/NavBarLink";
 
 export default {
   name: "NavBarLoggedIn",
-  components: { Clock, UserAvatar },
+  components: { NavBarLink, Clock, UserAvatar },
   data() {
-    return {
-      menus: [
-        // Menu 1
-        [
-          { name: 'Dashboard', href: '/dashboard', icon: 'space_dashboard' },
-          { name: 'Todo', href: '/tasks', icon: 'check' },
-          { name: 'Calendar', href: '/calendar', icon: 'calendar_month' },
-          { name: 'Flashcards', href: '/flashcards', icon: 'school' },
-          { name: 'Projects', href: '/projects', icon: 'view_kanban' },
-          { name: 'Settings', href: '/settings', icon: 'settings' },
-        ],
+    const tasks = {
+      name: 'Todo', href: '/tasks', icon: 'check', subMenu: [
+        { name: 'Tags', to: '/tasks/tags', icon: 'sell' }
       ]
-    }
+    };
+
+    const data = {
+      menu: [
+        { name: 'Dashboard', href: '/dashboard', icon: 'space_dashboard' },
+        tasks,
+        { name: 'Calendar', href: '/calendar', icon: 'calendar_month' },
+        { name: 'Flashcards', href: '/flashcards', icon: 'school' },
+        { name: 'Projects', href: '/projects', icon: 'view_kanban' },
+        { name: 'Settings', href: '/settings', icon: 'settings' },
+      ],
+    };
+
+    // Load tasks submenu
+    // axios.get('tasks/tags/names').then(response => {
+    //   for (const tagName of response.data) {
+    //     this.menu[1].subMenu.push({
+    //       name: tagName,
+    //       icon: 'sell',
+    //       to: 'filter'
+    //     });
+    //   }
+    //   console.log(data.menu[1])
+    // });
+
+    return data;
   },
 }
 </script>
 
-<style>
+<style scoped>
+.wrapper {
+  flex: 1;
+}
+
 .logged-in {
   flex-direction: column;
+}
+
+.menu-link {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.menu-title {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  gap: 0.5rem;
+}
+
+.sub-menu-list {
+
 }
 </style>

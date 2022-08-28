@@ -33,29 +33,6 @@
     .menu {
       text-transform: capitalize;
       display: flex;
-
-      & .router-link-exact-active {
-        color: white;
-        background-color: rgb(0, 122, 255);
-        box-shadow: 0 0 0.1rem black;
-      }
-
-      a {
-        flex: 1;
-        text-decoration: none;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.5rem;
-        border-radius: 0.5rem;
-        transition: all 200ms;
-      }
-
-      a:hover {
-        color: white;
-        background-color: rgb(106, 178, 255);
-        box-shadow: 0 0 0.25rem black;
-      }
     }
   }
 }
