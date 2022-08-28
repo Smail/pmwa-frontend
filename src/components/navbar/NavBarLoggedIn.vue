@@ -39,7 +39,7 @@ export default {
         // Menu 1
         [
           { name: 'Dashboard', href: '/dashboard', icon: 'space_dashboard' },
-          { name: 'Todo', href: '/todo', icon: 'check' },
+          { name: 'Todo', href: '/tasks', icon: 'check' },
           { name: 'Calendar', href: '/calendar', icon: 'calendar_month' },
           { name: 'Flashcards', href: '/flashcards', icon: 'school' },
           { name: 'Projects', href: '/projects', icon: 'view_kanban' },
