@@ -32,7 +32,7 @@
 </style>
 
 <script>
-import TaskList from "@/components/TaskList.vue";
+import TaskList from "@/components/tasks/TaskList.vue";
 
 export default {
   name: "TaskView",
