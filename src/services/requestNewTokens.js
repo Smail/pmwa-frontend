@@ -2,7 +2,7 @@ import axios from "axios";
 import { parseJwt } from "@/util/parseJwt";
 import { hasTokenExpired } from "@/util/hasTokenExpired";
 
-export async function requestTokens({ refreshToken, username, password }) {
+export async function requestNewTokens({ refreshToken, username, password }) {
   console.debug('Requesting new token pair');
 
   // Check if more than one request method is used.
