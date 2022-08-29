@@ -15,23 +15,11 @@ export default createStore({
   },
   getters: {},
   mutations: {
-    setUsername(state, username) {
-      state.username = username;
-    },
-    setIsLoggedIn(state, isLoggedIn) {
-      state.isLoggedIn = isLoggedIn;
-    },
-    toggleShowClock(state) {
-      // TODO update server
-      state.showClock = !state.showClock;
-    },
-    toggleShowClockSeconds(state) {
-      // TODO update server
-      state.showClockSeconds = !state.showClockSeconds;
-    },
-    setTasks(state, tasks) {
-      state.tasks = tasks;
-    }
+    setUsername: (state, username) => state.username = username,
+    setIsLoggedIn: (state, isLoggedIn) => state.isLoggedIn = isLoggedIn,
+    toggleShowClock: (state) => state.showClock = !state.showClock,                      // TODO update on server
+    toggleShowClockSeconds: (state) => state.showClockSeconds = !state.showClockSeconds, // TODO update on server
+    setTasks: (state, tasks) => state.tasks = tasks,
   },
   actions: {
     async signInViaToken(context) {
