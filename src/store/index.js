@@ -3,6 +3,7 @@ import axios from "axios";
 import { requestTokens } from "@/services/requestTokens";
 import { parseJwt } from "@/util/parseJwt";
 import { hasTokenExpired } from "@/util/hasTokenExpired";
+import { loadTasks } from "@/services/loadTasks";
 
 export default createStore({
   state: {
@@ -70,12 +71,10 @@ export default createStore({
       context.commit('setIsLoggedIn', false);
     },
     async loadTasks(context) {
-      axios.get('tasks')
-        .then(response => context.commit('setTasks', response.data))
-        .catch(error => {
-          console.error(error);
-          alert('Could not load tasks.');
-        });
+      loadTasks().then(tasks => context.commit('setTasks', tasks)).catch(error => {
+        console.error(error);
+        alert('Could not load tasks');
+      });
     }
   },
   modules: {}
