@@ -15,14 +15,9 @@ import NavBar from "@/components/NavBar.vue";
 export default {
   components: { NavBar },
   async created() {
-    // Try to log in via tokens
-    const accessToken = localStorage['accessToken'];
-    const refreshToken = localStorage['refreshToken'];
-    if (accessToken || refreshToken) {
-      this.$store.dispatch('signInViaToken').catch(error => console.error(error));
-    } else {
-      console.debug('No tokens available');
-    }
+    this.$store.dispatch('signIn')
+        .then(isLoggedIn => console.debug(`Is logged in: ${ isLoggedIn }`))
+        .catch(error => console.error(error));
   }
 }
 </script>

@@ -1,9 +1,10 @@
 import { createStore } from 'vuex'
-import axios from "axios";
-import { requestTokens } from "@/services/requestTokens";
-import { parseJwt } from "@/util/parseJwt";
-import { hasTokenExpired } from "@/util/hasTokenExpired";
 import { loadTasks } from "@/services/loadTasks";
+import { getTokensViaCredentials, getTokensViaStoredTokens } from "@/services/getTokens";
+import { hasStoredTokens } from "@/services/hasStoredTokens";
+import { storeTokens } from "@/services/storeTokens";
+import axios from "axios";
+import { parseJwt } from "@/util/parseJwt";
 
 export default createStore({
   state: {
@@ -23,46 +24,36 @@ export default createStore({
     setTasks: (state, tasks) => state.tasks = tasks,
   },
   actions: {
-    async signInViaToken(context) {
-      let accessToken = localStorage['accessToken'];
-      const refreshToken = localStorage['refreshToken'];
-      const isAccessTokenValid = (accessToken != null && !hasTokenExpired(accessToken));
-      const isRefreshTokenValid = (refreshToken != null && !hasTokenExpired(refreshToken));
+    /**
+     * Sign the user in using either user-supplied credentials or previously requested tokens.
+     *
+     * @param context
+     * @param credentials And object containing a `username` and `password` field.
+     *  This is a required argument IF no tokens are stored in storage, otherwise it can be omitted.
+     * @returns {Promise<void>}
+     */
+    async signIn(context, credentials) {
+      return new Promise(async (resolve, reject) => {
+        let tokens;
 
-      if (!isAccessTokenValid && !isRefreshTokenValid) {
-        throw new Error('No tokens available');
-      }
+        if (credentials != null) tokens = await getTokensViaCredentials(credentials);
+        else if (hasStoredTokens()) tokens = await getTokensViaStoredTokens();
 
-      if (!isAccessTokenValid && isRefreshTokenValid) {
-        // Remove old refresh token in case the request fails
-        localStorage.removeItem('refreshToken');
-        // Request new token when no access token is available and the refresh token is valid.
-        const { newAccessToken, newRefreshToken } = await requestTokens({ refreshToken });
+        if (tokens != null) {
+          // Store tokens in local storage
+          storeTokens(tokens);
 
-        localStorage.setItem('accessToken', (accessToken = newAccessToken));
-        localStorage.setItem('refreshToken', newRefreshToken);
-      }
+          // Set access token as authorization header on every axios API call
+          axios.defaults.headers.common['Authorization'] = `Bearer ${ tokens.accessToken }`;
 
-      const accessTokenPayload = parseJwt(accessToken);
+          const accessTokenPayload = parseJwt(tokens.accessToken);
+          context.commit('setUsername', accessTokenPayload.username);
+          context.commit('setIsLoggedIn', true);
+        }
 
-      context.commit('setUsername', accessTokenPayload.username);
-      context.commit('setIsLoggedIn', true);
-
-      axios.defaults.headers.common['Authorization'] = `Bearer ${ localStorage['accessToken'] }`;
-    },
-    async signInViaCredentials(context, { username, password }) {
-      if (!username) throw new Error('Invalid argument. Username is falsy.');
-      if (!password) throw new Error('Invalid arguments. Password is falsy.');
-      const { accessToken, refreshToken } = requestTokens({ username, password });
-      const accessTokenPayload = parseJwt(accessToken);
-
-      localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('refreshToken', refreshToken);
-
-      context.commit('setUsername', accessTokenPayload.username);
-      context.commit('setIsLoggedIn', true);
-
-      axios.defaults.headers.common['Authorization'] = `Bearer ${ localStorage['accessToken'] }`;
+        // Return if user is logged in. User is logged in if tokens is not empty
+        resolve(tokens != null);
+      })
     },
     logOut(context) {
       localStorage.removeItem('accessToken');

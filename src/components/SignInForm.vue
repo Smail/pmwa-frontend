@@ -25,7 +25,7 @@ export default {
   },
   methods: {
     async signIn() {
-      await this.$store.dispatch('signInViaCredentials', { username: this.username, password: this.password });
+      await this.$store.dispatch('signIn', { username: this.username, password: this.password });
       this.$router.push('/');
     }
   }
