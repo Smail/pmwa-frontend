@@ -2,18 +2,17 @@
   <nav class="navbar">
     <ul class="links">
       <li v-for="menuItem in menu" class="menu">
-        <router-link :to="menuItem.href">
-          <span v-if="menuItem.icon" class="material-symbols-outlined">{{ menuItem.icon }}</span>
-          {{ menuItem.name }}
-        </router-link>
+        <nav-bar-link :icon="menuItem.icon" :name="menuItem.name" :to="menuItem.href"></nav-bar-link>
       </li>
     </ul>
   </nav>
 </template>
 
 <script>
+import NavBarLink from "@/components/navbar/NavBarLink";
 export default {
   name: "NavBarLoggedOut",
+  components: { NavBarLink },
   data() {
     return {
       menu: [
