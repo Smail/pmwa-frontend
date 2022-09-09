@@ -3,7 +3,7 @@
     <li>
       <create-task class="new-task-wrapper" @refresh-tasks="loadTasks"></create-task>
     </li>
-    <li v-for="(task, i) in $store.state.tasks.slice().reverse()" :key="i">
+    <li v-for="task in $store.state.tasks.slice().reverse()" :key="task.id">
       <task :task="task" class="task-wrapper" @refresh-tasks="loadTasks"></task>
     </li>
   </ul>
