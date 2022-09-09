@@ -3,7 +3,7 @@
     <input v-model="taskModel.isDone" autocomplete="off" class="task-checkbox" type="checkbox"/>
     <div class="task-input-tag-wrapper">
       <input v-model="taskModel.name" autocomplete="off" class="task-input" type="text"/>
-      <tag-list :task-id="task.uuid"></tag-list>
+      <tag-list :task-id="taskId"></tag-list>
     </div>
     <button class="delete-task-btn material-symbols-outlined" @click="deleteTask">delete</button>
   </div>
@@ -91,7 +91,7 @@ export default {
     },
   },
   computed: {
-    uuid() {
+    taskId() {
       return this.taskModel.id;
     },
     name() {
@@ -118,7 +118,7 @@ export default {
       document.activeElement.blur();
     },
     async update() {
-      const data = { uuid: this.uuid, ...this.changedData };
+      const data = { taskId: this.taskId, ...this.changedData };
 
       // Check if any data was updated. Data was updated if the changedData object has more keys than one key.
       // Hence, if the length of data is 1, it means changedData has length 0: 1 + 0 = 1 => nothing has changed.
@@ -134,7 +134,7 @@ export default {
     },
     async deleteTask() {
       try {
-        await axios.delete(`tasks/${ this.uuid }`);
+        await axios.delete(`tasks/${ this.taskId }`);
         this.$emit("refreshTasks");
       } catch (error) {
         console.error(error);
