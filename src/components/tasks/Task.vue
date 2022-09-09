@@ -125,7 +125,7 @@ export default {
       if (Object.keys(data).length === 1) return;
 
       try {
-        await axios.post("tasks/update", data);
+        await axios.patch(`tasks/${ this.taskId }`, data);
         this.oldModel = structuredClone(this.taskModel);
       } catch (error) {
         console.error(error);
