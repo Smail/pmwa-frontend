@@ -23,7 +23,7 @@ export default {
     async requestTags() {
       if (!this.taskUuid) throw new Error("No task UUID was provided to the component");
       try {
-        const response = await axios.get(`tasks/tags/${ this.taskUuid }`);
+        const response = await axios.get(`tasks/${ this.taskUuid }/tags`);
         // Sort array lexicographically based on property "name"
         response.data.sort((a, b) => a.name.toLocaleLowerCase().localeCompare(b.name.toLocaleLowerCase()));
         for (const tag of response.data) this.tags.push(tag);
