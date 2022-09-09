@@ -1,14 +1,14 @@
-import { createStore } from 'vuex'
+import { createStore } from "vuex";
+import axios from "axios";
 import { loadTasks } from "@/services/loadTasks";
 import { getTokensViaCredentials, getTokensViaStoredTokens } from "@/services/getTokens";
 import { hasStoredTokens } from "@/services/hasStoredTokens";
 import { storeTokens } from "@/services/storeTokens";
-import axios from "axios";
 import { parseJwt } from "@/util/parseJwt";
 
 export default createStore({
   state: {
-    username: '',
+    username: "",
     isLoggedIn: false,
     locale: navigator.language, // TODO add to backend (and jwt)
     showClock: true,
@@ -33,27 +33,24 @@ export default createStore({
      * @returns {Promise<void>}
      */
     async signIn(context, credentials) {
-      return new Promise(async (resolve, reject) => {
-        let tokens;
+      let tokens;
+      if (credentials != null) {
+        tokens = await getTokensViaCredentials(credentials);
+      } else if (hasStoredTokens()) {
+        tokens = await getTokensViaStoredTokens();
+      } else {
+        throw new Error("No valid sign in methods found");
+      }
 
-        if (credentials != null) tokens = await getTokensViaCredentials(credentials);
-        else if (hasStoredTokens()) tokens = await getTokensViaStoredTokens();
+      // Store tokens in local storage
+      storeTokens(tokens);
 
-        if (tokens != null) {
-          // Store tokens in local storage
-          storeTokens(tokens);
+      // Set access token as authorization header on every axios API call
+      axios.defaults.headers.common["Authorization"] = `Bearer ${ tokens.accessToken }`;
 
-          // Set access token as authorization header on every axios API call
-          axios.defaults.headers.common['Authorization'] = `Bearer ${ tokens.accessToken }`;
-
-          const accessTokenPayload = parseJwt(tokens.accessToken);
-          context.commit('setUsername', accessTokenPayload.username);
-          context.commit('setIsLoggedIn', true);
-        }
-
-        // Return if user is logged in. User is logged in if tokens is not empty
-        resolve(tokens != null);
-      })
+      const accessTokenPayload = parseJwt(tokens.accessToken);
+      context.commit("setUsername", accessTokenPayload.username);
+      context.commit("setIsLoggedIn", true);
     },
     logOut(context) {
       localStorage.removeItem('accessToken');

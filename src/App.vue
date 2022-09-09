@@ -11,15 +11,18 @@
 
 <script>
 import NavBar from "@/components/NavBar.vue";
+import { hasStoredTokens } from "@/services/hasStoredTokens";
+import { hasValidTokens } from "@/services/hasValidTokens";
 
 export default {
   components: { NavBar },
   async created() {
-    this.$store.dispatch('signIn')
-        .then(isLoggedIn => console.debug(`Is logged in: ${ isLoggedIn }`))
-        .catch(error => console.error(error));
-  }
-}
+    if (hasStoredTokens() && hasValidTokens()) {
+      this.$store.dispatch("signIn");
+      console.debug("Successfully logged the user in");
+    }
+  },
+};
 </script>
 
 <style lang="scss">
