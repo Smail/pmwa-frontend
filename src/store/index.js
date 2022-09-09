@@ -49,6 +49,12 @@ export default createStore({
         state.user[key] = user[key];
       }
     },
+    resetUser: (state) => {
+      // Reset all user object values to null
+      for (const key of Object.keys(state.user)) {
+        state.user[key] = null;
+      }
+    },
     setIsLoggedIn: (state, isLoggedIn) => state.isLoggedIn = isLoggedIn,
     toggleShowClock: (state) => state.showClock = !state.showClock,                      // TODO update on server
     toggleShowClockSeconds: (state) => state.showClockSeconds = !state.showClockSeconds, // TODO update on server
@@ -120,11 +126,7 @@ export default createStore({
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
 
-      // Reset all user object values to null
-      for (const key of Object.keys(state.user)) {
-        state.user[key] = null;
-      }
-
+      context.commit("resetUser");
       context.commit("setIsLoggedIn", false);
     },
     async loadTasks(context) {
