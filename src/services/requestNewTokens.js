@@ -35,6 +35,6 @@ async function requestTokensViaCredentials(username, password) {
   if (!username) throw new Error("Invalid argument. Username is falsy.");
   if (!password) throw new Error("Invalid arguments. Password is falsy.");
 
-  const response = await axios.post(`${ process.env.VUE_APP_API_ENDPOINT }/auth/signin`, { username, password });
+  const response = await axios.post(`${ process.env.VUE_APP_API_ENDPOINT }/auth/sign-in`, { username, password });
   return { accessToken: response.data.accessToken, refreshToken: response.data.refreshToken };
 }

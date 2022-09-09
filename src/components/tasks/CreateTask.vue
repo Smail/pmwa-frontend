@@ -70,12 +70,11 @@ export default {
     },
     async createTask() {
       try {
-        const response = await axios.post("tasks/create", {
+        const response = await axios.post("tasks/", {
           name: this.name,
         });
 
-        if (!response.data.uuid) throw new Error("Property UUID was not found in response: " +
-            JSON.stringify(response));
+        if (!response.data.taskId) throw new Error(`Missing taskId in response body: ${ JSON.stringify(response) }`);
 
         this.$emit("refreshTasks");
       } catch (error) {

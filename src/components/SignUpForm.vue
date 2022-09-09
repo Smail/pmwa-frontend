@@ -97,7 +97,7 @@ export default {
   },
   methods: {
     signUp() {
-      this.$http.post("auth/signup", {
+      this.$http.post("auth/sign-up", {
         username: this.username,
         firstName: this.firstName,
         lastName: this.lastName,
