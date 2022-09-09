@@ -6,17 +6,15 @@
       <ul class="settings-account settings-list">
         <li class="settings-list-item">
           <h4>Username:</h4>
-          <input :value="$store.state.username" autocomplete="username" class="settings-change-input"
-                 name="new-username"
-                 spellcheck="false" type="text" @change="newUsername"/>
-          <button class="settings-change-btn" type="button" @click="changeUsername">Change</button>
+          <input v-model="newUser.username" class="settings-change-input"
+                 name="new-username" spellcheck="false" type="text"/>
+          <button class="settings-change-btn" type="button" @click="updateUser">Change</button>
         </li>
         <li class="settings-list-item">
           <h4>Display name:</h4>
-          <input :value="$store.state.displayName" class="settings-change-input" name="new-display-name"
-                 spellcheck="false"
-                 type="text" @change="newDisplayName /* TODO */"/>
-          <button class="settings-change-btn" type="button" @click="changeUsername">Change</button>
+          <input v-model="newUser.displayName" class="settings-change-input"
+                 name="new-display-name" spellcheck="false" type="text"/>
+          <button class="settings-change-btn" type="button" @click="updateUser">Change</button>
         </li>
         <li class="settings-list-item">
           <h4>Locale:</h4>
@@ -109,26 +107,28 @@ import ToggleButton from "@/components/ToggleButton.vue";
 export default {
   name: "SettingsView",
   components: { ToggleButton },
+  computed: {
+    currentUser() {
+      return this.$store.state.user;
+    },
+  },
   methods: {
-    changeUsername() {
-      if (this.$store.state.username.toLowerCase() === this.newUsername.toLowerCase()) {
-        alert("Same username");
-      } else {
-        this.$http.post("auth/change-username", {
-          username: this.$store.state.username,
-          newUsername: this.newUsername,
-        }).then(response => {
-          console.debug("Successfully renamed user");
-          this.$store.commit("setUsername", this.newUsername);
-        }).catch(error => {
-          console.error(error);
-        });
+    async updateUser() {
+      try {
+        await this.$store.dispatch("updateUser", this.newUser);
+      } catch (error) {
+        console.error(error);
+        this.newUser.displayName = this.$store.state.user.displayName;
+        alert("Could not update the display name. Please try again.");
       }
     },
   },
   data() {
     return {
-      newUsername: this.$store.state.username,
+      newUser: {
+        username: this.$store.state.user.username,
+        displayName: this.$store.state.user.displayName,
+      },
     };
   },
 };
