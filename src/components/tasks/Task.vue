@@ -92,7 +92,7 @@ export default {
   },
   computed: {
     uuid() {
-      return this.taskModel.uuid;
+      return this.taskModel.id;
     },
     name() {
       return this.taskModel.name;
