@@ -21,15 +21,15 @@ export default {
     return {
       username: "",
       password: "",
-    }
+    };
   },
   methods: {
     async signIn() {
-      await this.$store.dispatch('signIn', { username: this.username, password: this.password });
-      this.$router.push('/');
-    }
-  }
-}
+      await this.$store.dispatch("signIn", { username: this.username, password: this.password });
+      this.$router.push("/");
+    },
+  },
+};
 </script>
 
 <style lang="scss">

@@ -1,3 +1,3 @@
 export function getStoredTokens() {
-  return { accessToken: localStorage['accessToken'], refreshToken: localStorage['refreshToken'] };
+  return { accessToken: localStorage["accessToken"], refreshToken: localStorage["refreshToken"] };
 }

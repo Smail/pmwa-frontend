@@ -39,15 +39,15 @@ import Task from "@/components/tasks/Task";
 import CreateTask from "@/components/tasks/CreateTask";
 
 export default {
-  name: 'TaskList',
+  name: "TaskList",
   components: { CreateTask, Task },
   methods: {
     loadTasks() {
-      this.$store.dispatch('loadTasks');
-    }
+      this.$store.dispatch("loadTasks");
+    },
   },
   created() {
     this.loadTasks();
-  }
-}
+  },
+};
 </script>

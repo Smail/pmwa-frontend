@@ -45,5 +45,5 @@ import NavBarLoggedOut from "@/components/navbar/NavBarLoggedOut";
 export default {
   name: "NavBar",
   components: { NavBarLoggedOut, NavBarLoggedIn },
-}
+};
 </script>

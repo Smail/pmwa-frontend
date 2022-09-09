@@ -7,12 +7,12 @@
 </template>
 
 <script>
-import SignInForm from '@/components/SignInForm.vue'
+import SignInForm from "@/components/SignInForm.vue";
 
 export default {
   name: "SignInView",
   components: { SignInForm },
-}
+};
 </script>
 
 <style lang="scss">

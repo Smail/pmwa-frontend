@@ -37,5 +37,5 @@ import TaskList from "@/components/tasks/TaskList.vue";
 export default {
   name: "TaskView",
   components: { TaskList },
-}
+};
 </script>

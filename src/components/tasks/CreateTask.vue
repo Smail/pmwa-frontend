@@ -48,10 +48,10 @@
       0 0 0.2rem darken($color, 20);
       transition: all 250ms;
 
-      &:hover, &:focus  {
+      &:hover, &:focus {
         //font-size: 2rem;
         background: lighten($color, 42.5);
-        transform: scale(1.05) translateZ(0) ;
+        transform: scale(1.05) translateZ(0);
       }
     }
   }
@@ -63,51 +63,51 @@ import axios from "axios";
 
 export default {
   name: "CreateTask",
-  emits: ['refreshTasks'],
+  emits: ["refreshTasks"],
   methods: {
     clearInputField() {
-      this.name = '';
+      this.name = "";
     },
     async createTask() {
       try {
-        const response = await axios.post('tasks/create', {
+        const response = await axios.post("tasks/create", {
           name: this.name,
         });
 
-        if (!response.data.uuid) throw new Error('Property UUID was not found in response: ' +
-          JSON.stringify(response));
+        if (!response.data.uuid) throw new Error("Property UUID was not found in response: " +
+            JSON.stringify(response));
 
-        this.$emit('refreshTasks');
+        this.$emit("refreshTasks");
       } catch (error) {
         console.error(error);
-        alert('Could not create the new task. Please try again or refresh the page if the error persists');
+        alert("Could not create the new task. Please try again or refresh the page if the error persists");
       }
-    }
+    },
   },
   created() {
     // Confirm that the user doesn't want to save their changes.
     // Unsaved changes are, e.g., that the task name is not empty (falsy).
     const $this = this;
-    window.addEventListener('beforeunload', function (event) {
+    window.addEventListener("beforeunload", function (event) {
       if (!$this.name) return;
       event.preventDefault();
-      event.returnValue = '';
+      event.returnValue = "";
     });
   },
   beforeMount() {
     // Load potential unsaved changes from local storage
-    if (localStorage['newTaskName']) this.name = localStorage['newTaskName'];
+    if (localStorage["newTaskName"]) this.name = localStorage["newTaskName"];
   },
   beforeUnmount() {
     // Save unsaved changes to local storage
-    if (this.name) localStorage['newTaskName'] = this.name;
+    if (this.name) localStorage["newTaskName"] = this.name;
     // There are no unsaved changes => remove key
-    else delete localStorage['newTaskName'];
+    else delete localStorage["newTaskName"];
   },
   data() {
     return {
-      name: '',
-    }
+      name: "",
+    };
   },
-}
+};
 </script>

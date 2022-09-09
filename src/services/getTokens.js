@@ -26,5 +26,5 @@ export async function getTokensViaStoredTokens() {
     return await requestNewTokens({ refreshToken });
   }
 
-  throw new Error('Unknown Error. All cases should have been checked. Weird.');
+  throw new Error("Unknown Error. All cases should have been checked. Weird.");
 }

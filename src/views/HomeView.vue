@@ -5,7 +5,7 @@
 
 <script>
 export default {
-  name: 'HomeView',
-  components: {}
-}
+  name: "HomeView",
+  components: {},
+};
 </script>

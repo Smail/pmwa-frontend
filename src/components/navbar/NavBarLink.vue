@@ -44,19 +44,19 @@ export default {
     subMenu: {
       type: Array,
       default: [],
-    }
+    },
   },
   methods: {
     toggleSubMenuExpand() {
       this.isSubMenuExpanded = !this.isSubMenuExpanded;
-    }
+    },
   },
   data() {
     return {
       isSubMenuExpanded: false,
-    }
-  }
-}
+    };
+  },
+};
 </script>
 
 <style lang="scss">

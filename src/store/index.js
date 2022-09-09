@@ -53,17 +53,17 @@ export default createStore({
       context.commit("setIsLoggedIn", true);
     },
     logOut(context) {
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
-      context.commit('setUsername', '');
-      context.commit('setIsLoggedIn', false);
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      context.commit("setUsername", "");
+      context.commit("setIsLoggedIn", false);
     },
     async loadTasks(context) {
-      loadTasks().then(tasks => context.commit('setTasks', tasks)).catch(error => {
+      loadTasks().then(tasks => context.commit("setTasks", tasks)).catch(error => {
         console.error(error);
-        alert('Could not load tasks');
+        alert("Could not load tasks");
       });
-    }
+    },
   },
-  modules: {}
-})
+  modules: {},
+});

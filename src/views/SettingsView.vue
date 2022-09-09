@@ -6,13 +6,15 @@
       <ul class="settings-account settings-list">
         <li class="settings-list-item">
           <h4>Username:</h4>
-          <input :value="$store.state.username" autocomplete="username" class="settings-change-input" name="new-username"
+          <input :value="$store.state.username" autocomplete="username" class="settings-change-input"
+                 name="new-username"
                  spellcheck="false" type="text" @change="newUsername"/>
           <button class="settings-change-btn" type="button" @click="changeUsername">Change</button>
         </li>
         <li class="settings-list-item">
           <h4>Display name:</h4>
-          <input :value="$store.state.displayName" class="settings-change-input" name="new-display-name" spellcheck="false"
+          <input :value="$store.state.displayName" class="settings-change-input" name="new-display-name"
+                 spellcheck="false"
                  type="text" @change="newDisplayName /* TODO */"/>
           <button class="settings-change-btn" type="button" @click="changeUsername">Change</button>
         </li>
@@ -110,24 +112,24 @@ export default {
   methods: {
     changeUsername() {
       if (this.$store.state.username.toLowerCase() === this.newUsername.toLowerCase()) {
-        alert('Same username');
+        alert("Same username");
       } else {
-        this.$http.post('auth/change-username', {
+        this.$http.post("auth/change-username", {
           username: this.$store.state.username,
           newUsername: this.newUsername,
         }).then(response => {
-          console.debug('Successfully renamed user');
-          this.$store.commit('setUsername', this.newUsername);
+          console.debug("Successfully renamed user");
+          this.$store.commit("setUsername", this.newUsername);
         }).catch(error => {
           console.error(error);
         });
       }
-    }
+    },
   },
   data() {
     return {
       newUsername: this.$store.state.username,
-    }
-  }
-}
+    };
+  },
+};
 </script>

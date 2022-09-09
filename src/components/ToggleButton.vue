@@ -1,6 +1,6 @@
 <template>
-  <button class="material-symbols-outlined toggle-button" :class="{ 'active': isActive }">
-    {{ isActive ? 'toggle_on' : 'toggle_off' }}
+  <button :class="{ 'active': isActive }" class="material-symbols-outlined toggle-button">
+    {{ isActive ? "toggle_on" : "toggle_off" }}
   </button>
 </template>
 
@@ -22,21 +22,21 @@
 
   &.material-symbols-outlined {
     font-variation-settings: 'FILL' 1,
-      'wght' 400,
-      'GRAD' 200,
-      'opsz' 20;
+    'wght' 400,
+    'GRAD' 200,
+    'opsz' 20;
   }
 }
 </style>
 
 <script>
 export default {
-  name: 'ToggleButton',
+  name: "ToggleButton",
   props: {
     isActive: {
       type: Boolean,
       required: true,
-    }
-  }
-}
+    },
+  },
+};
 </script>

@@ -41,12 +41,12 @@
 import Hour from "@/components/calendar/Hour";
 
 export default {
-  name: 'Calendar',
+  name: "Calendar",
   components: { Hour },
   computed: {
     isSequential() {
-      return this.viewType === 'sequential';
-    }
+      return this.viewType === "sequential";
+    },
   },
   methods: {
     iterateDays(from, by) {
@@ -55,51 +55,51 @@ export default {
     dayString(day) {
       switch (day) {
         case 0:
-          return 'monday';
+          return "monday";
         case 1:
-          return 'tuesday';
+          return "tuesday";
         case 2:
-          return 'wednesday';
+          return "wednesday";
         case 3:
-          return 'thursday';
+          return "thursday";
         case 4:
-          return 'friday';
+          return "friday";
         case 5:
-          return 'saturday';
+          return "saturday";
         case 6:
-          return 'sunday';
+          return "sunday";
         default:
-          throw new Error('Invalid day value: ' + day);
+          throw new Error("Invalid day value: " + day);
       }
     },
     shortDayString(day) {
       switch (day) {
         case 0:
-          return 'mon';
+          return "mon";
         case 1:
-          return 'tue';
+          return "tue";
         case 2:
-          return 'wed';
+          return "wed";
         case 3:
-          return 'thu';
+          return "thu";
         case 4:
-          return 'fri';
+          return "fri";
         case 5:
-          return 'sat';
+          return "sat";
         case 6:
-          return 'sun';
+          return "sun";
         default:
-          throw new Error('Invalid day value: ' + day);
+          throw new Error("Invalid day value: " + day);
       }
-    }
+    },
   },
   data() {
     return {
       // day, sequential (week, but not fixed to 7 days), month, (year)
-      viewType: 'sequential',
+      viewType: "sequential",
       numberOfDaysShowing: 7,
       today: 0,
-    }
-  }
-}
+    };
+  },
+};
 </script>

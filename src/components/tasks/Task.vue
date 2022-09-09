@@ -75,20 +75,20 @@ import axios from "axios";
 import TagList from "@/components/tasks/TagList";
 
 export default {
-  name: 'Task',
+  name: "Task",
   components: { TagList },
   props: {
-    'task': {
+    "task": {
       type: Object,
       required: true,
       // TODO add validator
-    }
+    },
   },
-  emits: ['refreshTasks'],
+  emits: ["refreshTasks"],
   watch: {
     task(newTask, oldTask) {
       this.taskModel = newTask;
-    }
+    },
   },
   computed: {
     uuid() {
@@ -106,9 +106,9 @@ export default {
     changedData() {
       const data = {};
 
-      if (this.oldModel.name !== this.name) data['name'] = this.name;
-      if (this.oldModel.isDone !== this.isDone) data['isDone'] = this.isDone;
-      if (this.oldModel.content !== this.content) data['content'] = this.content;
+      if (this.oldModel.name !== this.name) data["name"] = this.name;
+      if (this.oldModel.isDone !== this.isDone) data["isDone"] = this.isDone;
+      if (this.oldModel.content !== this.content) data["content"] = this.content;
 
       return data;
     },
@@ -125,31 +125,31 @@ export default {
       if (Object.keys(data).length === 1) return;
 
       try {
-        await axios.post('tasks/update', data);
+        await axios.post("tasks/update", data);
         this.oldModel = structuredClone(this.taskModel);
-        this.$emit('refreshTasks');
+        this.$emit("refreshTasks");
       } catch (error) {
         console.error(error);
       }
     },
     async deleteTask() {
       try {
-        await axios.delete(`tasks/${this.uuid}`);
-        this.$emit('refreshTasks');
+        await axios.delete(`tasks/${ this.uuid }`);
+        this.$emit("refreshTasks");
       } catch (error) {
         console.error(error);
       }
-    }
+    },
   },
   created() {
     // Save changes when user leaves the page without unnecessarily notifying them.
-    window.addEventListener('beforeunload', () => this.update());
+    window.addEventListener("beforeunload", () => this.update());
   },
   data() {
     return {
       taskModel: structuredClone(this.task),
       oldModel: structuredClone(this.task),
-    }
+    };
   },
-}
+};
 </script>

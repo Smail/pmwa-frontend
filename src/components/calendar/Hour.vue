@@ -1,7 +1,7 @@
 <template>
   <div
-    :class="{borderTop: showBorderTop, borderRight: showBorderRight, borderLeft: showBorderLeft, borderBottom: showBorderBottom}"
-    :style="{'grid-template-columns': `minmax(0, ${numMinuteSegments}fr)` }" class="hour">
+      :class="{borderTop: showBorderTop, borderRight: showBorderRight, borderLeft: showBorderLeft, borderBottom: showBorderBottom}"
+      :style="{'grid-template-columns': `minmax(0, ${numMinuteSegments}fr)` }" class="hour">
     <div v-for="segment in numMinuteSegments" class="segment"></div>
   </div>
 </template>
@@ -30,9 +30,9 @@ export default {
       type: Number,
       default: 1,
       validator(value) {
-        if (!value || value < 1) throw new Error('Invalid number of segments');
+        if (!value || value < 1) throw new Error("Invalid number of segments");
         return value;
-      }
+      },
     },
     dates: {
       type: [Date],
@@ -42,8 +42,8 @@ export default {
 
   computed: {
     myDates: function () {
-      return [new Date()]
-    }
+      return [new Date()];
+    },
   },
 
   methods: {
@@ -51,7 +51,7 @@ export default {
 
     },
   },
-}
+};
 </script>
 
 <style lang="scss">

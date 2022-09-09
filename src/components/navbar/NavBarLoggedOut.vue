@@ -17,13 +17,13 @@ export default {
   data() {
     return {
       menu: [
-        { name: 'Home', href: '/', icon: 'home' },
-        { name: 'Login', href: '/signin', icon: 'login' },
-        { name: 'Sign Up', href: '/signup', icon: 'how_to_reg' },
-      ]
-    }
+        { name: "Home", href: "/", icon: "home" },
+        { name: "Login", href: "/signin", icon: "login" },
+        { name: "Sign Up", href: "/signup", icon: "how_to_reg" },
+      ],
+    };
   },
-}
+};
 </script>
 
 <style>

@@ -2,32 +2,32 @@
   <form class="signup-form" @submit.prevent="signUp">
     <h2 v-if="title != null" class="signup-form-title">{{ title }}</h2>
     <label class="signup-form-label signup-form-label-username">Username
-      <input class="signup-form-input" name="username" placeholder="Username" type="text" autocomplete="username"
-        required v-model="username" />
+      <input v-model="username" autocomplete="username" class="signup-form-input" name="username" placeholder="Username"
+             required type="text"/>
     </label>
     <label class="signup-form-label">First Name
-      <input class="signup-form-input" name="first-name" placeholder="First Name" type="text" autocomplete="given-name"
-        required v-model="firstName" />
+      <input v-model="firstName" autocomplete="given-name" class="signup-form-input" name="first-name" placeholder="First Name"
+             required type="text"/>
     </label>
     <label class="signup-form-label">Last Name
-      <input class="signup-form-input" name="last-name" placeholder="Last Name" type="text" autocomplete="family-name"
-        required v-model="lastName" />
+      <input v-model="lastName" autocomplete="family-name" class="signup-form-input" name="last-name" placeholder="Last Name"
+             required type="text"/>
     </label>
     <label class="signup-form-label">E-Mail
-      <input class="signup-form-input" name="email" placeholder="example@example.com" type="email" autocomplete="email"
-        required v-model="email" />
+      <input v-model="email" autocomplete="email" class="signup-form-input" name="email" placeholder="example@example.com"
+             required type="email"/>
     </label>
     <label class="signup-form-label">Password
-      <input class="signup-form-input" name="password" placeholder="Password" type="password"
-        autocomplete="new-password" required v-model="password" />
+      <input v-model="password" autocomplete="new-password" class="signup-form-input" name="password"
+             placeholder="Password" required type="password"/>
     </label>
     <div v-if="password.length > 0" class="signup-form-password-strength-wrapper">
-      <span class="signup-form-password-strength-color" :style="{ 'background-color': passwordStrengthColor }"></span>
+      <span :style="{ 'background-color': passwordStrengthColor }" class="signup-form-password-strength-color"></span>
       <span class="signup-form-password-strength-text">{{ passwordStrength }}</span>
     </div>
     <label class="signup-form-label">Repeat Password
-      <input class="signup-form-input" name="password-repeat" placeholder="Repeat Password" type="password"
-        autocomplete="new-password" required v-model="repeatedPassword" />
+      <input v-model="repeatedPassword" autocomplete="new-password" class="signup-form-input" name="password-repeat"
+             placeholder="Repeat Password" required type="password"/>
     </label>
     <div v-if="!passwordsMatch" class="signup-form-password-match">
       Passwords don't match
@@ -56,7 +56,7 @@ export default {
         else if (/^[A-Z]$/.test(c)) numUpper++;
         else if (/^[0-9]$/.test(c)) numDigits++;
         else if (/^[!@#$%^&*()\-__+.]$/.test(c)) numSpecial++;
-        else return 'contains invalid password character';
+        else return "contains invalid password character";
       }
 
       if (this.password.length >= 12 && numLower >= 2 && numUpper >= 2 && numDigits >= 2 && numSpecial >= 2) {
@@ -93,11 +93,11 @@ export default {
       email: "",
       password: "",
       repeatedPassword: "",
-    }
+    };
   },
   methods: {
     signUp() {
-      this.$http.post('auth/signup', {
+      this.$http.post("auth/signup", {
         username: this.username,
         firstName: this.firstName,
         lastName: this.lastName,
@@ -106,16 +106,16 @@ export default {
         repeatedPassword: this.repeatedPassword,
       }).then((response) => {
         if (response.status === 201) {
-          this.$router.push('/signin');
+          this.$router.push("/signin");
         } else {
-          console.warn(`Unexpected successful http status code: ${response.status}`);
+          console.warn(`Unexpected successful http status code: ${ response.status }`);
         }
       }).catch(error => {
         alert(error.response.data.message);
       });
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="scss">
@@ -164,7 +164,7 @@ $theme: rgb(0, 122, 255);
   gap: 0.5rem;
 
   * {
-    // Make form buttons same size 
+    // Make form buttons same size
     flex: 1;
   }
 }

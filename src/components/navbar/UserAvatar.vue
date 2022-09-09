@@ -59,11 +59,11 @@ export default {
   data() {
     return {
       displayName: this.$store.state.username,
-    }
+    };
   },
   async created() {
     const displayName = await this.requestDisplayName();
     if (displayName) this.displayName = displayName;
-  }
-}
+  },
+};
 </script>

@@ -29,7 +29,7 @@
 import Calendar from "@/components/calendar/Calendar.vue";
 
 export default {
-  name: 'CalendarView',
-  components: { Calendar }
-}
+  name: "CalendarView",
+  components: { Calendar },
+};
 </script>

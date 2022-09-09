@@ -1,73 +1,73 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import store from '../store';
+import { createRouter, createWebHistory } from "vue-router";
+import HomeView from "../views/HomeView.vue";
+import store from "../store";
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
+    path: "/",
+    name: "home",
     component: HomeView,
-    alias: ['/home'],
+    alias: ["/home"],
   },
   {
-    path: '/signin',
-    name: 'signin',
-    alias: '/login',
-    component: () => import('../views/SignInView.vue')
+    path: "/signin",
+    name: "signin",
+    alias: "/login",
+    component: () => import("../views/SignInView.vue"),
   },
   {
-    path: '/signup',
-    name: 'signup',
-    alias: '/register',
-    component: () => import('../views/SignUpView.vue')
+    path: "/signup",
+    name: "signup",
+    alias: "/register",
+    component: () => import("../views/SignUpView.vue"),
   },
   {
-    path: '/dashboard',
-    name: 'dashboard',
+    path: "/dashboard",
+    name: "dashboard",
     meta: { needsAuthentication: true },
-    component: () => import('../views/DashboardView.vue')
+    component: () => import("../views/DashboardView.vue"),
   },
   {
-    path: '/calendar',
-    name: 'calendar',
+    path: "/calendar",
+    name: "calendar",
     meta: { needsAuthentication: true },
-    component: () => import('../views/CalendarView.vue')
+    component: () => import("../views/CalendarView.vue"),
   },
   {
-    path: '/tasks',
-    name: 'tasks',
-    alias: '/todo',
+    path: "/tasks",
+    name: "tasks",
+    alias: "/todo",
     meta: { needsAuthentication: true },
-    component: () => import('../views/TasksView.vue')
+    component: () => import("../views/TasksView.vue"),
   },
   {
-    path: '/flashcards',
-    name: 'flashcards',
+    path: "/flashcards",
+    name: "flashcards",
     meta: { needsAuthentication: true },
-    component: () => import('../views/FlashcardsView.vue')
+    component: () => import("../views/FlashcardsView.vue"),
   },
   {
-    path: '/projects',
-    name: 'projects',
+    path: "/projects",
+    name: "projects",
     meta: { needsAuthentication: true },
-    component: () => import('../views/ProjectsView.vue')
+    component: () => import("../views/ProjectsView.vue"),
   },
   {
-    path: '/settings',
-    name: 'settings',
+    path: "/settings",
+    name: "settings",
     meta: { needsAuthentication: true },
-    component: () => import('../views/SettingsView.vue')
+    component: () => import("../views/SettingsView.vue"),
   },
-]
+];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
+  routes,
 });
 
 router.beforeEach((to, from, next) => {
   if (!to.meta.needsAuthentication || store.state.isLoggedIn) next();
-  else next({ name: 'signin' });
+  else next({ name: "signin" });
 });
 
-export default router
+export default router;

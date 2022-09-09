@@ -27,23 +27,23 @@ export default {
     return {
       time: null,
       interval: null,
-    }
+    };
   },
   methods: {
     setTime() {
       // Concise way to format time according to system locale.
       // In my case this returns "3:48:00 am"
       const options = {
-        hour: 'numeric',
-        minute: 'numeric',
+        hour: "numeric",
+        minute: "numeric",
       };
 
       if (this.$store.state.showClockSeconds) {
-        options.second = 'numeric';
+        options.second = "numeric";
       }
 
       this.time = Intl.DateTimeFormat(this.$store.state.locale, options).format();
-    }
+    },
   },
   created() {
     this.setTime();
@@ -56,5 +56,5 @@ export default {
     // Prevent memory leak
     clearInterval(this.interval);
   },
-}
+};
 </script>

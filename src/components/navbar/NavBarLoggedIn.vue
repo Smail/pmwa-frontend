@@ -39,7 +39,6 @@
 <script>
 import UserAvatar from "@/components/navbar/UserAvatar";
 import Clock from "@/components/navbar/Clock";
-import axios from "axios";
 import NavBarLink from "@/components/navbar/NavBarLink";
 
 export default {
@@ -47,19 +46,19 @@ export default {
   components: { NavBarLink, Clock, UserAvatar },
   data() {
     const tasks = {
-      name: 'Todo', href: '/tasks', icon: 'check', subMenu: [
-        { name: 'Tags', to: '/tasks/tags', icon: 'sell' }
-      ]
+      name: "Todo", href: "/tasks", icon: "check", subMenu: [
+        { name: "Tags", to: "/tasks/tags", icon: "sell" },
+      ],
     };
 
     const data = {
       menu: [
-        { name: 'Dashboard', href: '/dashboard', icon: 'space_dashboard' },
+        { name: "Dashboard", href: "/dashboard", icon: "space_dashboard" },
         tasks,
-        { name: 'Calendar', href: '/calendar', icon: 'calendar_month' },
-        { name: 'Flashcards', href: '/flashcards', icon: 'school' },
-        { name: 'Projects', href: '/projects', icon: 'view_kanban' },
-        { name: 'Settings', href: '/settings', icon: 'settings' },
+        { name: "Calendar", href: "/calendar", icon: "calendar_month" },
+        { name: "Flashcards", href: "/flashcards", icon: "school" },
+        { name: "Projects", href: "/projects", icon: "view_kanban" },
+        { name: "Settings", href: "/settings", icon: "settings" },
       ],
     };
 
@@ -77,7 +76,7 @@ export default {
 
     return data;
   },
-}
+};
 </script>
 
 <style scoped>
