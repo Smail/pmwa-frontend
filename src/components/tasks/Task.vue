@@ -3,7 +3,7 @@
     <input v-model="taskModel.isDone" autocomplete="off" class="task-checkbox" type="checkbox"/>
     <div class="task-input-tag-wrapper">
       <input v-model="taskModel.name" autocomplete="off" class="task-input" type="text"/>
-      <tag-list :task-uuid="task.uuid"></tag-list>
+      <tag-list :task-id="task.uuid"></tag-list>
     </div>
     <button class="delete-task-btn material-symbols-outlined" @click="deleteTask">delete</button>
   </div>

@@ -14,16 +14,16 @@ export default {
   name: "TagList",
   components: { Tag },
   props: {
-    taskUuid: {
+    taskId: {
       type: String,
       required: true,
     },
   },
   methods: {
     async requestTags() {
-      if (!this.taskUuid) throw new Error("No task UUID was provided to the component");
+      if (!this.taskId) throw new Error("Missing/invalid required component prop: taskId");
       try {
-        const response = await axios.get(`tasks/${ this.taskUuid }/tags`);
+        const response = await axios.get(`tasks/${ this.taskId }/tags`);
         // Sort array lexicographically based on property "name"
         response.data.sort((a, b) => a.name.toLocaleLowerCase().localeCompare(b.name.toLocaleLowerCase()));
         for (const tag of response.data) this.tags.push(tag);
