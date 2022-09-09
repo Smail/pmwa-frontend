@@ -78,7 +78,7 @@ export default {
   name: "Task",
   components: { TagList },
   props: {
-    "task": {
+    task: {
       type: Object,
       required: true,
       // TODO add validator
