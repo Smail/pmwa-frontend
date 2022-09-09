@@ -127,9 +127,9 @@ export default {
       try {
         await axios.post("tasks/update", data);
         this.oldModel = structuredClone(this.taskModel);
-        this.$emit("refreshTasks");
       } catch (error) {
         console.error(error);
+        this.$emit("refreshTasks");
       }
     },
     async deleteTask() {
