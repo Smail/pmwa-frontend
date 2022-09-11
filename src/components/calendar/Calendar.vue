@@ -206,11 +206,6 @@ export default {
 
     p {
       text-align: left;
-      text-wrap: none;
-      overflow: hidden;
-      //white-space: nowrap;
-      cursor: text;
-      user-select: text;
     }
   }
 
