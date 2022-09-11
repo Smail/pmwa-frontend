@@ -199,8 +199,8 @@ export default {
 .task {
   cursor: pointer;
   color: white;
-  border: 1px solid red;
-  background: rgba(255, 0, 0, 0.5);
+  border: 1px solid #007AFF;
+  background: #007AFFA0;
   border-radius: 0.5em;
   display: flex;
   flex-direction: column;
