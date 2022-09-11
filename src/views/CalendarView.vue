@@ -1,12 +1,12 @@
 <template>
-  <div class="calendar">
+  <div class="calendar-view">
     <h1>Calendar</h1>
     <calendar class="calendar-component"></calendar>
   </div>
 </template>
 
 <style lang="scss">
-.calendar {
+.calendar-view {
   display: flex;
   flex-direction: column;
 
