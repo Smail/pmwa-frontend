@@ -29,8 +29,9 @@
           draggable="true"
       >
         <div class="task-header-desc-wrapper">
-          <h5>{{ task.name }}</h5>
-          <p>{{ task.description }}</p>
+          <h4 class="task-header">{{ task.name }}</h4>
+          <h5 class="task-header-time-annotation">{{ task.startTime }}:00 - {{ task.endTime }}:00</h5>
+          <p class="task-description">{{ task.description }}</p>
         </div>
         <div class="drag-div" draggable="true" @drag="resizeTimeslot($event, task)"></div>
       </div>
@@ -227,9 +228,23 @@ export default {
     padding: 0.5em;
     cursor: text;
     user-select: text;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25em;
+    text-align: left;
 
-    h5, p {
-      text-align: left;
+    .task-header {
+      font-size: 11pt;
+      font-weight: bold;
+    }
+
+    .task-header-time-annotation {
+      font-weight: normal;
+      font-size: 9pt;
+    }
+
+    .task-description {
+      font-size: 10pt;
     }
   }
 
