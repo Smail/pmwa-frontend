@@ -1,57 +1,55 @@
 <template>
-  <div v-if="isSequential" class="calendar-sequential">
-    <div v-for="day in numberOfDaysShowing" class="calendar-sequential-day">
-      <span class="calendar-sequential-day-short">{{ shortDayString(iterateDays(today, day - 1)) }}</span>
-
-      <div class="hours-wrapper">
-        <hour v-for="h in 24" :numMinuteSegments="4" :show-border-bottom="h === 24"
-              :show-border-left="true" :show-border-right="day === numberOfDaysShowing" :show-border-top="true"
-        ></hour>
+  <div class="calendar">
+    <!-- The names of the days, i.e., Monday, Tuesday, etc. -->
+    <h4 class="day-header" v-for="d in 7" :style="{ gridArea: dayStringShort(d - 1) }">{{ dayString(d - 1) }}</h4>
+    <!-- Display time annotations, e.g., 15:00 on the left side of the calendar -->
+    <template v-for="(_, h) in 24">
+      <!-- Don't show 00:00 -->
+      <p v-if="h > 0" class="time-annotation" :style="{ gridArea: `h${h}` }">
+        {{ h < 10 ? ("0" + h) : h }}:00
+      </p>
+    </template>
+    <!-- The actual time slots -->
+    <template v-for="d in 7">
+      <div v-for="(_, h) in 24" class="hour" :style="{ gridArea: `d${d}${h}` }"
+           :class="{ 'border-right': d < 7, 'border-top': h > 0 && h < 24}">
+        {{ h }}
       </div>
-    </div>
+    </template>
   </div>
 </template>
 
-<style lang="scss">
-.calendar-sequential {
-  background-color: red;
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: minmax(0, 1fr);
-
-  .calendar-sequential-day {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .calendar-sequential-day-short {
-    text-transform: uppercase;
-    font-weight: bold;
-  }
-
-  .hours-wrapper {
-    flex: 1;
-    display: grid;
-    grid-auto-rows: minmax(0, 24fr);
-  }
-}
-</style>
-
 <script>
-import Hour from "@/components/calendar/Hour";
-
 export default {
   name: "Calendar",
-  components: { Hour },
   computed: {
-    isSequential() {
-      return this.viewType === "sequential";
+    gridTemplateAreas() {
+      const numDays = 7;
+      const numHours = 24;
+      let gridTemplateAreas;
+
+      { // ". mon tue wed thu fri sat sun"
+        gridTemplateAreas = `". `;
+        for (let day = 0; day < numDays; day++) {
+          gridTemplateAreas += `${ this.dayStringShort(day) }${ day + 1 !== numDays ? " " : "" }`;
+        }
+        gridTemplateAreas += `" `;
+      }
+
+      { // "h0 d10 d20 d30 d40 d50 d60 d70"
+        for (let hour = 0; hour < numHours; hour++) {
+          gridTemplateAreas += `"h${ hour } `;
+          for (let day = 0; day < numDays; day++) {
+            gridTemplateAreas += `d${ day + 1 }${ hour }${ day + 1 !== numDays ? " " : "" }`;
+          }
+          gridTemplateAreas += `" `;
+        }
+      }
+
+      return gridTemplateAreas;
     },
   },
   methods: {
-    iterateDays(from, by) {
-      return (from + by) % 7;
-    },
     dayString(day) {
       switch (day) {
         case 0:
@@ -72,7 +70,7 @@ export default {
           throw new Error("Invalid day value: " + day);
       }
     },
-    shortDayString(day) {
+    dayStringShort(day) {
       switch (day) {
         case 0:
           return "mon";
@@ -93,13 +91,66 @@ export default {
       }
     },
   },
-  data() {
-    return {
-      // day, sequential (week, but not fixed to 7 days), month, (year)
-      viewType: "sequential",
-      numberOfDaysShowing: 7,
-      today: 0,
-    };
-  },
 };
 </script>
+
+<style lang="scss">
+.day-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: capitalize;
+  color: inherit;
+}
+
+.time-annotation {
+  line-height: 0;
+  text-align: right;
+  margin-right: 0.5em;
+}
+
+.hour {
+  cursor: pointer;
+  background: rebeccapurple;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  &.border-top {
+    border-top: 1px solid aqua;
+  }
+
+  &.border-right {
+    border-right: 1px solid aqua;
+  }
+}
+
+.calendar {
+  display: grid;
+  grid-template-areas: v-bind("gridTemplateAreas");
+  grid-template-columns: 1fr repeat(7, 7fr);
+
+  .time-annotations {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    grid-area: times;
+    background: red;
+  }
+
+  .days {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    .hours {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+    }
+  }
+}
+</style>
