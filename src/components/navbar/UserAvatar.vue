@@ -24,6 +24,7 @@
     // Needed for if icon is a materials icon and not an actual image
     font-size: 48px;
     border-radius: 50%;
+    cursor: pointer;
   }
 
   .user-avatar-greeting {
