@@ -13,7 +13,6 @@
     <template v-for="d in 7">
       <div v-for="(_, h) in 24" class="hour" :style="{ gridArea: `d${d}${h}` }"
            :class="{ 'border-right': d < 7, 'border-top': h > 0 && h < 24}">
-        {{ h }}
       </div>
     </template>
     <!-- The task layer -->
