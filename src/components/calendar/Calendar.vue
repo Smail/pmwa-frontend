@@ -193,10 +193,7 @@ export default {
     left: 0;
     right: 0;
     flex: 1;
-    display: flex;
-    flex-direction: column;
     padding: 0.5em;
-    overflow: hidden;
     cursor: text;
     user-select: text;
 
