@@ -138,7 +138,6 @@ export default {
 }
 
 .hour {
-  cursor: pointer;
   background: rebeccapurple;
   display: flex;
   align-items: center;
