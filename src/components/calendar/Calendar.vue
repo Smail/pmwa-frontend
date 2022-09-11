@@ -27,8 +27,10 @@
           }"
 
       >
-        <h5>{{ task.name }}</h5>
-        <p>{{ task.description }}</p>
+        <div class="task-header-desc-wrapper">
+          <h5>{{ task.name }}</h5>
+          <p>{{ task.description }}</p>
+        </div>
         <div class="drag-div" draggable="true" @drag="resizeTimeslot($event, task)"></div>
       </div>
     </template>
@@ -183,21 +185,45 @@ export default {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  position: relative;
 
-  h5 {
+  .task-header-desc-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    flex: 1;
     display: flex;
+    flex-direction: column;
     padding: 0.5em;
-    align-items: flex-start;
-  }
+    overflow: hidden;
 
-  p {
-    flex: 5;
-    padding: 0.5em;
+    h5 {
+      display: flex;
+      align-items: flex-start;
+    }
+
+    p {
+      text-align: left;
+      text-wrap: none;
+      overflow: hidden;
+      //white-space: nowrap;
+      cursor: text;
+      user-select: text;
+    }
   }
 
   .drag-div {
-    flex: 1;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 1em;
     cursor: n-resize;
+    user-select: none;
+    white-space: nowrap;
+    text-wrap: none;
+    //background: lime;
+    //color: transparent;
   }
 }
 
