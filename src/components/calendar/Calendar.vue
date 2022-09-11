@@ -24,7 +24,7 @@
             gridColumnStart: `d${task.day}${0}`,
             gridRowEnd: `d${task.day}${task.endTime - 1}`,
           }"
-
+          draggable="true"
       >
         <div class="task-header-desc-wrapper">
           <h5>{{ task.name }}</h5>
