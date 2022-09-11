@@ -184,7 +184,8 @@ export default {
 .calendar {
   display: grid;
   grid-template-areas: v-bind("gridTemplateAreas");
-  grid-template-columns: 1fr repeat(7, 7fr);
+  grid-template-rows: repeat(v-bind("numHours + 1"), minmax(0, 1fr));
+  grid-template-columns: 0.2fr repeat(v-bind("numDays"), minmax(0, 1fr));
 
   .time-annotations {
     display: flex;
