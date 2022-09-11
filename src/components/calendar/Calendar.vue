@@ -159,20 +159,28 @@ export default {
 }
 
 .hour {
-  background: rebeccapurple;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   user-select: none;
+  $border: 1px solid #2c3e50;
 
   &.border-top {
-    border-top: 1px solid aqua;
+    border-top: $border;
   }
 
   &.border-right {
-    border-right: 1px solid aqua;
+    border-right: $border;
   }
+}
+
+.hour:nth-child(2n) {
+  background: darken(whitesmoke, 10);
+}
+
+.hour:nth-child(2n+1) {
+  background: whitesmoke;
 }
 
 .task {
