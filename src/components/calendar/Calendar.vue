@@ -27,6 +27,7 @@
             gridRowEnd: `d${task.day}${task.endTime - 1}`,
           }"
           draggable="true"
+          @drag="moveTask($event, task)"
       >
         <div class="task-content">
           <h4 class="task-header">{{ task.name }}</h4>
@@ -109,6 +110,8 @@ export default {
       }
     },
     resizeTimeslot(event, task) {
+      // Prevents also calling moveTask
+      event.stopPropagation();
       const timeSlots = document.getElementsByClassName("hour");
       // TODO filter for the timeslots that are in the future by grid row/column start/end
       for (const timeSlot of timeSlots) {
@@ -136,6 +139,31 @@ export default {
         name: "(Missing title)",
         description: null,
       });
+    },
+    moveTask(event, task) {
+      const timeSlots = document.getElementsByClassName("hour");
+      for (const timeSlot of timeSlots) {
+        const clientRect = timeSlot.getBoundingClientRect();
+
+        // Get the time slot over which the mouse (event) hovers
+        if (event.clientX >= clientRect.left && event.clientX <= clientRect.right) {
+          if (event.clientY >= clientRect.top && event.clientY <= clientRect.bottom) {
+            // Example: d27; day 2 hour 7 => d47; day 4 hour 7
+            const day = Number.parseInt(timeSlot.style.gridRowStart.substring(1, 2));
+            const startTime = Number.parseInt(timeSlot.style.gridRowStart.substring(2));
+            const duration = task.endTime - task.startTime;
+            const endTime = startTime + duration;
+
+            task.day = day;
+            // Prevent task getting shorter; TODO extend into next day
+            if (endTime <= 24) {
+              task.startTime = startTime;
+              task.endTime = endTime;
+            }
+            break;
+          }
+        }
+      }
     },
   },
   data() {
