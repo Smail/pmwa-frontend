@@ -162,6 +162,10 @@ export default {
   justify-content: center;
   text-transform: capitalize;
   color: inherit;
+  background: darken(whitesmoke, 5);
+  border-radius: 2rem;
+  width: 90%;
+  justify-self: center;
 }
 
 .time-annotation {
@@ -267,6 +271,9 @@ export default {
   grid-template-areas: v-bind("gridTemplateAreas");
   grid-template-rows: repeat(v-bind("numHours + 1"), minmax(0, 1fr));
   grid-template-columns: 0.2fr repeat(v-bind("numDays"), minmax(0, 1fr));
+  background: whitesmoke;
+  border-radius: 1rem;
+  padding: 0.5rem;
 
   .days {
     flex: 1;

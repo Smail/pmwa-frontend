@@ -9,6 +9,7 @@
 .calendar-view {
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
 
   h1 {
     margin: 0;
