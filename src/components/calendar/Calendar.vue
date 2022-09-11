@@ -197,11 +197,7 @@ export default {
     cursor: text;
     user-select: text;
 
-    h5 {
-      text-align: left;
-    }
-
-    p {
+    h5, p {
       text-align: left;
     }
   }
