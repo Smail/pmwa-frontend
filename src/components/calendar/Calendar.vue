@@ -242,14 +242,6 @@ export default {
   grid-template-rows: repeat(v-bind("numHours + 1"), minmax(0, 1fr));
   grid-template-columns: 0.2fr repeat(v-bind("numDays"), minmax(0, 1fr));
 
-  .time-annotations {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    grid-area: times;
-    background: red;
-  }
-
   .days {
     flex: 1;
     display: flex;
