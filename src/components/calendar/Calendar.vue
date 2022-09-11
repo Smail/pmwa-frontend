@@ -16,6 +16,19 @@
         {{ h }}
       </div>
     </template>
+    <!-- The task layer -->
+    <template v-for="d in 7">
+      <template v-for="(_, h) in 24">
+        <div v-if="d === 2 && h === 4" class="task" :style="{
+          gridRowStart: `d${d}${h}`,
+          gridColumnStart: `d${d}${h}`,
+          gridRowEnd: `d${d}${h+2}`,
+        }"
+             :class="{ 'border-right': d < 7, 'border-top': h > 0 && h < 24}">
+          This is a task
+        </div>
+      </template>
+    </template>
   </div>
 </template>
 
@@ -124,6 +137,14 @@ export default {
   &.border-right {
     border-right: 1px solid aqua;
   }
+}
+
+.task {
+  cursor: pointer;
+  color: white;
+  border: 1px solid red;
+  background: rgba(255, 0, 0, 0.5);
+  border-radius: 0.5em;
 }
 
 .calendar {
