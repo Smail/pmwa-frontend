@@ -197,6 +197,8 @@ export default {
     flex-direction: column;
     padding: 0.5em;
     overflow: hidden;
+    cursor: text;
+    user-select: text;
 
     h5 {
       text-align: left;
