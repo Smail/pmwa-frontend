@@ -29,7 +29,7 @@
       >
         <h5>{{ task.name }}</h5>
         <p>{{ task.description }}</p>
-        <div class="drag-div"></div>
+        <div class="drag-div" draggable="true" @drag="resizeTimeslot($event, task)"></div>
       </div>
     </template>
   </div>
@@ -102,6 +102,25 @@ export default {
           return "sun";
         default:
           throw new Error("Invalid day value: " + day);
+      }
+    },
+    resizeTimeslot(event, task) {
+      const timeSlots = document.getElementsByClassName("hour");
+      // TODO filter for the timeslots that are in the future by grid row/column start/end
+      for (const timeSlot of timeSlots) {
+        const clientRect = timeSlot.getBoundingClientRect();
+
+        // Get the time slot over which the mouse (event) hovers
+        if (event.clientX >= clientRect.left && event.clientX <= clientRect.right) {
+          if (event.clientY >= clientRect.top && event.clientY <= clientRect.bottom) {
+            // Example: d27; day 2 hour 7
+            // Add 1, because it's an exclusive range
+            const endTime = Number.parseInt(timeSlot.style.gridRowEnd.substring(2)) + 1;
+            // Clip bounds: Don't allow negative time and clip at the end of a day
+            // TODO extend on next day
+            task.endTime = Math.max(task.startTime, Math.min(endTime, 24));
+          }
+        }
       }
     },
   },
