@@ -17,17 +17,20 @@
       </div>
     </template>
     <!-- The task layer -->
-    <template v-for="d in 7">
-      <template v-for="(_, h) in 24">
-        <div v-if="d === 2 && h === 4" class="task" :style="{
-          gridRowStart: `d${d}${h}`,
-          gridColumnStart: `d${d}${h}`,
-          gridRowEnd: `d${d}${h+2}`,
-        }"
-             :class="{ 'border-right': d < 7, 'border-top': h > 0 && h < 24}">
-          This is a task
-        </div>
-      </template>
+    <template v-for="task in tasks">
+      <div
+          class="task"
+          :style="{
+            gridRowStart: `d${task.day}${task.startTime}`,
+            gridColumnStart: `d${task.day}${0}`,
+            gridRowEnd: `d${task.day}${task.endTime - 1}`,
+          }"
+
+      >
+        <h5>{{ task.name }}</h5>
+        <p>{{ task.description }}</p>
+        <div class="drag-div"></div>
+      </div>
     </template>
   </div>
 </template>
@@ -104,6 +107,18 @@ export default {
       }
     },
   },
+  data() {
+    return {
+      tasks: [
+        {
+          day: 2,
+          startTime: 4,
+          endTime: 7,
+          name: "Hello World",
+        },
+      ],
+    };
+  },
 };
 </script>
 
@@ -145,6 +160,25 @@ export default {
   border: 1px solid red;
   background: rgba(255, 0, 0, 0.5);
   border-radius: 0.5em;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  h5 {
+    display: flex;
+    padding: 0.5em;
+    align-items: flex-start;
+  }
+
+  p {
+    flex: 5;
+    padding: 0.5em;
+  }
+
+  .drag-div {
+    flex: 1;
+    cursor: n-resize;
+  }
 }
 
 .calendar {
