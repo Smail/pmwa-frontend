@@ -199,8 +199,7 @@ export default {
     overflow: hidden;
 
     h5 {
-      display: flex;
-      align-items: flex-start;
+      text-align: left;
     }
 
     p {
