@@ -28,7 +28,7 @@
           }"
           draggable="true"
       >
-        <div class="task-header-desc-wrapper">
+        <div class="task-content">
           <h4 class="task-header">{{ task.name }}</h4>
           <h5 class="task-header-time-annotation">{{ task.startTime }}:00 - {{ task.endTime }}:00</h5>
           <p class="task-description">{{ task.description }}</p>
@@ -223,7 +223,7 @@ export default {
   overflow: hidden;
   position: relative;
 
-  .task-header-desc-wrapper {
+  .task-content {
     position: absolute;
     top: 0;
     left: 0;
