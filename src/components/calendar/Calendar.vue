@@ -144,6 +144,7 @@ export default {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  user-select: none;
 
   &.border-top {
     border-top: 1px solid aqua;
