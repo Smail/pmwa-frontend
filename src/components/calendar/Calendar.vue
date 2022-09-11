@@ -40,23 +40,21 @@ export default {
   name: "Calendar",
   computed: {
     gridTemplateAreas() {
-      const numDays = 7;
-      const numHours = 24;
       let gridTemplateAreas;
 
       { // ". mon tue wed thu fri sat sun"
         gridTemplateAreas = `". `;
-        for (let day = 0; day < numDays; day++) {
-          gridTemplateAreas += `${ this.dayStringShort(day) }${ day + 1 !== numDays ? " " : "" }`;
+        for (let day = 0; day < this.numDays; day++) {
+          gridTemplateAreas += `${ this.dayStringShort(day) }${ day + 1 !== this.numDays ? " " : "" }`;
         }
         gridTemplateAreas += `" `;
       }
 
       { // "h0 d10 d20 d30 d40 d50 d60 d70"
-        for (let hour = 0; hour < numHours; hour++) {
+        for (let hour = 0; hour < this.numHours; hour++) {
           gridTemplateAreas += `"h${ hour } `;
-          for (let day = 0; day < numDays; day++) {
-            gridTemplateAreas += `d${ day + 1 }${ hour }${ day + 1 !== numDays ? " " : "" }`;
+          for (let day = 0; day < this.numDays; day++) {
+            gridTemplateAreas += `d${ day + 1 }${ hour }${ day + 1 !== this.numDays ? " " : "" }`;
           }
           gridTemplateAreas += `" `;
         }
@@ -109,6 +107,8 @@ export default {
   },
   data() {
     return {
+      numDays: 7,
+      numHours: 24,
       tasks: [
         {
           day: 2,
