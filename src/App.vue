@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import NavBar from "@/components/NavBar.vue";
+import NavBar from "@/components/navbar/NavBar.vue";
 import { hasStoredTokens } from "@/services/hasStoredTokens";
 import { hasValidTokens } from "@/services/hasValidTokens";
 
