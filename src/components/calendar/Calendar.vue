@@ -154,8 +154,21 @@ export default {
 
 .time-annotation {
   line-height: 0;
-  text-align: right;
   margin-right: 0.5em;
+  //border-top: 1px solid aqua;
+  position: relative;
+}
+
+.time-annotation::after {
+  content: "";
+  // Use border-top instead of background, because the line height changes weirdly when the page is scaled up or down,
+  // i.e., the line may have height 2px instead of 1px
+  border-top: 1px solid #2c3e50;
+  position: absolute;
+  top: 0;
+  height: 1px;
+  right: -1.25em;
+  width: 1.25rem;
 }
 
 .hour {
