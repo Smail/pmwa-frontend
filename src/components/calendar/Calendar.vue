@@ -12,7 +12,9 @@
     <!-- The actual time slots -->
     <template v-for="d in 7">
       <div v-for="(_, h) in 24" class="hour" :style="{ gridArea: `d${d}${h}` }"
-           :class="{ 'border-right': d < 7, 'border-top': h > 0 && h < 24}">
+           :class="{ 'border-right': d < 7, 'border-top': h > 0 && h < 24}"
+           @click="createTask(d, h)"
+      >
       </div>
     </template>
     <!-- The task layer -->
@@ -123,6 +125,15 @@ export default {
           }
         }
       }
+    },
+    createTask(day, hour) {
+      this.tasks.push({
+        day: day,
+        startTime: hour,
+        endTime: hour + 1,
+        name: "(Missing title)",
+        description: null,
+      });
     },
   },
   data() {
