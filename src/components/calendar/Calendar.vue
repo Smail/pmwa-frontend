@@ -230,12 +230,16 @@ export default {
     right: 0;
     flex: 1;
     padding: 0.5em;
-    cursor: text;
-    user-select: text;
     display: flex;
     flex-direction: column;
     gap: 0.25em;
     text-align: left;
+
+    * {
+      cursor: text;
+      user-select: text;
+      margin-right: auto;
+    }
 
     .task-header {
       font-size: 11pt;
