@@ -123,6 +123,7 @@ export default {
             // Clip bounds: Don't allow negative time and clip at the end of a day
             // TODO extend on next day
             task.endTime = Math.max(task.startTime, Math.min(endTime, 24));
+            break;
           }
         }
       }
