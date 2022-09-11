@@ -155,7 +155,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .day-header {
   display: flex;
   align-items: center;

@@ -9,7 +9,7 @@
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .task {
   display: flex;
   gap: 0.5rem;
