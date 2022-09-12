@@ -1,7 +1,10 @@
 <template>
   <div class="task-view">
     <h1>Tasks</h1>
-    <task-list class="task-list"></task-list>
+    <task-list class="task-list"
+               :tasks="$store.state.tasks"
+               @taskClicked="(task) => activeTaskId = task.id">
+    </task-list>
   </div>
 </template>
 

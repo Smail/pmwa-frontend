@@ -1,10 +1,10 @@
 <template>
   <ul class="task-list">
     <li>
-      <create-task class="new-task-wrapper" @refresh-tasks="loadTasks"></create-task>
+      <create-task class="new-task-wrapper"></create-task>
     </li>
-    <li v-for="task in $store.state.tasks.slice().reverse()" :key="task.id">
-      <task :task="task" class="task-wrapper" @refresh-tasks="loadTasks"></task>
+    <li v-for="task in tasks" :key="task.id">
+      <task :task="task" class="task-wrapper" @click="$emit('taskClicked', task)"></task>
     </li>
   </ul>
 </template>
@@ -41,13 +41,11 @@ import CreateTask from "@/components/tasks/CreateTask";
 export default {
   name: "TaskList",
   components: { CreateTask, Task },
-  methods: {
-    loadTasks() {
-      this.$store.dispatch("loadTasks");
-    },
-  },
-  created() {
-    this.loadTasks();
-  },
+  props: {
+    tasks: {
+      type: Array,
+      required: true,
+    }
+  }
 };
 </script>
