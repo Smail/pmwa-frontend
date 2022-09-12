@@ -135,6 +135,45 @@ export default createStore({
         alert("Could not load tasks");
       });
     },
+    async updateTask(context, task) {
+      const stateTasks = context.state.tasks.filter(t => t.id === task.id);
+      if (stateTasks.length !== 1) {
+        throw new Error(`Too few or too many tasks with ID ${ task.id }. Expected 1, but is ${ stateTasks.length }`);
+      }
+
+      // Contains only the keys that have changed
+      const changed = {};
+      const stateTask = stateTasks[0];
+      Object.keys(task).filter(key => stateTask[key] !== task[key]).forEach(key => changed[key] = task[key]);
+
+      if (Object.keys(changed).length === 0) {
+        console.debug("Update task: no keys have changed.");
+        return;
+      }
+
+      try {
+        await axios.patch(`tasks/${ task.id }`, task);
+        console.debug("Update task: Successful server update");
+        context.commit("updateTask", task);
+        console.debug("Update task: Successful local update");
+      } catch (error) {
+        alert("Failed to update task");
+        console.error(`Failed to update task: ${ error }`);
+        await context.dispatch("loadTasks");
+      }
+    },
+    async deleteTask(context, taskId) {
+      try {
+        await axios.delete(`tasks/${ taskId }`);
+        console.debug("Delete task: Successful server deletion");
+        context.commit("removeTask", taskId);
+        console.debug("Delete task: Successful local deletion");
+      } catch (error) {
+        alert("Failed to delete task");
+        console.error(`Failed to delete task: ${ error }`);
+        await context.dispatch("loadTasks");
+      }
+    },
   },
   modules: {},
 });

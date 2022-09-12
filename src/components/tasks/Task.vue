@@ -1,9 +1,11 @@
 <template>
   <div class="task" @focusout="update" @keydown.enter="removeFocus">
-    <input v-model="taskModel.isDone" autocomplete="off" class="task-checkbox" type="checkbox"/>
+    <input :value="task.isDone" autocomplete="off" class="task-checkbox" type="checkbox"
+           @input="changes.isDone = $event.target.value"/>
     <div class="task-input-tag-wrapper">
-      <input v-model="taskModel.name" autocomplete="off" class="task-input" type="text"/>
-      <tag-list :task-id="taskId"></tag-list>
+      <input :value="task.name" autocomplete="off" class="task-input" type="text"
+             @input="changes.name = $event.target.value"/>
+      <tag-list :task-id="task.id"></tag-list>
     </div>
     <button class="delete-task-btn material-symbols-outlined" @click="deleteTask">delete</button>
   </div>
@@ -84,62 +86,18 @@ export default {
       // TODO add validator
     },
   },
-  emits: ["refreshTasks"],
-  watch: {
-    task(newTask, oldTask) {
-      this.taskModel = newTask;
-    },
-  },
-  computed: {
-    taskId() {
-      return this.taskModel.id;
-    },
-    name() {
-      return this.taskModel.name;
-    },
-    content() {
-      return this.taskModel.content;
-    },
-    isDone() {
-      return this.taskModel.isDone;
-    },
-    changedData() {
-      const data = {};
-
-      if (this.oldModel.name !== this.name) data["name"] = this.name;
-      if (this.oldModel.isDone !== this.isDone) data["isDone"] = this.isDone;
-      if (this.oldModel.content !== this.content) data["content"] = this.content;
-
-      return data;
-    },
-  },
   methods: {
     removeFocus() {
       document.activeElement.blur();
     },
     async update() {
-      const data = { taskId: this.taskId, ...this.changedData };
-
-      // Check if any data was updated. Data was updated if the changedData object has more keys than one key.
-      // Hence, if the length of data is 1, it means changedData has length 0: 1 + 0 = 1 => nothing has changed.
-      if (Object.keys(data).length === 1) return;
-
-      try {
-        await axios.patch(`tasks/${ this.taskId }`, data);
-        this.oldModel = structuredClone(this.taskModel);
-      } catch (error) {
-        console.error(error);
-        this.$emit("refreshTasks");
-      }
+      if (Object.keys(this.changes).length === 0) return;
+      await this.$store.dispatch("updateTask", { ...this.changes, id: this.task.id });
+      this.changes = {};
     },
     async deleteTask() {
-      try {
-        await axios.delete(`tasks/${ this.taskId }`);
-        this.$emit("refreshTasks");
-      } catch (error) {
-        console.error(error);
-      }
-    },
+      await this.$store.dispatch("deleteTask", this.task.id);
+    }
   },
   created() {
     // Save changes when user leaves the page without unnecessarily notifying them.
@@ -147,8 +105,7 @@ export default {
   },
   data() {
     return {
-      taskModel: structuredClone(this.task),
-      oldModel: structuredClone(this.task),
+      changes: {},
     };
   },
 };
