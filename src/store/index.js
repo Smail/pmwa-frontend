@@ -59,6 +59,23 @@ export default createStore({
     toggleShowClock: (state) => state.showClock = !state.showClock,                      // TODO update on server
     toggleShowClockSeconds: (state) => state.showClockSeconds = !state.showClockSeconds, // TODO update on server
     setTasks: (state, tasks) => state.tasks = tasks,
+    updateTask: (state, task) => {
+      let hasFoundId = false;
+      for (const stateTask of state.tasks) {
+        if (stateTask.id === task.id) {
+          hasFoundId = true;
+          for (const key of Object.keys(task)) {
+            stateTask[key] = task[key];
+          }
+          break;
+        }
+      }
+      if (!hasFoundId) throw new Error(`No task with ID ${ task.id } was found in store`);
+    },
+    removeTask: (state, taskId) => {
+      const idx = state.tasks.findIndex(t => taskId === t.id);
+      state.tasks.splice(idx, 1);
+    },
   },
   actions: {
     async updateUser(context, newUser) {
