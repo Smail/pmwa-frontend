@@ -63,7 +63,6 @@ import axios from "axios";
 
 export default {
   name: "CreateTask",
-  emits: ["refreshTasks"],
   methods: {
     clearInputField() {
       this.name = "";
@@ -76,7 +75,7 @@ export default {
 
         if (!response.data.taskId) throw new Error(`Missing taskId in response body: ${ JSON.stringify(response) }`);
 
-        this.$emit("refreshTasks");
+        this.$store.dispatch("loadTasks");
       } catch (error) {
         console.error(error);
         alert("Could not create the new task. Please try again or refresh the page if the error persists");
