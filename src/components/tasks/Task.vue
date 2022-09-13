@@ -1,7 +1,7 @@
 <template>
   <div class="task" @focusout="update" @keydown.enter="removeFocus">
-    <input :value="task.isDone" autocomplete="off" class="task-checkbox" type="checkbox"
-           @input="changes.isDone = $event.target.value"/>
+    <input :checked="task.isDone" autocomplete="off" class="task-checkbox" type="checkbox"
+           @input="changes.isDone = $event.target.checked"/>
     <div class="task-input-tag-wrapper">
       <input :value="task.name" autocomplete="off" class="task-input" type="text"
              @input="changes.name = $event.target.value"/>
