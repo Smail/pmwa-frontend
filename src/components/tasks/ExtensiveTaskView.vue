@@ -104,16 +104,62 @@ export default {
 
 <style lang="scss">
 .extensive-task-view {
+  $border-color: darken(whitesmoke, 20);
+  border-left: 0.1rem solid $border-color;
   display: flex;
   flex-direction: column;
+  // Because of outline-offset of context and header
+  padding-left: 1rem;
+
+  // When using gap, the spellchecker extension causes the all elements to move, because it injects a hidden element
+  // Resort to margin-top on each individual item
+  .header, .task-content {
+    margin-top: 1rem;
+  }
+
+  .meta-input-wrapper {
+    font-size: smaller;
+    display: flex;
+    gap: 0.5em;
+
+    * {
+      font: inherit;
+    }
+
+    .task-is-done-checkbox {
+      // Increase size; set to same value as in .task-checkbox, i.e., checkbox in Task.vue component
+      zoom: 1.5;
+      // Background checkbox color when checked
+      accent-color: rgb(0, 122, 255);
+    }
+
+    .date-picker,
+    .duration-input-field {
+      border: none;
+      outline: 0.1em solid $border-color;
+      padding: 0.5em;
+      border-radius: 1em;
+      background: white;
+    }
+
+    .date-picker:focus,
+    .duration-input-field:focus {
+      outline-style: dashed;
+    }
+
+    .duration-input-field {
+      width: 4em;
+      appearance: textfield;
+    }
+  }
 
   .header {
     text-align: left;
-    border-radius: 1em;
-    padding: 0 0.5em;
+    border-radius: 0.5rem;
+    outline-offset: 0.25em;
 
     &:focus {
-      outline: 1px dashed #007AFF;
+      outline: 1px dashed $border-color;
     }
   }
 
@@ -122,12 +168,14 @@ export default {
     flex: 1;
     background: transparent;
     font: inherit;
-    border: none;
+    outline: none;
     margin-top: 1rem;
     padding: 0.5em;
+    border-radius: 0.25em;
+    border: 0.1rem solid $border-color;
 
     &:focus {
-      outline: 1px dashed #007AFF;
+      border-style: dashed;
     }
   }
 }
