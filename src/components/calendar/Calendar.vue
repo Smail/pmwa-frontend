@@ -20,7 +20,11 @@
     </template>
     <!-- The task layer -->
     <template v-for="task in tasks.filter(t => t.startDate != null)">
-      <calendar-task :task="task" @move-task="moveTask" @resize-timeslot="resizeTimeslot"></calendar-task>
+      <calendar-task :task="task"
+                     @move-task="moveTask"
+                     @move-finished="updateServer(task.id, { startDate: task.startDate, endDate: task.endDate})"
+                     @resize-timeslot="resizeTimeslot"
+                     @resize-finished="updateServer(task.id, { endDate: task.endDate})"></calendar-task>
     </template>
   </div>
 </template>
@@ -64,6 +68,15 @@ export default {
     },
   },
   methods: {
+    updateServer(id, changes) {
+      if (id == null) throw new Error("Invalid argument: ID is null");
+      if (changes == null) throw new Error("Invalid argument: changes is null");
+      if (Object.keys(changes).length === 0) {
+        console.warn("Argument 'changes' has no keys stored and hence an update is unnecessary");
+        return;
+      }
+      this.$store.dispatch("updateTaskOnlyServer", { ...changes, id });
+    },
     dayString(day) {
       switch (day) {
         case 0:
@@ -165,7 +178,7 @@ export default {
             // const day = Number.parseInt(timeSlot.style.gridRowStart.substring(1, 2));
             const newStartHour = Number.parseInt(timeSlot.style.gridRowStart.substring(2));           // hours
             const duration = moment(task.endDate).hours() - moment(task.startDate).hours();           // hours
-            const newEndHour = newStartHour + duration;              // hours
+            const newEndHour = newStartHour + duration;                                               // hours
 
             if (moment(task.startDate).hours() === newStartHour) break;
 
