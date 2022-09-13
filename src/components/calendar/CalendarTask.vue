@@ -1,6 +1,7 @@
 <template>
   <template v-for="(day, dayIdx) in numDays">
     <div v-if="isValidStartDate"
+         :class="{ 'is-dragging': isDragging }"
          :style="{
             // Rows = hours. Columns = days
             // Start from 0 o'clock if it is a continued div/day
@@ -13,8 +14,9 @@
           }"
          class="task"
          draggable="true"
+         @dragstart="isDragging = true"
          @drag="$emit('moveTask', $event, task)"
-         @dragend="$emit('moveFinished')"
+         @dragend="isDragging = false; $emit('moveFinished')"
     >
       <div v-if="dayIdx === 0" class="task-content">
         <h4 class="task-header">{{ task.name }}</h4>
@@ -84,6 +86,11 @@ export default {
       if (dayIdx < this.numDays) return 24;
     },
   },
+  data() {
+    return {
+      isDragging: false,
+    }
+  }
 };
 </script>
 
@@ -98,6 +105,11 @@ export default {
   flex-direction: column;
   overflow: hidden;
   position: relative;
+
+  &.is-dragging {
+    box-shadow: 0 0 1rem 0.5rem white;
+    background: lighten(#007AFFA0, 10);
+  }
 
   .task-content {
     position: absolute;
