@@ -73,7 +73,6 @@
 </style>
 
 <script>
-import axios from "axios";
 import TagList from "@/components/tasks/TagList";
 
 export default {
