@@ -1,18 +1,19 @@
 <template>
   <div class="calendar">
     <!-- The names of the days, i.e., Monday, Tuesday, etc. -->
-    <h4 class="day-header" v-for="d in 7" :style="{ gridArea: dayStringShort(d - 1) }">{{ dayString(d - 1) }}</h4>
+    <h4 v-for="d in 7" :style="{ gridArea: dayStringShort(d - 1) }" class="day-header">{{ dayString(d - 1) }}</h4>
     <!-- Display time annotations, e.g., 15:00 on the left side of the calendar -->
     <template v-for="(_, h) in 24">
       <!-- Don't show 00:00 -->
-      <p v-if="h > 0" class="time-annotation" :style="{ gridArea: `h${h}` }">
+      <p v-if="h > 0" :style="{ gridArea: `h${h}` }" class="time-annotation">
         {{ h < 10 ? ("0" + h) : h }}:00
       </p>
     </template>
     <!-- The actual time slots -->
     <template v-for="d in 7">
-      <div v-for="(_, h) in 24" class="hour" :style="{ gridArea: `d${d}${h}` }"
-           :class="{ 'border-right': d < 7, 'border-top': h > 0 && h < 24}"
+      <div v-for="(_, h) in 24" :class="{ 'border-right': d < 7, 'border-top': h > 0 && h < 24}"
+           :style="{ gridArea: `d${d}${h}` }"
+           class="hour"
            @click="createTask(d, h)"
       >
       </div>
