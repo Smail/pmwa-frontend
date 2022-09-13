@@ -19,31 +19,25 @@
       </div>
     </template>
     <!-- The task layer -->
-    <template v-for="task in tasks">
-      <div
-          class="task"
-          :style="{
-            gridRowStart: `d${task.day}${task.startTime}`,
-            gridColumnStart: `d${task.day}${0}`,
-            gridRowEnd: `d${task.day}${task.endTime - 1}`,
-          }"
-          draggable="true"
-          @drag="moveTask($event, task)"
-      >
-        <div class="task-content">
-          <h4 class="task-header">{{ task.name }}</h4>
-          <h5 class="task-header-time-annotation">{{ task.startTime }}:00 - {{ task.endTime }}:00</h5>
-          <p class="task-description">{{ task.description }}</p>
-        </div>
-        <div class="drag-div" draggable="true" @drag="resizeTimeslot($event, task)"></div>
-      </div>
+    <template v-for="task in tasks.filter(t => t.startDate != null)">
+      <calendar-task :task="task" @move-task="moveTask" @resize-timeslot="resizeTimeslot"></calendar-task>
     </template>
   </div>
 </template>
 
 <script>
+import moment from "moment";
+import CalendarTask from "@/components/calendar/CalendarTask";
+
 export default {
   name: "Calendar",
+  components: { CalendarTask },
+  props: {
+    tasks: {
+      type: Array,
+      required: true,
+    },
+  },
   computed: {
     gridTemplateAreas() {
       let gridTemplateAreas;
@@ -116,17 +110,35 @@ export default {
       const timeSlots = document.getElementsByClassName("hour");
       // TODO filter for the timeslots that are in the future by grid row/column start/end
       for (const timeSlot of timeSlots) {
+        // There can only be one correct timeslot
         const clientRect = timeSlot.getBoundingClientRect();
 
         // Get the time slot over which the mouse (event) hovers
         if (event.clientX >= clientRect.left && event.clientX <= clientRect.right) {
           if (event.clientY >= clientRect.top && event.clientY <= clientRect.bottom) {
-            // Example: d27; day 2 hour 7
-            // Add 1, because it's an exclusive range
-            const endTime = Number.parseInt(timeSlot.style.gridRowEnd.substring(2)) + 1;
-            // Clip bounds: Don't allow negative time and clip at the end of a day
-            // TODO extend on next day
-            task.endTime = Math.max(task.startTime, Math.min(endTime, 24));
+            // Example: d123 = day 1, hour 23
+            // Add one, because the day hours start with 0 and go to 23 (inclusive), but we want 1-24
+
+            const hour = Number.parseInt(timeSlot.style.gridRowEnd.substring(2)) + 1;
+            const day = Number.parseInt(timeSlot.style.gridRowStart.substring(1, 2));
+
+            const currentEndDate = moment(task.endDate);
+            const newEndDate = moment(task.endDate);
+            let currentEndDay = currentEndDate.day();
+            let currentEndHour = currentEndDate.hour();
+            // We must treat 0 o'clock as 24 o'clock.
+            if (currentEndDay === 0) currentEndDay = 7;
+            if (currentEndHour === 0) currentEndHour = 24;
+            const diffHours = hour - currentEndHour;
+            const diffDays = day - currentEndDay;
+
+            if (diffDays !== 0) newEndDate.add(diffDays, "day");
+            if (diffHours !== 0) newEndDate.add(diffHours, "hours");
+            // Prevent the end date happening before the start date
+            if (newEndDate < moment(task.startDate)) return;
+            if (newEndDate === currentEndDate) return;
+
+            task.endDate = newEndDate.toISOString();
             break;
           }
         }
@@ -150,16 +162,23 @@ export default {
         if (event.clientX >= clientRect.left && event.clientX <= clientRect.right) {
           if (event.clientY >= clientRect.top && event.clientY <= clientRect.bottom) {
             // Example: d27; day 2 hour 7 => d47; day 4 hour 7
-            const day = Number.parseInt(timeSlot.style.gridRowStart.substring(1, 2));
-            const startTime = Number.parseInt(timeSlot.style.gridRowStart.substring(2));
-            const duration = task.endTime - task.startTime;
-            const endTime = startTime + duration;
+            // const day = Number.parseInt(timeSlot.style.gridRowStart.substring(1, 2));
+            const newStartHour = Number.parseInt(timeSlot.style.gridRowStart.substring(2));           // hours
+            const duration = moment(task.endDate).hours() - moment(task.startDate).hours();           // hours
+            const newEndHour = newStartHour + duration;              // hours
 
-            task.day = day;
+            if (moment(task.startDate).hours() === newStartHour) break;
+
+            // task.day = day;
             // Prevent task getting shorter; TODO extend into next day
-            if (endTime <= 24) {
-              task.startTime = startTime;
-              task.endTime = endTime;
+            if (newEndHour <= 24) {
+              const startDelta = newStartHour - moment(task.startDate).hours();
+              const endDelta = newEndHour - moment(task.endDate).hours();
+              const newStartDate = moment(task.startDate).add(startDelta, "hours");
+              const newEndDate = moment(task.endDate).add(endDelta, "hours");
+
+              task.startDate = newStartDate.toISOString();
+              task.endDate = newEndDate.toISOString();
             }
             break;
           }
@@ -171,15 +190,6 @@ export default {
     return {
       numDays: 7,
       numHours: 24,
-      tasks: [
-        {
-          day: 2,
-          startTime: 4,
-          endTime: 7,
-          name: "Hello World",
-          description: "Lorem ipsum dolor sit amet, \nconsectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-        },
-      ],
     };
   },
 };
@@ -240,64 +250,6 @@ export default {
 
 .hour:nth-child(2n+1) {
   background: whitesmoke;
-}
-
-.task {
-  cursor: pointer;
-  color: white;
-  border: 1px solid #007AFF;
-  background: #007AFFA0;
-  border-radius: 0.5em;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  position: relative;
-
-  .task-content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    flex: 1;
-    padding: 0.5em;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25em;
-    text-align: left;
-
-    * {
-      cursor: text;
-      user-select: text;
-      margin-right: auto;
-    }
-
-    .task-header {
-      font-size: 11pt;
-      font-weight: bold;
-    }
-
-    .task-header-time-annotation {
-      font-weight: normal;
-      font-size: 9pt;
-    }
-
-    .task-description {
-      font-size: 10pt;
-    }
-  }
-
-  .drag-div {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 1em;
-    cursor: n-resize;
-    user-select: none;
-    white-space: nowrap;
-    text-wrap: none;
-    //background: lime;
-    //color: transparent;
-  }
 }
 
 .calendar {
