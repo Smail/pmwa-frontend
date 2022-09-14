@@ -175,24 +175,29 @@ export default {
         if (event.clientX >= clientRect.left && event.clientX <= clientRect.right) {
           if (event.clientY >= clientRect.top && event.clientY <= clientRect.bottom) {
             // Example: d27; day 2 hour 7 => d47; day 4 hour 7
-            // const day = Number.parseInt(timeSlot.style.gridRowStart.substring(1, 2));
-            const newStartHour = Number.parseInt(timeSlot.style.gridRowStart.substring(2));           // hours
-            const duration = moment(task.endDate).hours() - moment(task.startDate).hours();           // hours
-            const newEndHour = newStartHour + duration;                                               // hours
+            const startDate = moment(task.startDate);
+            const endDate = moment(task.endDate);
+            const duration = endDate.hours() - startDate.hours();
 
-            if (moment(task.startDate).hours() === newStartHour) break;
+            // Get new data from the CSS grid data
+            const newDay = Number.parseInt(timeSlot.style.gridRowStart.substring(1, 2));
+            const newStartHour = Number.parseInt(timeSlot.style.gridRowStart.substring(2));
+            const newEndHour = newStartHour + duration;
 
-            // task.day = day;
-            // Prevent task getting shorter; TODO extend into next day
-            if (newEndHour <= 24) {
-              const startDelta = newStartHour - moment(task.startDate).hours();
-              const endDelta = newEndHour - moment(task.endDate).hours();
-              const newStartDate = moment(task.startDate).add(startDelta, "hours");
-              const newEndDate = moment(task.endDate).add(endDelta, "hours");
+            // Translate the dates by an equidistant amount
+            const startHourDelta = newStartHour - startDate.hours();
+            const endHourDelta = newEndHour - endDate.hours();
+            const dayDelta = newDay - startDate.day();
+            startDate.add(startHourDelta, "hours").add(dayDelta, "days");
+            endDate.add(endHourDelta, "hours").add(dayDelta, "days");
 
-              task.startDate = newStartDate.toISOString();
-              task.endDate = newEndDate.toISOString();
-            }
+            // Commit the changes to the model. This will only update the model locally.
+            // The server will be notified of the change when the user stops moving the task around (@see updateServer).
+            task.startDate = startDate.toISOString();
+            task.endDate = endDate.toISOString();
+
+            // There exists only one timeslot in the calendar for the searched date.
+            // Hence, we can break the loop here.
             break;
           }
         }
