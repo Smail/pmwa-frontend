@@ -72,9 +72,14 @@ export default createStore({
       }
       if (!hasFoundId) throw new Error(`No task with ID ${ task.id } was found in store`);
     },
+    /**
+     * @throws {Error}
+     */
     removeTask: (state, taskId) => {
       const idx = state.tasks.findIndex(t => taskId === t.id);
+      if (idx === -1) throw new Error(`Invalid argument: No task with ID ${ taskId }`);
       state.tasks.splice(idx, 1);
+      console.debug(`%c[SUCCESS] %s`, "color: lime", "Task local deletion");
     },
   },
   actions: {
