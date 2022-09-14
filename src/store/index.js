@@ -48,6 +48,7 @@ export default createStore({
       for (const key of updatableKeys) {
         state.user[key] = user[key];
       }
+      console.debug(`%c[SUCCESS] %s`, "color: lime", "Local user update");
     },
     resetUser: (state) => {
       // Reset all user object values to null
@@ -71,6 +72,7 @@ export default createStore({
         }
       }
       if (!hasFoundId) throw new Error(`No task with ID ${ task.id } was found in store`);
+      console.debug(`%c[SUCCESS] %s`, "color: lime", "Task local update");
     },
     /**
      * @throws {Error}
@@ -150,6 +152,8 @@ export default createStore({
 
       context.commit("resetUser");
       context.commit("setIsLoggedIn", false);
+
+      console.debug(`%c[SUCCESS] %s`, "color: lime", "Log out the user");
     },
     async loadTasks(context) {
       loadTasks().then(tasks => context.commit("setTasks", tasks)).catch(error => {
@@ -202,7 +206,7 @@ export default createStore({
     async deleteTask(context, taskId) {
       try {
         await axios.delete(`tasks/${ taskId }`);
-        console.debug("Delete task: Successful server deletion");
+        console.debug(`%c[SUCCESS] %s`, "color: lime", "Task server deletion");
         context.commit("removeTask", taskId);
         console.debug("Delete task: Successful local deletion");
       } catch (error) {
