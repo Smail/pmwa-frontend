@@ -187,8 +187,9 @@ export default createStore({
         console.debug("Update task: Successful server update");
       } catch (error) {
         console.log(error);
-        alert(`Failed to update task on server: ${error}`);
-        console.error(`Failed to update task on server: ${ error }`);
+        const errMsg = `Failed to update task on server: ${error.message}.`;
+        alert(errMsg);
+        console.error(`${errMsg}. ${error}`);
         await context.dispatch("loadTasks");
         throw error;
       }
