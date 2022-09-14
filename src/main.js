@@ -25,9 +25,6 @@ axios.interceptors.request.use(function (config) {
     if (!authHeaderComponents[1]) {
       new Error("Bearer token is empty");
     }
-  } else {
-    console.debug("Note: Authorization header is null. " +
-      "This is possible when the user is logging in or when they are generally browsing unprotected realms.");
   }
 
   return config;
