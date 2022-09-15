@@ -185,10 +185,11 @@ export default createStore({
     async updateTask(context, task) {
       const stateTasks = context.state.tasks.filter(t => t.id === task.id);
       if (stateTasks.length === 0) {
-        throw new Error(`Element not found: Unknown task ID '${ task.id }'`);
+        throw new Error(`Invalid argument: No task with ID '${ task.id }'`);
       }
       if (stateTasks.length > 1) {
-        throw new Error(`Internal state error: Too many tasks with ID ${ task.id }. Expected 1, but is ${ stateTasks.length }`);
+        throw new Error(`Internal state error: Too many tasks with ID ${ task.id }.\n`
+          + `Expected 1, but is ${ stateTasks.length }`);
       }
 
       // Contains only the keys that have changed
