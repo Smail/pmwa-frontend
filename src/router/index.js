@@ -34,7 +34,7 @@ const routes = [
     component: () => import("../views/CalendarView.vue"),
   },
   {
-    path: "/tasks",
+    path: "/tasks/:id?",
     name: "tasks",
     alias: "/todo",
     meta: { needsAuthentication: true },
