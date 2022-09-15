@@ -2,10 +2,10 @@
   <div class="task-view">
     <div class="header-bar">
       <h1>Tasks</h1>
-      <button class="material-symbols-outlined display-extensive-task-view-btn"
+      <button v-show="activeTask != null"
               :title="`${showExtensiveTaskView ? 'Collapse' : 'Expand'} task view`"
-              @click="showExtensiveTaskView = !showExtensiveTaskView"
-              v-show="activeTask != null">
+              class="material-symbols-outlined display-extensive-task-view-btn"
+              @click="showExtensiveTaskView = !showExtensiveTaskView">
         <span v-show="showExtensiveTaskView">keyboard_double_arrow_left</span>
         <span v-show="!showExtensiveTaskView">keyboard_double_arrow_right</span>
       </button>
