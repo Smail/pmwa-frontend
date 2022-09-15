@@ -1,10 +1,12 @@
 <template>
   <ul class="task-list">
     <li>
-      <create-task class="new-task-wrapper"></create-task>
+      <create-task class="new-task-wrapper" @task-created="$emit('taskSelected', $event)"></create-task>
     </li>
     <li v-for="task in tasks" :key="task.id">
-      <task :task="task" class="task-wrapper" @click="$emit('taskClicked', task)"></task>
+      <task :task="task" class="task-wrapper"
+            @task-selected="$emit('taskSelected', $event)"
+            @task-deleted="$emit('taskDeleted', $event)"></task>
     </li>
   </ul>
 </template>
@@ -42,6 +44,7 @@ import CreateTask from "@/components/tasks/CreateTask";
 export default {
   name: "TaskList",
   components: { CreateTask, Task },
+  emits: ["taskSelected", "taskDeleted"],
   props: {
     tasks: {
       type: Array,
