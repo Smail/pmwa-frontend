@@ -80,7 +80,7 @@ export default {
         console.warn("Argument 'changes' has no keys stored and hence an update is unnecessary");
         return;
       }
-      this.$store.dispatch("updateTaskOnlyServer", { ...changes, id });
+      this.$store.dispatch("updateTaskOnlyServer", { ...changes, id }).catch(e => alert(e));
     },
     dayString(day) {
       switch (day) {
