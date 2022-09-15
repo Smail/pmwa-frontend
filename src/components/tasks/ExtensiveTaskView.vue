@@ -94,6 +94,10 @@ export default {
       this.changes = {};
     },
   },
+  created() {
+    // Save changes when user leaves the page without unnecessarily notifying them.
+    window.addEventListener("beforeunload", () => this.update());
+  },
   data() {
     return {
       changes: {},
