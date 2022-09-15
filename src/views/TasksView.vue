@@ -14,6 +14,7 @@
       <task-list :tasks="$store.state.tasks"
                  class="task-list"
                  @task-selected="selectTask"
+                 @task-deleted="$router.replace('/tasks')"
       >
       </task-list>
       <extensive-task-view v-if="activeTask != null"
