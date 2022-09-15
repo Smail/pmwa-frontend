@@ -17,8 +17,8 @@
       </task-list>
       <extensive-task-view v-if="activeTask != null"
                            v-show="showExtensiveTaskView"
-                           class="extensive-task-view"
-                           :task="activeTask">
+                           :task="activeTask"
+                           class="extensive-task-view">
       </extensive-task-view>
     </div>
   </div>
