@@ -2,7 +2,7 @@
   <nav class="navbar">
     <ul class="links">
       <li v-for="menuItem in menu" class="menu">
-        <nav-bar-link :icon="menuItem.icon" :name="menuItem.name" :to="menuItem.href"></nav-bar-link>
+        <nav-bar-link :icon="menuItem.icon" :name="menuItem.name" :to="menuItem.routeName"></nav-bar-link>
       </li>
     </ul>
   </nav>
@@ -16,9 +16,9 @@ export default {
   data() {
     return {
       menu: [
-        { name: "Home", href: "/", icon: "home" },
-        { name: "Login", href: "/signin", icon: "login" },
-        { name: "Sign Up", href: "/signup", icon: "how_to_reg" },
+        { name: "Home", href: "/", icon: "home", routeName: "home" },
+        { name: "Sign in", href: "/signin", icon: "login", routeName: "signin" },
+        { name: "Sign Up", href: "/signup", icon: "how_to_reg", routeName: "signup" },
       ],
     };
   },

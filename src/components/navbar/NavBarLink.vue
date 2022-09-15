@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="container-2">
-      <router-link :to="to" class="link">
+      <router-link :to="{ name: to }" class="link">
         <div class="view">
           <span class="material-symbols-outlined">{{ icon }}</span>
           <span class="name">{{ name }}</span>
@@ -95,7 +95,7 @@ export default {
         }
       }
 
-      &.router-link-exact-active {
+      &.router-link-active {
         color: white;
         box-shadow: 0 0 0.5em $theme;
         background-color: $theme;
@@ -137,7 +137,7 @@ export default {
       .link {
         $color: rgb(255, 45, 85);
 
-        &.router-link-exact-active {
+        &.router-link-active {
           color: white;
           box-shadow: 0 0 0.5em $color;
           background-color: $color;

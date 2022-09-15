@@ -9,7 +9,7 @@
 
     <ul class="links">
       <li v-for="menuItem in menu" class="menu">
-        <nav-bar-link :icon="menuItem.icon" :name="menuItem.name" :sub-menu="menuItem.subMenu" :to="menuItem.href"
+        <nav-bar-link :icon="menuItem.icon" :name="menuItem.name" :sub-menu="menuItem.subMenu" :to="menuItem.routeName"
                       class="wrapper"></nav-bar-link>
 
         <!--        <router-link :to="menuItem.href" class="menu-link">-->
@@ -29,7 +29,7 @@
 
       <!-- Log out button -->
       <li class="menu" style="margin-top: auto">
-        <nav-bar-link class="wrapper" icon="logout" name="Log out" to="/signin"
+        <nav-bar-link class="wrapper" icon="logout" name="Log out" to="signin"
                       @click="$store.dispatch('logOut')"></nav-bar-link>
       </li>
     </ul>
@@ -46,19 +46,19 @@ export default {
   components: { NavBarLink, Clock, UserAvatar },
   data() {
     const tasks = {
-      name: "Todo", href: "/tasks", icon: "check", subMenu: [
+      name: "Todo", href: "/tasks", icon: "check", routeName: "tasks", subMenu: [
         { name: "Tags", to: "/tasks/tags", icon: "sell" },
       ],
     };
 
     const data = {
       menu: [
-        { name: "Dashboard", href: "/dashboard", icon: "space_dashboard" },
+        { name: "Dashboard", href: "/dashboard", icon: "space_dashboard", routeName: "dashboard" },
         tasks,
-        { name: "Calendar", href: "/calendar", icon: "calendar_month" },
-        { name: "Flashcards", href: "/flashcards", icon: "school" },
-        { name: "Projects", href: "/projects", icon: "view_kanban" },
-        { name: "Settings", href: "/settings", icon: "settings" },
+        { name: "Calendar", href: "/calendar", icon: "calendar_month", routeName: "calendar" },
+        { name: "Flashcards", href: "/flashcards", icon: "school", routeName: "flashcards" },
+        { name: "Projects", href: "/projects", icon: "view_kanban", routeName: "projects" },
+        { name: "Settings", href: "/settings", icon: "settings", routeName: "settings" },
       ],
     };
 
