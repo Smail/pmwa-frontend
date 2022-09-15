@@ -50,6 +50,12 @@
     .display-extensive-task-view-btn {
       border: none;
       background: transparent;
+      transition: all 150ms linear;
+
+      &:hover {
+        color: $theme;
+        scale: 125%;
+      }
     }
   }
 
