@@ -72,6 +72,17 @@ export default {
         this.changes.endDate = moment(this.changes.startDate).add(1, "hours").toISOString();
       }
 
+      // Push old content onto a stack in local storage, so that the user can retrieve their changes in the future
+      if (this.changes.content != null) {
+        const numOldsToKeep = 50;
+        // TODO check if local storage is full
+        const key = `Task-${ this.task.id }`;
+        const array = localStorage[key] != null ? JSON.parse(localStorage[key]) : [];
+        array.push(this.task.content);
+        while (array.length > numOldsToKeep) array.shift();
+        localStorage[key] = JSON.stringify(array);
+      }
+
       this.$store.dispatch("updateTaskOnlyServer", { ...this.changes, id: this.task.id })
           .then(_ => this.$store.commit("updateTask", { ...this.changes, id: this.task.id }))
           .catch(e => alert(e));
