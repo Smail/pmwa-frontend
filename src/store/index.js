@@ -85,6 +85,9 @@ export default createStore({
     },
   },
   actions: {
+    /**
+     * @throws {Error}
+     */
     async updateUser(context, newUser) {
       const currentUser = context.state.user;
 
@@ -120,6 +123,7 @@ export default createStore({
      * @param credentials And object containing a `username` and `password` field.
      *  This is a required argument IF no tokens are stored in storage, otherwise it can be omitted.
      * @returns {Promise<void>}
+     * @throws {Error}
      */
     async signIn(context, credentials) {
       let tokens;
@@ -142,6 +146,9 @@ export default createStore({
 
       context.commit("setIsLoggedIn", true);
     },
+    /**
+     * @throws {Error}
+     */
     async requestUserData(context, userId) {
       axios.get(`/users/${ userId }`).then(response => context.commit("setUser", response.data));
     },
@@ -155,12 +162,18 @@ export default createStore({
 
       console.debug(`%c[SUCCESS] %s`, "color: lime", "Log out the user");
     },
+    /**
+     * @throws {Error}
+     */
     async loadTasks(context) {
       loadTasks().then(tasks => context.commit("setTasks", tasks)).catch(error => {
         console.error(error);
         alert("Could not load tasks");
       });
     },
+    /**
+     * @throws {Error}
+     */
     async updateTask(context, task) {
       const stateTasks = context.state.tasks.filter(t => t.id === task.id);
       if (stateTasks.length === 0) {
@@ -190,6 +203,9 @@ export default createStore({
         throw error;
       }
     },
+    /**
+     * @throws {Error}
+     */
     async updateTaskOnlyServer(context, task) {
       try {
         await axios.patch(`tasks/${ task.id }`, task);
@@ -203,6 +219,9 @@ export default createStore({
         throw error;
       }
     },
+    /**
+     * @throws {Error}
+     */
     async deleteTask(context, taskId) {
       try {
         await axios.delete(`tasks/${ taskId }`);
