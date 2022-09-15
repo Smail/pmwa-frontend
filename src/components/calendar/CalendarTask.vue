@@ -91,8 +91,8 @@ export default {
   data() {
     return {
       isDragging: false,
-    }
-  }
+    };
+  },
 };
 </script>
 
