@@ -38,7 +38,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch("loadTasks");
+    this.$store.dispatch("loadTasks").catch(e => alert(e));
   },
 };
 </script>
