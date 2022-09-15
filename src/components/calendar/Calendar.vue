@@ -41,6 +41,7 @@ import CalendarTask from "@/components/calendar/CalendarTask";
 export default {
   name: "Calendar",
   components: { CalendarTask },
+  emits: ["createTask"],
   props: {
     tasks: {
       type: Array,
@@ -206,6 +207,14 @@ export default {
           }
         }
       }
+    },
+    createTask(d, h) {
+      const startDate = moment().set("day", d).set("hours", h).set("minutes", 0);
+      this.$emit("createTask", {
+        name: "(Missing title)",
+        startDate: moment(startDate).toISOString(),
+        endDate: moment(startDate).add(1, "hours").toISOString(),
+      });
     },
     isPast(day, hour) {
       const currentDate = moment();
