@@ -117,14 +117,19 @@ export default createStore({
         if (currentUser[key] !== newUser[key]) changedUserObject[key] = newUser[key];
       }
 
-      if (Object.keys(changedUserObject).length > 0) {
-        const response = await axios.patch(`users/${ currentUser.username }`, changedUserObject);
-        // Update user object locally, i.e., client-side
-        context.commit("updateUser", changedUserObject);
-        console.debug("Successfully updated the user");
-      } else {
+      if (Object.keys(changedUserObject).length === 0) {
         console.debug("User object has not changed. No updates required");
+        return;
       }
+
+      try {
+        await axios.patch(`users/${ currentUser.username }`, changedUserObject);
+      } catch (e) {
+        throw new Error("Could not update the user", { cause: e });
+      }
+
+      // Update user object locally, i.e., client-side
+      context.commit("updateUser", changedUserObject);
     },
     /**
      * Sign the user in using either user-supplied credentials or previously requested tokens.
