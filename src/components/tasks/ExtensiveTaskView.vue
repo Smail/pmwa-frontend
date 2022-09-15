@@ -63,34 +63,18 @@ export default {
     },
   },
   methods: {
-    async update() {
+    update() {
       if (Object.keys(this.changes).length === 0) return;
 
-      if (this.changes.startDate != null) this.changes.startDate = moment(this.changes.startDate);
-      if (this.changes.endDate != null) this.changes.endDate = moment(this.changes.endDate);
-
-      // If start date has changed, redo the end date computation
-      // to avoid scenarios where the end date is before the start date.
+      // Add an end date if there is a start date set, but no end date.
       if (this.changes.startDate != null && this.changes.endDate == null) {
         // Create end date by adding the duration of the task to its start date.
-        this.changes.endDate = moment(this.changes.startDate);
+        this.changes.endDate = moment(this.changes.startDate).add(1, "hours").toISOString();
       }
 
-      if (this.changes.startDate != null && this.changes.startDate.toDate().toString() === "Invalid Date") {
-        alert("An error occurred: Invalid start date");
-        throw new Error("Invalid start date");
-      } else if (this.changes.startDate != null) {
-        this.changes.startDate = this.changes.startDate.toISOString();
-      }
-
-      if (this.changes.endDate != null && this.changes.endDate.toDate().toString() === "Invalid Date") {
-        alert("An error occurred: Invalid end date");
-        throw new Error("Invalid end date");
-      } else if (this.changes.endDate != null) {
-        this.changes.endDate = this.changes.endDate.toISOString();
-      }
-
-      await this.$store.dispatch("updateTask", { ...this.changes, id: this.task.id });
+      this.$store.dispatch("updateTaskOnlyServer", { ...this.changes, id: this.task.id })
+          .then(_ => this.$store.commit("updateTask", { ...this.changes, id: this.task.id }))
+          .catch(e => alert(e));
       this.changes = {};
     },
   },
