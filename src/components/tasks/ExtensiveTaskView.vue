@@ -22,11 +22,11 @@
              title="Short calendar description" type="text"/>
     </div>
     <h1 class="header" contenteditable="true"
-        @input="changes.name = $event.target.innerText">
+        @input="changes.name = $event.target.innerText; $store.commit('updateTask',  { ...changes, id: task.id })">
       {{ task.name }}
     </h1>
     <textarea class="task-content"
-              @input="changes.content = $event.target.value"
+              @input="changes.content = $event.target.value; $store.commit('updateTask',  { ...changes, id: task.id })"
     >{{ task.content }}</textarea>
   </section>
 </template>
