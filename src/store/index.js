@@ -218,14 +218,10 @@ export default createStore({
     async updateTaskOnlyServer(context, task) {
       try {
         await axios.patch(`tasks/${ task.id }`, task);
-        console.debug("Update task: Successful server update");
-      } catch (error) {
-        console.log(error);
-        const errMsg = `Failed to update task on server: ${error.message}.`;
-        alert(errMsg);
-        console.error(`${errMsg}. ${error}`);
-        await context.dispatch("loadTasks");
-        throw error;
+        console.debug(`%c[SUCCESS] %s`, "color: lime", "Task server update");
+      } catch (e) {
+        console.error("Failed to update task on server: %s", e.message);
+        throw new Error("Failed to update task on server", { cause: e });
       }
     },
     /**
@@ -236,12 +232,9 @@ export default createStore({
         await axios.delete(`tasks/${ taskId }`);
         console.debug(`%c[SUCCESS] %s`, "color: lime", "Task server deletion");
         context.commit("removeTask", taskId);
-        console.debug("Delete task: Successful local deletion");
-      } catch (error) {
-        alert("Failed to delete task");
-        console.error(`Failed to delete task: ${ error }`);
-        await context.dispatch("loadTasks");
-        throw error;
+      } catch (e) {
+        console.error("Failed to delete task: %s", e.message);
+        throw new Error("Failed to delete task", { cause: e });
       }
     },
   },
