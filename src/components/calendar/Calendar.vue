@@ -131,7 +131,6 @@ export default {
           if (event.clientY >= clientRect.top && event.clientY <= clientRect.bottom) {
             // Example: d123 = day 1, hour 23
             // Add one, because the day hours start with 0 and go to 23 (inclusive), but we want 1-24
-
             const hour = Number.parseInt(timeSlot.style.gridRowEnd.substring(2)) + 1;
             const day = Number.parseInt(timeSlot.style.gridRowStart.substring(1, 2));
 
