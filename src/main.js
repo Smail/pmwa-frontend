@@ -90,7 +90,6 @@ axios.interceptors.response.use(r => r, async function (error) {
       if (refreshToken != null) {
         try {
           await refreshTokens();
-          console.log(`axios.defaults.headers.common["Authorization"] = ${ axios.defaults.headers.common["Authorization"] }`);
 
           try {
             return await resendInitialRequest(error);
