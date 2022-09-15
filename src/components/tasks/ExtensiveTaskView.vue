@@ -1,9 +1,7 @@
 <template>
   <section class="extensive-task-view" @focusout="update">
     <div class="meta-input-wrapper">
-      <input :checked="task.isDone" class="task-is-done-checkbox"
-             type="checkbox"
-             @input="changes.isDone = $event.target.checked"/>
+      <task-checkbox :task="task" @needs-server-update="changes.isDone = task.isDone"></task-checkbox>
       <!--
       Use focusout instead of input,
       because otherwise inputValueStartDate throws invalid date errors when entering the date via keyboard.
@@ -29,9 +27,11 @@
 
 <script>
 import moment from "moment";
+import TaskCheckbox from "@/components/tasks/TaskCheckbox";
 
 export default {
   name: "ExtensiveTaskView",
+  components: { TaskCheckbox },
   props: {
     task: {
       type: Object,

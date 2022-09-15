@@ -1,7 +1,8 @@
 <template>
   <div class="task" @focusout="update" @keydown.enter="removeFocus">
-    <input :checked="task.isDone" autocomplete="off" class="task-checkbox" type="checkbox"
-           @input="changes.isDone = $event.target.checked"/>
+    <task-checkbox :task="task"
+                   @input="$emit('taskSelected', task)"
+                   @needs-server-update="changes.isDone = task.isDone"></task-checkbox>
     <div class="task-input-tag-wrapper">
       <input :value="task.name" autocomplete="off" class="task-input" type="text"
              @input="changes.name = $event.target.value"/>
@@ -75,10 +76,12 @@
 
 <script>
 import TagList from "@/components/tasks/TagList";
+import TaskCheckbox from "@/components/tasks/TaskCheckbox";
 
 export default {
   name: "Task",
-  components: { TagList },
+  components: { TaskCheckbox, TagList },
+  emits: ["taskSelected"],
   props: {
     task: {
       type: Object,
