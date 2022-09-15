@@ -25,6 +25,8 @@ axios.interceptors.request.use(function (config) {
     if (!authHeaderComponents[1]) {
       new Error("Bearer token is empty");
     }
+  } else {
+    console.debug("No Authorization header set");
   }
 
   return config;
