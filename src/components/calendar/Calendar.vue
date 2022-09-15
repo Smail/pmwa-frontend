@@ -251,9 +251,11 @@ export default {
 
 .time-annotation {
   line-height: 0;
-  margin-right: 0.5em;
+  margin-right: 1em;
   //border-top: 1px solid aqua;
   position: relative;
+  font-size: 0.7rem;
+  text-align: right;
 }
 
 .time-annotation::after {
@@ -264,7 +266,7 @@ export default {
   position: absolute;
   top: 0;
   height: 1px;
-  right: -1.25em;
+  right: -2.25em;
   width: 1.25rem;
 }
 
