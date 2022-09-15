@@ -163,15 +163,6 @@ export default {
         }
       }
     },
-    createTask(day, hour) {
-      this.tasks.push({
-        day: day,
-        startTime: hour,
-        endTime: hour + 1,
-        name: "(Missing title)",
-        description: null,
-      });
-    },
     moveTask(event, task) {
       const timeSlots = document.getElementsByClassName("hour");
       for (const timeSlot of timeSlots) {
