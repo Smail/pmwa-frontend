@@ -3,12 +3,16 @@
     <task-checkbox :task="task"
                    @input="$emit('taskSelected', task)"
                    @needs-server-update="changes.isDone = task.isDone"></task-checkbox>
-    <div class="task-input-tag-wrapper">
+    <div class="task-input-tag-wrapper"
+         @click="$emit('taskSelected', task)">
       <input :value="task.name" autocomplete="off" class="task-input" type="text"
              @input="changes.name = $event.target.value"/>
       <tag-list :task-id="task.id"></tag-list>
     </div>
-    <button class="delete-task-btn material-symbols-outlined" @click="deleteTask">delete</button>
+    <button class="delete-task-btn material-symbols-outlined"
+            type="button"
+            @click="deleteTask(); $emit('taskDeleted', task)"
+    >delete</button>
   </div>
 </template>
 
@@ -76,7 +80,7 @@ import TaskCheckbox from "@/components/tasks/TaskCheckbox";
 export default {
   name: "Task",
   components: { TaskCheckbox, TagList },
-  emits: ["taskSelected"],
+  emits: ["taskSelected", "taskDeleted"],
   props: {
     task: {
       type: Object,
