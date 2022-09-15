@@ -92,9 +92,13 @@ export default {
     removeFocus() {
       document.activeElement.blur();
     },
-    async update() {
+    update() {
       if (Object.keys(this.changes).length === 0) return;
-      await this.$store.dispatch("updateTask", { ...this.changes, id: this.task.id });
+      this.$store.dispatch("updateTaskOnlyServer", { ...this.changes, id: this.task.id }).catch(e => {
+        alert(e);
+        this.$store.dispatch("loadTasks", { ...this.changes, id: this.task.id })
+            .catch(e => alert(`Could not reload tasks: ${ e.message }`));
+      });
       this.changes = {};
     },
     deleteTask() {
