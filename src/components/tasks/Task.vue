@@ -97,9 +97,13 @@ export default {
       await this.$store.dispatch("updateTask", { ...this.changes, id: this.task.id });
       this.changes = {};
     },
-    async deleteTask() {
-      await this.$store.dispatch("deleteTask", this.task.id);
-    }
+    deleteTask() {
+      this.$store.dispatch("deleteTask", this.task.id).catch(e => {
+        alert(e);
+        this.$store.dispatch("loadTasks", { ...this.changes, id: this.task.id })
+            .catch(e => alert(`Could not reload tasks: ${ e.message }`));
+      });
+    },
   },
   created() {
     // Save changes when user leaves the page without unnecessarily notifying them.
