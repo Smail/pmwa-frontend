@@ -126,23 +126,27 @@ export default {
     };
   },
   methods: {
-    signUp() {
-      this.$http.post("auth/sign-up", {
-        username: this.username,
-        firstName: this.firstName,
-        lastName: this.lastName,
-        email: this.email,
-        password: this.password,
-        repeatedPassword: this.repeatedPassword,
-      }).then((response) => {
-        if (response.status === 201) {
-          this.$router.push("/signin");
+    async signUp() {
+      try {
+        await this.$http.post("auth/sign-up", {
+          username: this.username,
+          firstName: this.firstName,
+          lastName: this.lastName,
+          email: this.email,
+          password: this.password,
+          repeatedPassword: this.repeatedPassword,
+        });
+        // Redirect user to sign in page
+        this.$router.push("/signin");
+      } catch (e) {
+        if (e.response?.data?.message != null) {
+          console.error(e.response.data.message);
+          alert("Error during sign up: " + e.response.data.message);
         } else {
-          console.warn(`Unexpected successful http status code: ${ response.status }`);
+          console.error(e.message);
+          alert("An unknown error occurred");
         }
-      }).catch(error => {
-        alert(error.response.data.message);
-      });
+      }
     },
   },
 };
