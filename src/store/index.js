@@ -172,8 +172,8 @@ export default createStore({
     },
     logOut(context) {
       // Delete tokens
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
+      removeAccessToken();
+      removeRefreshToken();
 
       context.commit("resetUser");
       context.commit("setIsLoggedIn", false);
