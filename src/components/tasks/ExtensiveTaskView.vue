@@ -14,6 +14,12 @@
       <input :value="inputValueEndDate" class="date-picker" title="Task end date"
              type="datetime-local"
              @focusout="setDate('endDate', $event.target.value)"/>
+      <!--      TODO Rename class date-picker to something like meta-header-input -->
+      <input v-if="startDate != null"
+             class="date-picker"
+             placeholder="Add a short calendar description"
+             style="flex: 1"
+             title="Short calendar description" type="text"/>
     </div>
     <h1 class="header" contenteditable="true"
         @input="changes.name = $event.target.innerText">
