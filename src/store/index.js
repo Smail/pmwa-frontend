@@ -141,25 +141,29 @@ export default createStore({
      * @throws {Error}
      */
     async signIn(context, credentials) {
-      let tokens;
-      if (credentials != null) {
-        tokens = await getTokensViaCredentials(credentials);
-      } else if (hasStoredTokens()) {
-        tokens = await getTokensViaStoredTokens();
-      } else {
-        throw new Error("No valid sign in methods found");
+      if (context.state.isLoggedIn) return;
+      if (credentials != null && !areCredentialsValid(credentials)) throw new Error("Invalid credentials");
+      if (credentials == null && !hasValidRefreshToken()) throw new Error("No valid sign in methods found");
+
+      try {
+        let tokens;
+        if (areCredentialsValid(credentials)) tokens = requestTokensViaCredentials(credentials.username, credentials.password);
+        else if (!hasValidAccessToken() && hasValidRefreshToken()) tokens = requestTokensViaRefreshToken(getRefreshToken());
+        else tokens = { accessToken: getAccessToken(), refreshToken: getRefreshToken() };
+        setTokens(await tokens);
+
+        const { userId, username } = parseJwt(getAccessToken());
+        if (userId == null) throw new Error("Missing user ID in access token");
+        if (username == null) throw new Error("Missing username in access token");
+
+        context.commit("updateUser", { userId, username });
+        context.commit("setIsLoggedIn", true);
+        console.debug("Successful sign in");
+      } catch (e) {
+        await context.dispatch("logOut");
+        logErrorAndAlert(e.message, "Could not sign in");
+        throw new Error("Sign in failed", { cause: e });
       }
-
-      // Store tokens in local storage
-      storeTokens(tokens);
-
-      // Set access token as authorization header on every axios API call
-      axios.defaults.headers.common["Authorization"] = `Bearer ${ tokens.accessToken }`;
-
-      const accessTokenPayload = parseJwt(tokens.accessToken);
-      await context.dispatch("requestUserData", accessTokenPayload.userId);
-
-      context.commit("setIsLoggedIn", true);
     },
     /**
      * @throws {Error}
