@@ -7,7 +7,7 @@ import VueAxios from "vue-axios";
 import { StatusCodes } from "http-status-codes";
 import { getRefreshToken } from "@/services/getRefreshToken";
 import { requestNewTokens } from "@/services/requestNewTokens";
-import { storeTokens } from "@/services/storeTokens";
+import { setTokens } from "@/services/setTokens";
 
 axios.defaults.baseURL = `${ process.env.VUE_APP_API_ENDPOINT }`;
 
@@ -45,7 +45,7 @@ async function refreshTokens() {
       // Request new tokens
       try {
         const tokens = await requestNewTokens({ refreshToken });
-        storeTokens(tokens);
+        setTokens(tokens);
         axios.defaults.headers.common["Authorization"] = `Bearer ${ tokens.accessToken }`;
 
         return resolve();
