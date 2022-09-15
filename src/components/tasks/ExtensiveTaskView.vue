@@ -135,17 +135,6 @@ export default {
     display: flex;
     gap: 0.5em;
 
-    * {
-      font: inherit;
-    }
-
-    .task-is-done-checkbox {
-      // Increase size; set to same value as in .task-checkbox, i.e., checkbox in Task.vue component
-      zoom: 1.5;
-      // Background checkbox color when checked
-      accent-color: rgb(0, 122, 255);
-    }
-
     .date-picker,
     .duration-input-field {
       border: none;
@@ -153,6 +142,7 @@ export default {
       padding: 0.5em;
       border-radius: 1em;
       background: white;
+      font: inherit;
     }
 
     .date-picker:focus,
