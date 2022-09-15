@@ -190,8 +190,8 @@ export default createStore({
     /**
      * @throws {Error}
      */
-    async loadTasks(context) {
-      loadTasks().then(tasks => context.commit("setTasks", tasks)).catch(e => {
+    loadTasks(context) {
+      return loadTasks().then(tasks => context.commit("setTasks", tasks)).catch(e => {
         console.error("Could not load tasks: %s", e.message);
         throw new Error("Could not load tasks", { cause: e });
       });
