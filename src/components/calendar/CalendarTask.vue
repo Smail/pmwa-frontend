@@ -14,9 +14,10 @@
           }"
          class="task"
          draggable="true"
-         @dragstart="isDragging = true"
+         @dblclick="$emit('open-task')"
          @drag="$emit('moveTask', $event, task)"
          @dragend="isDragging = false; $emit('moveFinished')"
+         @dragstart="isDragging = true"
     >
       <div v-if="dayIdx === 0" class="task-content">
         <h4 class="task-header">{{ task.name }}</h4>
@@ -41,7 +42,7 @@ import moment from "moment";
 
 export default {
   name: "CalendarTask",
-  emits: ["moveTask", "resizeTimeslot", "resizeFinished", "moveFinished"],
+  emits: ["moveTask", "resizeTimeslot", "resizeFinished", "moveFinished", "open-task"],
   props: {
     task: {
       type: Object,
