@@ -53,8 +53,7 @@ export default {
     numDays() {
       let d = 0;
       for (let i = 0; true; i++) {
-        const m = moment(this.startDate);
-        m.add(i, "days");
+        const m = moment(this.startDate).add(i, "days");
         d += 1;
         if (this.endDate.isSame(m, "days")) {
           break;
