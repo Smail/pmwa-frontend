@@ -1,8 +1,6 @@
 import { createStore } from "vuex";
 import axios from "axios";
 import { loadTasks } from "@/services/loadTasks";
-import { getTokensViaCredentials, getTokensViaStoredTokens } from "@/services/getTokens";
-import { hasStoredTokens } from "@/services/hasStoredTokens";
 import { setTokens } from "@/services/setTokens";
 import { parseJwt } from "@/util/parseJwt";
 import { getObjectChanges } from "@/util/getObjectChanges";
