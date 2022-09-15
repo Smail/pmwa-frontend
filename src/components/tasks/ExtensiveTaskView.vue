@@ -10,10 +10,10 @@
       -->
       <input :value="inputValueStartDate" class="date-picker" title="Task start date"
              type="datetime-local"
-             @focusout="changes.startDate = $event.target.value"/>
+             @focusout="setDate('startDate', $event.target.value)"/>
       <input :value="inputValueEndDate" class="date-picker" title="Task end date"
              type="datetime-local"
-             @focusout="changes.endDate = $event.target.value"/>
+             @focusout="setDate('endDate', $event.target.value)"/>
     </div>
     <h1 class="header" contenteditable="true"
         @input="changes.name = $event.target.innerText">
@@ -63,6 +63,17 @@ export default {
     },
   },
   methods: {
+    setDate(keyName, date) {
+      if (!this.task.hasOwnProperty(keyName)) throw new Error(`Unknown key '${ keyName }' on task`);
+      if (date == null) return;
+
+      date = moment(date);
+      if (date.toDate().toString() === "Invalid Date") {
+        alert("Invalid date");
+        return;
+      }
+      this.changes[keyName] = date.toISOString();
+    },
     update() {
       if (Object.keys(this.changes).length === 0) return;
 
