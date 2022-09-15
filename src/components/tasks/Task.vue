@@ -20,7 +20,6 @@
   gap: 0.5rem;
 
   .task-input-tag-wrapper {
-    $color: rgb(0, 122, 255);
     flex: 1;
     display: flex;
     outline: $theme solid 0.1rem;
