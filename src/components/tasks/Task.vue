@@ -19,10 +19,6 @@
   display: flex;
   gap: 0.5rem;
 
-  .task-checkbox {
-    cursor: pointer;
-  }
-
   .task-input-tag-wrapper {
     $color: rgb(0, 122, 255);
     flex: 1;
