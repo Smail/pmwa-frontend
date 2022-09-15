@@ -94,12 +94,12 @@ axios.interceptors.response.use(r => r, async function (error) {
           try {
             return await resendInitialRequest(error);
           } catch (e) {
-            let errMsg = "An error occurred after refreshing the tokens and resending the initial request.";
+            let errMsg = "Resending a failed request failed, too.";
             if (e.response != null && e.response.data != null) errMsg += `\nResponse data: ${ e.response.data }.`;
             console.error(errMsg + `\nError: ${ e }`);
           }
         } catch (e) {
-          let errMsg = "An error occurred while refreshing the tokens.";
+          let errMsg = "Could not refresh tokens.";
           if (e.response != null && e.response.data != null) errMsg += `\nResponse data: ${ e.response.data }.`;
           console.error(errMsg + `\nError: ${ e }`);
         }
