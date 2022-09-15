@@ -189,9 +189,9 @@ export default createStore({
      * @throws {Error}
      */
     async loadTasks(context) {
-      loadTasks().then(tasks => context.commit("setTasks", tasks)).catch(error => {
-        console.error(error);
-        alert("Could not load tasks");
+      loadTasks().then(tasks => context.commit("setTasks", tasks)).catch(e => {
+        console.error("Could not load tasks: %s", e.message);
+        throw new Error("Could not load tasks", { cause: e });
       });
     },
     /**
@@ -212,11 +212,9 @@ export default createStore({
         const changes = getObjectChanges(stateTasks[0], task);
         await context.dispatch("updateTaskOnlyServer", { ...changes, id: task.id });
         context.commit("updateTask", task);
-        console.debug("Update task: Successful local update");
-      } catch (error) {
-        alert("Failed to update task locally");
-        console.error(`Failed to update task locally: ${ error }`);
-        throw error;
+      } catch (e) {
+        console.error("Could not update task: %s", e.message);
+        throw new Error("Could not update task", { cause: e });
       }
     },
     /**
