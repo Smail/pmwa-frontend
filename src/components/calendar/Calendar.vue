@@ -255,6 +255,7 @@ export default {
   margin-right: 1em;
   //border-top: 1px solid aqua;
   position: relative;
+  color: darken($theme, 35);
   font-size: 0.7rem;
   text-align: right;
 }
