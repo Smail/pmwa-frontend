@@ -63,22 +63,33 @@ import axios from "axios";
 
 export default {
   name: "CreateTask",
+  emits: ["taskCreated"],
   methods: {
     clearInputField() {
       this.name = "";
     },
     async createTask() {
+      let taskId;
       try {
-        const response = await axios.post("tasks/", {
-          name: this.name,
-        });
-
-        if (!response.data.taskId) throw new Error(`Missing taskId in response body: ${ JSON.stringify(response) }`);
-
-        this.$store.dispatch("loadTasks");
+        const response = await axios.post("tasks/", { name: this.name });
+        if (response.data?.taskId == null) throw new Error(`Missing taskId in response: ${ JSON.stringify(response) }`);
+        taskId = response.data.taskId;
       } catch (error) {
         console.error(error);
-        alert("Could not create the new task. Please try again or refresh the page if the error persists");
+        alert("The task could not be created");
+      }
+
+      try {
+        await this.$store.dispatch("loadTasks");
+        if (taskId != null) {
+          const task = this.$store.state.tasks.find(t => t.id === taskId);
+          if (task != null) {
+            this.$emit("taskCreated", task);
+          }
+        }
+      } catch (e) {
+        console.error(e);
+        alert(`Could not reload your tasks: ${ e.message }`);
       }
     },
   },
