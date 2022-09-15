@@ -6,6 +6,8 @@
 </template>
 
 <style lang="scss">
+@import "@/scss/globals.scss";
+
 .clock {
   margin: 0;
   padding: 0.5rem;
@@ -15,7 +17,7 @@
   gap: 0.5rem;
 
   color: white;
-  background-color: rgb(0, 122, 255);
+  background-color: $theme;
   border-radius: 0.5rem;
 }
 </style>

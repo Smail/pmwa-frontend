@@ -214,13 +214,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/scss/globals.scss";
+
 .day-header {
   display: flex;
   align-items: center;
   justify-content: center;
   text-transform: capitalize;
-  color: inherit;
-  background: darken(whitesmoke, 5);
+  color: white;
+  background: linear-gradient(to top right, $theme, lighten($theme, 10));
   border-radius: 2rem;
   width: 90%;
   justify-self: center;
@@ -263,11 +265,11 @@ export default {
 }
 
 .hour:nth-child(2n) {
-  background: darken(whitesmoke, 10);
+  background: $bg;
 }
 
 .hour:nth-child(2n+1) {
-  background: whitesmoke;
+  background: lighten($bg, 10);
 }
 
 .calendar {
