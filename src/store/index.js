@@ -3,7 +3,7 @@ import axios from "axios";
 import { loadTasks } from "@/services/loadTasks";
 import { getTokensViaCredentials, getTokensViaStoredTokens } from "@/services/getTokens";
 import { hasStoredTokens } from "@/services/hasStoredTokens";
-import { storeTokens } from "@/services/storeTokens";
+import { setTokens } from "@/services/setTokens";
 import { parseJwt } from "@/util/parseJwt";
 
 export default createStore({
