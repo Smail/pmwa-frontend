@@ -10,7 +10,7 @@
     <template v-for="(_, h) in 24">
       <!-- Don't show 00:00 -->
       <p v-if="h > 0" :style="{ gridArea: `h${h}` }" class="time-annotation">
-        {{ h < 10 ? ("0" + h) : h }}:00
+        {{ localeTimeString(h) }}
       </p>
     </template>
     <!-- The actual time slots -->
@@ -210,6 +210,13 @@ export default {
     isPast(day, hour) {
       const currentDate = moment();
       return currentDate.day() > day || (currentDate.day() === day && currentDate.hour() > hour);
+    },
+    localeTimeString(h) {
+      return moment()
+          .set("hours", h)
+          .set("minutes", 0)
+          .toDate()
+          .toLocaleTimeString([this.$store.state.locale], { hour: "2-digit", minute: "2-digit" });
     },
   },
   data() {

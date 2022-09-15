@@ -21,9 +21,7 @@
       <div v-if="dayIdx === 0" class="task-content">
         <h4 class="task-header">{{ task.name }}</h4>
         <h5 class="task-header-time-annotation">
-          {{ startDate.hours().toString().padStart(2, "0") }}:{{ startDate.minutes().toString().padStart(2, "0") }}
-          -
-          {{ endDate.hours().toString().padStart(2, "0") }}:{{ endDate.minutes().toString().padStart(2, "0") }}
+          {{ localeTimeString(startDate) }} - {{ localeTimeString(endDate) }}
         </h5>
         <p class="task-description">{{ task.description }}</p>
       </div>
@@ -76,6 +74,10 @@ export default {
     },
   },
   methods: {
+    localeTimeString(m) {
+      return m.toDate()
+          .toLocaleTimeString([this.$store.state.locale], { hour: "2-digit", minute: "2-digit" });
+    },
     dayHourStart(dayIdx) {
       // The only day, that doesn't start at 0 o'clock is the first one
       return dayIdx === 0 ? this.startDate.hours() : 0;
