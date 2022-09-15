@@ -60,6 +60,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import "@/scss/globals.scss";
+
 .expand-btn {
   background: transparent;
   border: none;
@@ -95,14 +97,14 @@ export default {
 
       &.router-link-exact-active {
         color: white;
-        box-shadow: 0 0 0.5em rgb(0, 122, 255);
-        background-color: rgb(0, 122, 255);
+        box-shadow: 0 0 0.5em $theme;
+        background-color: $theme;
       }
 
       &:hover {
         color: white;
-        box-shadow: 0 0 0.5em rgb(106, 178, 255);
-        background-color: rgb(106, 178, 255);
+        box-shadow: 0 0 0.5em lighten($theme, 5);
+        background-color: lighten($theme, 5);
       }
 
       &:active {

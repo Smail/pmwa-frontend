@@ -103,8 +103,10 @@ export default {
 </script>
 
 <style lang="scss">
+@import "@/scss/globals.scss";
+
 .extensive-task-view {
-  $border-color: darken(whitesmoke, 20);
+  $border-color: darken($bg, 10);
   border-left: 0.1rem solid $border-color;
   display: flex;
   flex-direction: column;
@@ -115,6 +117,7 @@ export default {
   // Resort to margin-top on each individual item
   .header, .task-content {
     margin-top: 1rem;
+    $border-color: $theme;
   }
 
   .meta-input-wrapper {

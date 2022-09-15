@@ -33,7 +33,7 @@ export default {
 </script>
 
 <style lang="scss">
-$theme: rgb(0, 122, 255);
+@import "@/scss/globals.scss";
 
 .login-form {
   color: white;
@@ -41,7 +41,7 @@ $theme: rgb(0, 122, 255);
   flex-direction: column;
   gap: 0.5rem;
   padding: 1rem;
-  background-color: $theme;
+  background-color:  $theme;
   border-radius: 1rem;
   filter: drop-shadow(0 0 0.1rem #a0a0a0);
 }

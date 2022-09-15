@@ -10,12 +10,13 @@
 </template>
 
 <style lang="scss">
+@import "@/scss/globals.scss";
+
 .task-list {
   display: flex;
   flex-direction: column;
   align-items: stretch;
   gap: 0.5rem;
-  $color: rgb(0, 122, 255);
 
   li {
     display: flex;
@@ -27,7 +28,7 @@
 
     .task-checkbox {
       zoom: 1.5;
-      accent-color: $color;
+      accent-color: $theme;
       height: 100%;
     }
   }

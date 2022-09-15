@@ -12,6 +12,8 @@
 </template>
 
 <style lang="scss" scoped>
+@import "@/scss/globals.scss";
+
 .task {
   display: flex;
   gap: 0.5rem;
@@ -24,13 +26,13 @@
     $color: rgb(0, 122, 255);
     flex: 1;
     display: flex;
-    outline: $color solid 0.1rem;
+    outline: $theme solid 0.1rem;
     border-radius: 0.25rem;
     padding: 0.5em;
     background: white;
 
     &:focus-within {
-      outline: darken($color, 10) dashed 0.1rem;
+      outline: darken($theme, 10) dashed 0.1rem;
     }
 
     .task-input {
@@ -43,7 +45,6 @@
   }
 
   .delete-task-btn {
-    $color: rgb(255, 59, 48);
     display: flex;
     align-items: center;
     justify-items: center;
@@ -53,18 +54,18 @@
 
     // If the button is a material icons buttons
     &.material-symbols-outlined {
-      color: $color;
-      background: lighten($color, 30);
+      color: $red;
+      background: lighten($red, 30);
       border: none;
       border-radius: 0.5rem;
-      outline: $color solid 0.1rem;
+      outline: $red solid 0.1rem;
       box-shadow: inset 0 0 0.2rem white,
-      0 0 0.2rem darken($color, 20);
+      0 0 0.2rem darken($red, 20);
       transition: all 250ms;
 
       &:hover, &:focus {
         //font-size: 2rem;
-        background: lighten($color, 35);
+        background: lighten($red, 35);
         transform: scale(1.05) translateZ(0);
       }
     }

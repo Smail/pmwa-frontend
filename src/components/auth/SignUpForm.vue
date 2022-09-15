@@ -119,7 +119,7 @@ export default {
 </script>
 
 <style lang="scss">
-$theme: rgb(0, 122, 255);
+@import "@/scss/globals.scss";
 
 .signup-form {
   color: white;

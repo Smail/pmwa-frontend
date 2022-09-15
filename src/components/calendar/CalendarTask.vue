@@ -97,11 +97,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/scss/globals.scss";
+
 .task {
   cursor: pointer;
   color: white;
-  border: 1px solid #007AFF;
-  background: #007AFFA0;
+  border: 1px solid $theme;
+  background: rgba($theme, 0.6);
   border-radius: 0.5em;
   display: flex;
   flex-direction: column;
@@ -110,7 +112,7 @@ export default {
 
   &.is-dragging {
     box-shadow: 0 0 1rem 0.5rem white;
-    background: lighten(#007AFFA0, 10);
+    background: lighten(rgba($theme, 0.6), 10);
   }
 
   .task-content {

@@ -25,6 +25,8 @@
 </template>
 
 <style lang="scss">
+@import "@/scss/globals.scss";
+
 .task-view {
   flex: 1;
   display: flex;

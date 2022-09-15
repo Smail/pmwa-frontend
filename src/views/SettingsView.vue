@@ -36,6 +36,8 @@
 </template>
 
 <style lang="scss">
+@import "@/scss/globals.scss";
+
 .settings {
   display: flex;
   flex-direction: column;
@@ -89,7 +91,7 @@
         .settings-change-btn {
           border: none;
           color: white;
-          background-color: rgb(0, 122, 255);
+          background-color: $theme;
           padding: 0.5rem 1rem;
           border-radius: 1rem;
           text-transform: uppercase;

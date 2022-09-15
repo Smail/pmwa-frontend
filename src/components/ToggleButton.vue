@@ -5,6 +5,8 @@
 </template>
 
 <style lang="scss">
+@import "@/scss/globals.scss";
+
 .toggle-button {
   padding: 0;
   margin: 0;
@@ -14,10 +16,10 @@
   outline: none;
   transition: all 500ms;
   // If not active set color to red
-  color: rgb(255, 59, 48);
+  color: $red;
 
   &.active {
-    color: rgb(52, 199, 89);
+    color: $green;
   }
 
   &.material-symbols-outlined {
