@@ -8,7 +8,6 @@
 
 <script>
 import Tag from "@/components/tasks/Tag";
-import axios from "axios";
 
 export default {
   name: "TagList",
@@ -23,12 +22,13 @@ export default {
     async requestTags() {
       if (!this.taskId) throw new Error("Missing/invalid required component prop: taskId");
       try {
-        const response = await axios.get(`tasks/${ this.taskId }/tags`);
+        const response = await this.$http.get(`tasks/${ this.taskId }/tags`);
         // Sort array lexicographically based on property "name"
         response.data.sort((a, b) => a.name.toLocaleLowerCase().localeCompare(b.name.toLocaleLowerCase()));
-        for (const tag of response.data) this.tags.push(tag);
-      } catch (error) {
-        console.error(error);
+        response.data.forEach(tag => this.tags.push(tag));
+      } catch (e) {
+        console.error(e);
+        alert(e.message);
       }
     },
   },
