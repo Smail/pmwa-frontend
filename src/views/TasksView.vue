@@ -91,10 +91,21 @@ export default {
   components: { ExtensiveTaskView, TaskList },
   computed: {
     activeTask() {
-      for (const task of this.$store.state.tasks) {
-        if (this.activeTaskId === task.id) return task;
+      // Prioritize route params ID
+      if (this.hasParamId) this.activeTaskId = this.$route.params.id;
+
+      if (this.activeTaskId != null) {
+        const task = this.$store.state.tasks.find(task => this.activeTaskId === task.id);
+        if (task != null) return task;
+        console.warn(`The specified task ID '${ this.activeTaskId }' could not be found`);
+        this.$router.replace("/tasks");
       }
-    }
+
+      return (this.$store.state.tasks.length > 0) ? this.$store.state.tasks[0] : null;
+    },
+    hasParamId() {
+      return this.$route.params.id != null && this.$route.params.id.length > 0;
+    },
   },
   methods: {
     selectTask(task) {
@@ -104,7 +115,15 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch("loadTasks");
+    console.log(this.$route.params);
+    this.showExtensiveTaskView = this.$route.params.id != null && this.$route.params.id.length > 0;
+    this.$store.dispatch("loadTasks").catch(e => alert(e));
+  },
+  beforeRouteUpdate(to, from) {
+    console.log(from);
+    console.log(to);
+    this.showExtensiveTaskView = to.params.id != null && to.params.id.length > 0;
+    console.log("jlködj");
   },
   data() {
     return {
