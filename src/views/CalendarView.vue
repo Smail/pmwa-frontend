@@ -1,7 +1,7 @@
 <template>
   <div class="calendar-view">
     <h1>Calendar</h1>
-    <calendar class="calendar-component" :tasks="$store.state.tasks"></calendar>
+    <calendar :tasks="tasks" class="calendar-component"></calendar>
   </div>
 </template>
 
@@ -32,6 +32,11 @@ import Calendar from "@/components/calendar/Calendar.vue";
 export default {
   name: "CalendarView",
   components: { Calendar },
+  computed: {
+    tasks() {
+      return this.$store.state.tasks;
+    },
+  },
   created() {
     this.$store.dispatch("loadTasks");
   },
