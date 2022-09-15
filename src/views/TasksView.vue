@@ -11,9 +11,10 @@
       </button>
     </div>
     <div class="content-wrapper">
-      <task-list class="task-list"
-                 :tasks="$store.state.tasks"
-                 @taskClicked="(task) => activeTaskId = task.id">
+      <task-list :tasks="$store.state.tasks"
+                 class="task-list"
+                 @task-selected="selectTask"
+      >
       </task-list>
       <extensive-task-view v-if="activeTask != null"
                            v-show="showExtensiveTaskView"
@@ -93,6 +94,13 @@ export default {
         if (this.activeTaskId === task.id) return task;
       }
     }
+  },
+  methods: {
+    selectTask(task) {
+      console.log(`Select task %s`, JSON.stringify(task));
+      // this.activeTaskId = task.id;
+      this.$router.push(`/tasks/${ task.id }`);
+    },
   },
   created() {
     this.$store.dispatch("loadTasks");
