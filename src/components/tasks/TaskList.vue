@@ -26,7 +26,7 @@
       flex: 1;
     }
 
-    .task-checkbox {
+    .checkbox {
       zoom: 1.5;
       accent-color: $theme;
       height: 100%;
