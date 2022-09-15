@@ -5,6 +5,16 @@ import { getTokensViaCredentials, getTokensViaStoredTokens } from "@/services/ge
 import { hasStoredTokens } from "@/services/hasStoredTokens";
 import { setTokens } from "@/services/setTokens";
 import { parseJwt } from "@/util/parseJwt";
+import { getObjectChanges } from "@/util/getObjectChanges";
+import { requestTokensViaCredentials, requestTokensViaRefreshToken } from "@/services/requestNewTokens";
+import { areCredentialsValid } from "@/services/areCredentialsValid";
+import { hasValidRefreshToken } from "@/services/hasValidRefreshToken";
+import { hasValidAccessToken } from "@/services/hasValidAccessToken";
+import { getRefreshToken } from "@/services/getRefreshToken";
+import { logErrorAndAlert } from "@/util/logErrorAndAlert";
+import { getAccessToken } from "@/services/getAccessToken";
+import { removeRefreshToken } from "@/services/removeRefreshToken";
+import { removeAccessToken } from "@/services/removeAccessToken";
 
 export default createStore({
   state: {
@@ -192,18 +202,10 @@ export default createStore({
           + `Expected 1, but is ${ stateTasks.length }`);
       }
 
-      // Contains only the keys that have changed
-      const changed = {};
-      const stateTask = stateTasks[0];
-      Object.keys(task).filter(key => stateTask[key] !== task[key]).forEach(key => changed[key] = task[key]);
-
-      if (Object.keys(changed).length === 0) {
-        console.debug("Update task: no keys have changed.");
-        return;
-      }
-
-      await context.dispatch("updateTaskOnlyServer", { id: task.id, ...changed });
       try {
+        // Contains only the keys that have changed
+        const changes = getObjectChanges(stateTasks[0], task);
+        await context.dispatch("updateTaskOnlyServer", { ...changes, id: task.id });
         context.commit("updateTask", task);
         console.debug("Update task: Successful local update");
       } catch (error) {
