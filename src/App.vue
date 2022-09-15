@@ -17,8 +17,13 @@ export default {
   components: { NavBar },
   async created() {
     if (hasValidTokens()) {
-      await this.$store.dispatch("signIn");
-      console.debug("Successfully logged the user in");
+      try {
+        await this.$store.dispatch("signIn");
+        await this.$store.dispatch("requestUserData", this.$store.state.user.username);
+        await this.$store.dispatch("loadTasks");
+      } catch (e) {
+        alert(e);
+      }
     }
   },
 };
