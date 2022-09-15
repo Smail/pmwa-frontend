@@ -1,7 +1,11 @@
 <template>
   <div class="calendar">
     <!-- The names of the days, i.e., Monday, Tuesday, etc. -->
-    <h4 v-for="d in 7" :style="{ gridArea: dayStringShort(d - 1) }" class="day-header">{{ dayString(d - 1) }}</h4>
+    <h4 v-for="d in 7"
+        :class="{ 'past-day': isPast(d, 24) }"
+        :style="{ gridArea: dayStringShort(d - 1) }"
+        class="day-header">
+      {{ dayString(d - 1) }}</h4>
     <!-- Display time annotations, e.g., 15:00 on the left side of the calendar -->
     <template v-for="(_, h) in 24">
       <!-- Don't show 00:00 -->
@@ -11,7 +15,8 @@
     </template>
     <!-- The actual time slots -->
     <template v-for="d in 7">
-      <div v-for="(_, h) in 24" :class="{ 'border-right': d < 7, 'border-top': h > 0 && h < 24}"
+      <div v-for="(_, h) in 24"
+           :class="{ 'border-right': d < 7, 'border-top': h > 0 && h < 24, 'past-day': isPast(d, h) }"
            :style="{ gridArea: `d${d}${h}` }"
            class="hour"
            @click="createTask(d, h)"
@@ -202,6 +207,10 @@ export default {
         }
       }
     },
+    isPast(day, hour) {
+      const currentDate = moment();
+      return currentDate.day() > day || (currentDate.day() === day && currentDate.hour() > hour);
+    },
   },
   data() {
     return {
@@ -225,6 +234,12 @@ export default {
   border-radius: 2rem;
   width: 90%;
   justify-self: center;
+  margin-bottom: 0.5em;
+
+  &.past-day {
+    color: #2c3e50;
+    background: $bg;
+  }
 }
 
 .time-annotation {
@@ -261,14 +276,22 @@ export default {
   &.border-right {
     border-right: $border;
   }
-}
 
-.hour:nth-child(2n) {
-  background: $bg;
-}
+  &:nth-child(2n) {
+    background: $bg;
 
-.hour:nth-child(2n+1) {
-  background: lighten($bg, 10);
+    &.past-day {
+      background: darken($bg, 20);
+    }
+  }
+
+  &:nth-child(2n+1) {
+    background: lighten($bg, 10);
+
+    &.past-day {
+      background: darken($bg, 10);
+    }
+  }
 }
 
 .calendar {
