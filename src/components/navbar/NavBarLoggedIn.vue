@@ -46,9 +46,7 @@ export default {
   components: { NavBarLink, Clock, UserAvatar },
   data() {
     const tasks = {
-      name: "Todo", href: "/tasks", icon: "check", routeName: "tasks", subMenu: [
-        { name: "Tags", to: "/tasks/tags", icon: "sell" },
-      ],
+      name: "Todo", href: "/tasks", icon: "check", routeName: "tasks"
     };
 
     const data = {
