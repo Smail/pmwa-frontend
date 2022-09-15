@@ -85,7 +85,7 @@ export default {
         if (/^[a-z]$/.test(c)) numLower++;
         else if (/^[A-Z]$/.test(c)) numUpper++;
         else if (/^[0-9]$/.test(c)) numDigits++;
-        else if (/^[!@#$%^&*()\-__+.]$/.test(c)) numSpecial++;
+        else if (/^[!@#$%^&*()\-_+.]$/.test(c)) numSpecial++;
         else return "contains invalid password character";
       }
 
