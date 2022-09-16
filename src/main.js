@@ -89,7 +89,7 @@ axios.interceptors.response.use(r => r, async function (error) {
           try {
             return await resendInitialRequest(error);
           } catch (e) {
-            let errMsg = "Resending a failed request failed, too.";
+            let errMsg = "Resending a request, that failed due to invalid authorization failed again.";
             if (e.response != null && e.response.data != null) errMsg += `\nResponse data: ${ e.response.data }.`;
             console.error(errMsg + `\nError: ${ e }`);
           }
