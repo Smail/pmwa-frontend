@@ -19,8 +19,9 @@ export async function requestNewTokens({ refreshToken, username, password }) {
   }
 }
 
+// TODO rename to refreshTokens
 export async function requestTokensViaRefreshToken(refreshToken) {
-  if (refreshToken == null) throw new Error("No refresh token found in local storage");
+  if (refreshToken == null) throw new Error("Invalid argument: refreshToken is null");
   if (hasTokenExpired(refreshToken)) throw new Error("Refresh token has expired");
   // Request new tokens with new axios instance to circumvent interceptors and no auth header
   const axios2 = axios.create();
