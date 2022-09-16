@@ -11,8 +11,7 @@ import { hasValidAccessToken } from "@/services/hasValidAccessToken";
 import { getRefreshToken } from "@/services/getRefreshToken";
 import { logErrorAndAlert } from "@/util/logErrorAndAlert";
 import { getAccessToken } from "@/services/getAccessToken";
-import { removeRefreshToken } from "@/services/removeRefreshToken";
-import { removeAccessToken } from "@/services/removeAccessToken";
+import { removeTokens } from "@/services/removeTokens";
 import router from "@/router";
 
 export default createStore({
@@ -183,8 +182,7 @@ export default createStore({
     },
     logOut(context) {
       // Delete tokens
-      removeAccessToken();
-      removeRefreshToken();
+      removeTokens();
 
       context.commit("resetUser");
       context.commit("setIsLoggedIn", false);
