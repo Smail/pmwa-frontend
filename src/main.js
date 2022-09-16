@@ -17,13 +17,13 @@ axios.interceptors.request.use(function (config) {
     const authHeaderComponents = config.headers.common.Authorization.split(" ");
 
     if (authHeaderComponents.length !== 2) {
-      new Error(`Invalid number of Authorization header components! Expected 2, but is = ${ authHeaderComponents.length }`);
+      throw new Error(`Invalid number of Authorization header components! Expected 2, but is = ${ authHeaderComponents.length }`);
     }
     if (authHeaderComponents[0] !== "Bearer") {
-      new Error("Authorization header is not of type Bearer");
+      throw new Error("Authorization header is not of type Bearer");
     }
     if (!authHeaderComponents[1]) {
-      new Error("Bearer token is empty");
+      throw new Error("Bearer token is empty");
     }
   } else {
     console.debug("No Authorization header set");
