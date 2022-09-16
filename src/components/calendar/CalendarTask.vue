@@ -1,5 +1,5 @@
 <template>
-  <template v-for="(day, dayIdx) in numDays">
+  <template v-for="(_, dayIdx) in numDays">
     <div v-if="isValidStartDate"
          :class="{ 'is-dragging': isDragging }"
          :style="{
