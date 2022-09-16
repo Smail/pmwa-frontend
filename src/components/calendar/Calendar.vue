@@ -188,10 +188,15 @@ export default {
             startDate.add(startHourDelta, "hours").add(dayDelta, "days");
             endDate.add(endHourDelta, "hours").add(dayDelta, "days");
 
+            const newStartDayString = startDate.toISOString();
+            const newEndDayString = endDate.toISOString();
+            // Don't update if nothing has changed
+            if (task.startDate === newStartDayString && task.endDate === newEndDayString) break;
+
             // Commit the changes to the model. This will only update the model locally.
             // The server will be notified of the change when the user stops moving the task around (@see updateServer).
-            task.startDate = startDate.toISOString();
-            task.endDate = endDate.toISOString();
+            task.startDate = newStartDayString;
+            task.endDate = newEndDayString;
 
             // There exists only one timeslot in the calendar for the searched date.
             // Hence, we can break the loop here.
