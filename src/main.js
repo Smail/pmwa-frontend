@@ -6,7 +6,7 @@ import axios from "axios";
 import VueAxios from "vue-axios";
 import { getReasonPhrase, StatusCodes } from "http-status-codes";
 import { getRefreshToken } from "@/services/getRefreshToken";
-import { requestNewTokens } from "@/services/requestNewTokens";
+import { requestTokensViaRefreshToken } from "@/services/requestNewTokens";
 import { setTokens } from "@/services/setTokens";
 import { getAccessToken } from "@/services/getAccessToken";
 
