@@ -12,16 +12,14 @@
 <script>
 import NavBar from "@/components/navbar/NavBar.vue";
 import { hasValidTokens } from "@/services/hasValidTokens";
+import { logErrorAndAlert } from "@/util/logErrorAndAlert";
 
 export default {
   components: { NavBar },
   async created() {
-    if (hasValidTokens()) {
-      try {
-        await this.$store.dispatch("signIn");
-      } catch (e) {
-        alert(e);
-      }
+    // Check if already signed it, because the router also may call signIn
+    if (!this.$store.state.isLoggedIn && hasValidTokens()) {
+      await this.$store.dispatch("signIn").catch(e => logErrorAndAlert(e.message, "Could not sign in"));
     }
   },
 };
