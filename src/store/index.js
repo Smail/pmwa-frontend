@@ -157,6 +157,7 @@ export default createStore({
         axios.defaults.headers.common.Authorization = `Bearer ${ getAccessToken() }`;
 
         const user = await context.dispatch("requestUserData", username);
+        if (!user.isPrivate) throw new Error(`Received public user data instead of private: user = ${ user }`);
         context.commit("setUser", user);
         context.commit("setIsLoggedIn", true);
         console.debug("Successful sign in");
