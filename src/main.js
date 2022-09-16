@@ -8,6 +8,7 @@ import { StatusCodes } from "http-status-codes";
 import { getRefreshToken } from "@/services/getRefreshToken";
 import { requestNewTokens } from "@/services/requestNewTokens";
 import { setTokens } from "@/services/setTokens";
+import { getAccessToken } from "@/services/getAccessToken";
 
 axios.defaults.baseURL = `${ process.env.VUE_APP_API_ENDPOINT }`;
 
@@ -44,9 +45,8 @@ async function refreshTokens() {
 
       // Request new tokens
       try {
-        const tokens = await requestNewTokens({ refreshToken });
-        setTokens(tokens);
-        axios.defaults.headers.common["Authorization"] = `Bearer ${ tokens.accessToken }`;
+        setTokens(await requestNewTokens({ refreshToken }));
+        axios.defaults.headers.common["Authorization"] = `Bearer ${ getAccessToken() }`;
 
         return resolve();
       } catch (e) {
