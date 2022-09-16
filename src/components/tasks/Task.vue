@@ -91,15 +91,10 @@ export default {
   },
   methods: {
     async requestTags() {
-      try {
-        const response = await this.$http.get(`tasks/${ this.taskId }/tags`);
-        // Sort array lexicographically based on property "name"
-        response.data.sort((a, b) => a.name.toLocaleLowerCase().localeCompare(b.name.toLocaleLowerCase()));
-        response.data.forEach(tag => this.tags.push(tag));
-      } catch (e) {
-        console.error("Could not load tags: %s", e.message);
-        throw new Error("Could not load tags", { cause: e });
-      }
+      const response = await this.$http.get(`tasks/${ this.taskId }/tags`);
+      // Sort array lexicographically based on property "name"
+      response.data.sort((a, b) => a.name.toLocaleLowerCase().localeCompare(b.name.toLocaleLowerCase()));
+      response.data.forEach(tag => this.tags.push(tag));
     },
     removeFocus() {
       document.activeElement.blur();
@@ -122,7 +117,8 @@ export default {
     },
   },
   async created() {
-    await this.requestTags();
+    await this.requestTags().catch(e => console.error("Could not load tags: %s\n%s",
+        e.message + (e.response?.data != null ? (". " + e.response.data) : ""), JSON.stringify(e)));
     // Save changes when user leaves the page without unnecessarily notifying them.
     window.addEventListener("beforeunload", () => this.update());
   },
