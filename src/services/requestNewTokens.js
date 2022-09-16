@@ -30,8 +30,14 @@ export async function requestTokensViaRefreshToken(refreshToken) {
     username: parseJwt(refreshToken).username,
     refreshToken: refreshToken,
   });
+  const accessToken = response.data.accessToken;
+  const newRefreshToken = response.data.refreshToken;
 
-  return { accessToken: response.data.accessToken, refreshToken: response.data.refreshToken };
+  if (accessToken == null) throw new Error("Refresh token request was successful, but no access token was returned");
+  if (newRefreshToken == null) throw new Error("Refresh token request was successful, but no refresh token was returned");
+  console.debug("Successfully refreshed tokens");
+
+  return { accessToken: accessToken, refreshToken: newRefreshToken };
 }
 
 export async function requestTokensViaCredentials(username, password) {
