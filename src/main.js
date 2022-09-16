@@ -77,11 +77,7 @@ async function resendInitialRequest(error) {
 
 axios.interceptors.response.use(r => r, async function (error) {
     // Any status code >= 400 triggers this function
-    console.warn(`A request failed: ${ error }`);
-    if (error.response.status === StatusCodes.UNAUTHORIZED) {
-      // No user-provided credentials or tokens were supplied to the server.
-      await store.dispatch("logOut");
-    }
+    const httpCode = error.response.status;
 
     // Forbidden happens when the credentials are wrong or invalid. Expired tokens also cause a forbidden status code.
     if (error.response.status === StatusCodes.FORBIDDEN) {
@@ -103,7 +99,11 @@ axios.interceptors.response.use(r => r, async function (error) {
           console.error(errMsg + `\nError: ${ e }`);
         }
       }
+    }
 
+    console.error(`A request failed: ${ error }`);
+    if (httpCode === StatusCodes.UNAUTHORIZED || httpCode === StatusCodes.FORBIDDEN) {
+      // No user-provided credentials or tokens were supplied to the server.
       await store.dispatch("logOut");
     }
 
