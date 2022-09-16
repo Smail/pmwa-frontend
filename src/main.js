@@ -108,8 +108,9 @@ axios.interceptors.response.use(r => r, async function (error) {
           }
         } catch (e) {
           let errMsg = "Could not refresh tokens.";
-          if (e.response != null && e.response.data != null) errMsg += `\nResponse data: ${ e.response.data }.`;
-          console.error(errMsg + `\nError: ${ e }`);
+          if (e.response == null) errMsg += " Note: No request has been made.";
+          else if (e.response.data != null) errMsg += `\nResponse data: ${ e.response.data }.`;
+          console.warn(errMsg + `\n${ e }`);
         }
       }
     }
