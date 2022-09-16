@@ -26,6 +26,7 @@
       {{ task.name }}
     </h1>
     <textarea class="task-content"
+              placeholder="Dear diary, ..."
               @input="changes.content = $event.target.value; $store.commit('updateTask',  { ...changes, id: task.id })"
     >{{ task.content }}</textarea>
   </section>
