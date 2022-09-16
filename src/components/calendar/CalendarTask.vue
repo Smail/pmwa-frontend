@@ -5,12 +5,12 @@
          :style="{
             // Rows = hours. Columns = days
             // Start from 0 o'clock if it is a continued div/day
-            gridRowStart: `d${startDate.days() + dayIdx}${dayHourStart(dayIdx)}`,
+            gridRowStart: `d${startDate.isoWeekday() + dayIdx}${dayHourStart(dayIdx)}`,
             // Max value of hour value encoded in grid-area: 23, e.g., max. is d123 (= day 1, hour 23) and NOT d124
             // ((endDate.hours() === 0 ? 24 : endDate.hours()) - 1)
-            gridRowEnd: `d${startDate.days() + dayIdx}${dayHourEnd(dayIdx) - 1}`,
-            gridColumnStart: `d${startDate.days() + dayIdx}0`,
-            gridColumnEnd: `d${startDate.days() + dayIdx}0`,
+            gridRowEnd: `d${startDate.isoWeekday() + dayIdx}${dayHourEnd(dayIdx) - 1}`,
+            gridColumnStart: `d${startDate.isoWeekday() + dayIdx}0`,
+            gridColumnEnd: `d${startDate.isoWeekday() + dayIdx}0`,
           }"
          class="task"
          draggable="true"
