@@ -4,7 +4,7 @@ import router from "./router";
 import store from "./store";
 import axios from "axios";
 import VueAxios from "vue-axios";
-import { StatusCodes } from "http-status-codes";
+import { getReasonPhrase, StatusCodes } from "http-status-codes";
 import { getRefreshToken } from "@/services/getRefreshToken";
 import { requestNewTokens } from "@/services/requestNewTokens";
 import { setTokens } from "@/services/setTokens";
@@ -74,11 +74,14 @@ async function resendInitialRequest(error) {
 axios.interceptors.response.use(r => r, async function (error) {
     // Any status code >= 400 triggers this function
     const httpCode = error.response.status;
+    console.debug(`Server responded with ${ httpCode } (${ getReasonPhrase(httpCode) })`);
 
     // Forbidden happens when the credentials are wrong or invalid. Expired tokens also cause a forbidden status code.
     if (httpCode === StatusCodes.FORBIDDEN) {
       // Try to refresh the tokens and resend the request.
       if (getRefreshToken() != null) {
+        console.debug("Trying to refresh tokens and then to resend the failed request");
+
         try {
           setTokens(await refreshTokens());
           // Update Authorization header for all future requests
@@ -101,7 +104,6 @@ axios.interceptors.response.use(r => r, async function (error) {
       }
     }
 
-    console.error(`A request failed: ${ error }`);
     if (httpCode === StatusCodes.UNAUTHORIZED || httpCode === StatusCodes.FORBIDDEN) {
       // No user-provided credentials or tokens were supplied to the server.
       await store.dispatch("logOut");
