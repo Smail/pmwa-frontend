@@ -7,12 +7,13 @@
          @click="$emit('taskSelected', task)">
       <input :value="task.name" autocomplete="off" class="task-input" type="text"
              @input="changes.name = $event.target.value"/>
-      <tag-list :task-id="task.id"></tag-list>
+      <tag-list :tags="tags"></tag-list>
     </div>
     <button class="delete-task-btn material-symbols-outlined"
             type="button"
             @click="deleteTask(); $emit('taskDeleted', task)"
-    >delete</button>
+    >delete
+    </button>
   </div>
 </template>
 
@@ -89,6 +90,17 @@ export default {
     },
   },
   methods: {
+    async requestTags() {
+      try {
+        const response = await this.$http.get(`tasks/${ this.taskId }/tags`);
+        // Sort array lexicographically based on property "name"
+        response.data.sort((a, b) => a.name.toLocaleLowerCase().localeCompare(b.name.toLocaleLowerCase()));
+        response.data.forEach(tag => this.tags.push(tag));
+      } catch (e) {
+        console.error("Could not load tags: %s", e.message);
+        throw new Error("Could not load tags", { cause: e });
+      }
+    },
     removeFocus() {
       document.activeElement.blur();
     },
@@ -109,13 +121,15 @@ export default {
       });
     },
   },
-  created() {
+  async created() {
+    await this.requestTags();
     // Save changes when user leaves the page without unnecessarily notifying them.
     window.addEventListener("beforeunload", () => this.update());
   },
   data() {
     return {
       changes: {},
+      tags: [],
     };
   },
 };

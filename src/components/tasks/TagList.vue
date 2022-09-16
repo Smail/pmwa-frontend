@@ -13,32 +13,10 @@ export default {
   name: "TagList",
   components: { Tag },
   props: {
-    taskId: {
-      type: String,
+    tags: {
+      type: Array,
       required: true,
     },
-  },
-  methods: {
-    async requestTags() {
-      if (!this.taskId) throw new Error("Missing/invalid required component prop: taskId");
-      try {
-        const response = await this.$http.get(`tasks/${ this.taskId }/tags`);
-        // Sort array lexicographically based on property "name"
-        response.data.sort((a, b) => a.name.toLocaleLowerCase().localeCompare(b.name.toLocaleLowerCase()));
-        response.data.forEach(tag => this.tags.push(tag));
-      } catch (e) {
-        console.error(e);
-        alert(e.message);
-      }
-    },
-  },
-  created() {
-    this.requestTags();
-  },
-  data() {
-    return {
-      tags: [],
-    };
   },
 };
 </script>
