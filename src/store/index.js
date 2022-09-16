@@ -161,7 +161,7 @@ export default createStore({
         context.commit("setIsLoggedIn", true);
         console.debug("Successful sign in");
       } catch (e) {
-        await context.dispatch("logOut");
+        context.dispatch("logOut").catch(e => logErrorAndAlert("Could not log out"));
         logErrorAndAlert(e.message, "Could not sign in");
         throw new Error("Sign in failed", { cause: e });
       }
