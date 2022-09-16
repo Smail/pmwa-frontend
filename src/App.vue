@@ -19,8 +19,6 @@ export default {
     if (hasValidTokens()) {
       try {
         await this.$store.dispatch("signIn");
-        await this.$store.dispatch("requestUserData", this.$store.state.user.username);
-        await this.$store.dispatch("loadTasks");
       } catch (e) {
         alert(e);
       }
