@@ -146,11 +146,11 @@ export default createStore({
       if (credentials == null && !hasValidRefreshToken()) throw new Error("No valid sign in methods found");
 
       try {
-        let tokens;
-        if (areCredentialsValid(credentials)) tokens = requestTokensViaCredentials(credentials.username, credentials.password);
-        else if (!hasValidAccessToken() && hasValidRefreshToken()) tokens = requestTokensViaRefreshToken(getRefreshToken());
-        else tokens = { accessToken: getAccessToken(), refreshToken: getRefreshToken() };
-        setTokens(await tokens);
+        if (areCredentialsValid(credentials)) {
+          setTokens(await requestTokensViaCredentials(credentials.username, credentials.password));
+        } else if (!hasValidAccessToken() && hasValidRefreshToken()) {
+          setTokens(await requestTokensViaRefreshToken(getRefreshToken()));
+        }
 
         const { userId, username } = parseJwt(getAccessToken());
         if (userId == null) throw new Error("Missing user ID in access token");
