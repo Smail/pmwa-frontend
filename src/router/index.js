@@ -18,6 +18,15 @@ const routes = [
     component: () => import("../views/SignInView.vue"),
   },
   {
+    path: "/sign-out",
+    name: "sign-out",
+    alias: "/logout",
+    redirect: to => {
+      // Redirect to sign in screen
+      return { name: 'signin' }
+    },
+  },
+  {
     path: "/signup",
     name: "signup",
     alias: "/register",
