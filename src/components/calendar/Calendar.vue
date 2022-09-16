@@ -177,14 +177,14 @@ export default {
             const duration = endDate.hours() - startDate.hours();
 
             // Get new data from the CSS grid data
-            const newDay = Number.parseInt(timeSlot.style.gridRowStart.substring(1, 2));
+            const newWeekDay = Number.parseInt(timeSlot.style.gridRowStart.substring(1, 2));
             const newStartHour = Number.parseInt(timeSlot.style.gridRowStart.substring(2));
             const newEndHour = newStartHour + duration;
 
             // Translate the dates by an equidistant amount
             const startHourDelta = newStartHour - startDate.hours();
             const endHourDelta = newEndHour - endDate.hours();
-            const dayDelta = newDay - startDate.day();
+            const dayDelta = newWeekDay - startDate.day();
             startDate.add(startHourDelta, "hours").add(dayDelta, "days");
             endDate.add(endHourDelta, "hours").add(dayDelta, "days");
 
