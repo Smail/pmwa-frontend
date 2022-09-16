@@ -156,7 +156,8 @@ export default createStore({
         if (username == null) throw new Error("Missing username in access token");
         axios.defaults.headers.common.Authorization = `Bearer ${ getAccessToken() }`;
 
-        context.commit("updateUser", { userId, username });
+        const user = await context.dispatch("requestUserData", username);
+        context.commit("setUser", user);
         context.commit("setIsLoggedIn", true);
         console.debug("Successful sign in");
       } catch (e) {
