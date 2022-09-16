@@ -33,9 +33,9 @@ axios.interceptors.request.use(function (config) {
   return config;
 });
 
-async function refreshTokens() {
-  let isRefreshing;
+let isRefreshing;
 
+async function refreshTokens() {
   function requestTokens() {
     isRefreshing = new Promise(async (resolve, reject) => {
       const refreshToken = getRefreshToken();
