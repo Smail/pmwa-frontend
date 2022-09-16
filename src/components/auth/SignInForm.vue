@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import { logErrorAndAlert } from "@/util/logErrorAndAlert";
+
 export default {
   name: "SignInForm",
   props: ["title"],
@@ -25,8 +27,12 @@ export default {
   },
   methods: {
     async signIn() {
-      await this.$store.dispatch("signIn", { username: this.username, password: this.password });
-      this.$router.push("/");
+      try {
+        await this.$store.dispatch("signIn", { username: this.username, password: this.password });
+        this.$router.push("/dashboard");
+      } catch (e) {
+        logErrorAndAlert(e.message, "An error occurred and we could not sign you in.");
+      }
     },
   },
 };
