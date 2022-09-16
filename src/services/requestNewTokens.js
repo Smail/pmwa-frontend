@@ -22,9 +22,11 @@ export async function requestNewTokens({ refreshToken, username, password }) {
 export async function requestTokensViaRefreshToken(refreshToken) {
   if (refreshToken == null) throw new Error("No refresh token found in local storage");
   if (hasTokenExpired(refreshToken)) throw new Error("Refresh token has expired");
-  const refreshTokenPayload = parseJwt(refreshToken);
-  const response = await axios.post("auth/refresh-token", {
-    username: refreshTokenPayload.username,
+  // Request new tokens with new axios instance to circumvent interceptors and no auth header
+  const axios2 = axios.create();
+  delete axios2.defaults.headers.common.Authorization;
+  const response = await axios2.post("auth/refresh-token", {
+    username: parseJwt(refreshToken).username,
     refreshToken: refreshToken,
   });
 
