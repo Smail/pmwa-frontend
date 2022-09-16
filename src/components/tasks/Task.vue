@@ -91,7 +91,7 @@ export default {
   },
   methods: {
     async requestTags() {
-      const response = await this.$http.get(`tasks/${ this.taskId }/tags`);
+      const response = await this.$http.get(`tasks/${ this.task.id }/tags`);
       // Sort array lexicographically based on property "name"
       response.data.sort((a, b) => a.name.toLocaleLowerCase().localeCompare(b.name.toLocaleLowerCase()));
       response.data.forEach(tag => this.tags.push(tag));
