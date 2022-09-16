@@ -37,7 +37,9 @@ export default createStore({
 
       // To prevent inconsistent state, we first check if all keys exists and then assign the values.
       for (const key of requiredKeys) {
-        if (!user.hasOwnProperty(key) || user[key] == null) throw new Error(`Missing key '${ key }'`);
+        if (!user.hasOwnProperty(key) || user[key] == null) {
+          throw new Error(`Missing key '${ key }'. Arg: ${ JSON.stringify(user) }`);
+        }
       }
 
       for (const key of requiredKeys) {
