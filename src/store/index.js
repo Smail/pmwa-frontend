@@ -155,6 +155,7 @@ export default createStore({
         const { userId, username } = parseJwt(getAccessToken());
         if (userId == null) throw new Error("Missing user ID in access token");
         if (username == null) throw new Error("Missing username in access token");
+        axios.defaults.headers.common.Authorization = `Bearer ${ getAccessToken() }`;
 
         context.commit("updateUser", { userId, username });
         context.commit("setIsLoggedIn", true);
