@@ -1,9 +1,10 @@
 import axios from "axios";
 
-export const loadTasks = () => new Promise(async resolve => {
-    const response = await axios.get("tasks");
-    const tasks = response.data;
-
-    resolve(tasks);
+export const loadTasks = () => new Promise(async (resolve, reject) => {
+    try {
+      resolve((await axios.get("tasks")).data);
+    } catch (e) {
+      reject(e);
+    }
   },
 );
