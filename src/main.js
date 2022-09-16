@@ -73,7 +73,7 @@ async function resendInitialRequest(error) {
 
 axios.interceptors.response.use(r => r, async function (error) {
     // Any status code >= 400 triggers this function
-    const httpCode = error.response.status;
+    let httpCode = error.response.status;
     console.debug(`Server responded with ${ httpCode } (${ getReasonPhrase(httpCode) })`);
 
     // Forbidden happens when the credentials are wrong or invalid. Expired tokens also cause a forbidden status code.
@@ -92,9 +92,19 @@ axios.interceptors.response.use(r => r, async function (error) {
           try {
             return await resendInitialRequest(error);
           } catch (e) {
-            let errMsg = "Resending a request, that failed due to invalid authorization failed again.";
-            if (e.response != null && e.response.data != null) errMsg += `\nResponse data: ${ e.response.data }.`;
-            console.error(errMsg + `\nError: ${ e }`);
+            if (e.response == null) console.error(`Response of resent request is null: ${ e.message }`);
+              // Update the response code to the one of the resent request.
+              // The resent request may also fail, but for another reason, e.g.,
+              // initial request is made => forbidden access, because token is outdated
+              // => refresh tokens => resend initial request => 404 not found.
+            // As you can see, the initial request would have failed anyway if the credentials were valid.
+            else if (e.response.status != null) httpCode = e.response;
+            // Resent request has failed again, due to unauthorized access.
+            else if (e.response.status === StatusCodes.FORBIDDEN) {
+              let errMsg = "Resending a failed request, due to 403 (Forbidden), failed again due to 403 (Forbidden).";
+              if (e.response.data != null) errMsg += `\nResponse data: ${ e.response.data }.`;
+              console.warn(errMsg + `\n${ e }`);
+            }
           }
         } catch (e) {
           let errMsg = "Could not refresh tokens.";
