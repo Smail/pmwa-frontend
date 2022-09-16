@@ -76,7 +76,7 @@ axios.interceptors.response.use(r => r, async function (error) {
     const httpCode = error.response.status;
 
     // Forbidden happens when the credentials are wrong or invalid. Expired tokens also cause a forbidden status code.
-    if (error.response.status === StatusCodes.FORBIDDEN) {
+    if (httpCode === StatusCodes.FORBIDDEN) {
       // Try to refresh the tokens and resend the request.
       if (getRefreshToken() != null) {
         try {
