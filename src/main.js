@@ -43,12 +43,8 @@ async function refreshTokens() {
         return reject("No refresh token available");
       }
 
-      // Request new tokens
       try {
-        setTokens(await requestNewTokens({ refreshToken }));
-        axios.defaults.headers.common["Authorization"] = `Bearer ${ getAccessToken() }`;
-
-        return resolve();
+        return resolve(await requestTokensViaRefreshToken(refreshToken));
       } catch (e) {
         return reject(e);
       }
@@ -60,7 +56,7 @@ async function refreshTokens() {
     if (isRefreshing == null) requestTokens();
 
     // Wait for the refresh token request to finish
-    await isRefreshing;
+    return await isRefreshing;
   } catch (e) {
     throw e;
   } finally {
@@ -84,7 +80,11 @@ axios.interceptors.response.use(r => r, async function (error) {
       // Try to refresh the tokens and resend the request.
       if (getRefreshToken() != null) {
         try {
-          await refreshTokens();
+          setTokens(await refreshTokens());
+          // Update Authorization header for all future requests
+          axios.defaults.headers.common["Authorization"] = `Bearer ${ getAccessToken() }`;
+          // Update the initial request Authorization header (important when resending it)
+          error.config.headers.Authorization = `Bearer ${ getAccessToken() }`;
 
           try {
             return await resendInitialRequest(error);
