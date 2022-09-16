@@ -13,6 +13,7 @@ import { logErrorAndAlert } from "@/util/logErrorAndAlert";
 import { getAccessToken } from "@/services/getAccessToken";
 import { removeRefreshToken } from "@/services/removeRefreshToken";
 import { removeAccessToken } from "@/services/removeAccessToken";
+import router from "@/router";
 
 export default createStore({
   state: {
@@ -187,7 +188,7 @@ export default createStore({
 
       context.commit("resetUser");
       context.commit("setIsLoggedIn", false);
-
+      router.push("/logout");
       console.debug(`%c[SUCCESS] %s`, "color: lime", "Log out the user");
     },
     /**
