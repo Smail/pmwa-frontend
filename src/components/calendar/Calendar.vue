@@ -184,7 +184,7 @@ export default {
             // Translate the dates by an equidistant amount
             const startHourDelta = newStartHour - startDate.hours();
             const endHourDelta = newEndHour - endDate.hours();
-            const dayDelta = newWeekDay - startDate.day();
+            const dayDelta = newWeekDay - startDate.isoWeekday();
             startDate.add(startHourDelta, "hours").add(dayDelta, "days");
             endDate.add(endHourDelta, "hours").add(dayDelta, "days");
 
