@@ -28,6 +28,7 @@
               'border-bottom-left-radius': i === 0 && h === 23,
               'border-bottom-right-radius': i === weekDistributionWeekDays.length - 1 && h === 23,
             }"
+           :data-date="createMoment(weekDistributionDates[i]).add(h, 'hour').toISOString()"
            :style="{ gridArea: `d${d}${h}` }"
            class="hour"
            @click="createTask(createMoment(weekDistributionDates[i]).add(h, 'hour').toISOString())"
@@ -187,23 +188,12 @@ export default {
         // Get the time slot over which the mouse (event) hovers
         if (event.clientX >= clientRect.left && event.clientX <= clientRect.right) {
           if (event.clientY >= clientRect.top && event.clientY <= clientRect.bottom) {
-            // Example: d123 = day 1, hour 23
-            // Add one, because the day hours start with 0 and go to 23 (inclusive), but we want 1-24
-            const hour = Number.parseInt(timeSlot.style.gridRowEnd.substring(2)) + 1;
-            const day = Number.parseInt(timeSlot.style.gridRowStart.substring(1, 2));
+            const timeSlotDate = timeSlot.dataset.date;
+            if (timeSlotDate == null) throw new Error("No dataset attribute 'date' set on timeslot");
 
             const currentEndDate = moment(task.endDate);
-            const newEndDate = moment(task.endDate);
-            let currentEndDay = currentEndDate.day();
-            let currentEndHour = currentEndDate.hour();
-            // We must treat 0 o'clock as 24 o'clock.
-            if (currentEndDay === 0) currentEndDay = 7;
-            if (currentEndHour === 0) currentEndHour = 24;
-            const diffHours = hour - currentEndHour;
-            const diffDays = day - currentEndDay;
+            const newEndDate = moment(timeSlotDate).add(1, "hour");
 
-            if (diffDays !== 0) newEndDate.add(diffDays, "day");
-            if (diffHours !== 0) newEndDate.add(diffHours, "hours");
             // Prevent the end date happening before the start date
             if (newEndDate < moment(task.startDate)) return;
             if (newEndDate === currentEndDate) return;
@@ -222,32 +212,23 @@ export default {
         // Get the time slot over which the mouse (event) hovers
         if (event.clientX >= clientRect.left && event.clientX <= clientRect.right) {
           if (event.clientY >= clientRect.top && event.clientY <= clientRect.bottom) {
-            // Example: d27; day 2 hour 7 => d47; day 4 hour 7
-            const startDate = moment(task.startDate);
-            const endDate = moment(task.endDate);
-            const duration = endDate.hours() - startDate.hours();
+            if (timeSlot.dataset.date == null) throw new Error("No dataset attribute 'date' set on timeslot");
+            const newStartDate = moment(timeSlot.dataset.date);
+            const duration = (moment(task.endDate).diff(moment(task.startDate), "hours"));
+            const newEndDate = moment(newStartDate.toISOString()).add(duration, "hour");
 
-            // Get new data from the CSS grid data
-            const newWeekDay = Number.parseInt(timeSlot.style.gridRowStart.substring(1, 2));
-            const newStartHour = Number.parseInt(timeSlot.style.gridRowStart.substring(2));
-            const newEndHour = newStartHour + duration;
+            const newStartDateString = newStartDate.toISOString();
+            const newEndDateString = newEndDate.toISOString();
 
-            // Translate the dates by an equidistant amount
-            const startHourDelta = newStartHour - startDate.hours();
-            const endHourDelta = newEndHour - endDate.hours();
-            const dayDelta = newWeekDay - startDate.isoWeekday();
-            startDate.add(startHourDelta, "hours").add(dayDelta, "days");
-            endDate.add(endHourDelta, "hours").add(dayDelta, "days");
-
-            const newStartDayString = startDate.toISOString();
-            const newEndDayString = endDate.toISOString();
-            // Don't update if nothing has changed
-            if (task.startDate === newStartDayString && task.endDate === newEndDayString) break;
-
+            if (task.startDate === newStartDateString && task.endDate === newEndDateString) break;
+            if (newEndDate.isBefore(newStartDate)) {
+              console.warn("End date before start date. Not moving the task");
+              return;
+            }
             // Commit the changes to the model. This will only update the model locally.
             // The server will be notified of the change when the user stops moving the task around (@see updateServer).
-            task.startDate = newStartDayString;
-            task.endDate = newEndDayString;
+            task.startDate = newStartDateString;
+            task.endDate = newEndDateString;
 
             // There exists only one timeslot in the calendar for the searched date.
             // Hence, we can break the loop here.
