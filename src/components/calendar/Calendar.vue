@@ -9,6 +9,7 @@
           }"
         :style="{ gridArea: `${dayStringShort(d - 1)}-${Math.floor(i / 7)}` }"
         class="day-header"
+        @click="isDayMultiselectActive && multiselectDay(weekDistributionDates[i])"
     >
       {{ dayString(d - 1) }}
     </h4>
@@ -265,9 +266,33 @@ export default {
           console.log("multiselect on");
         } else if (evt.type === "keyup" && this.isDayMultiselectActive) {
           this.isDayMultiselectActive = false;
+          this.applyMultiselect(this.selectedDays);
+          while (this.selectedDays.length > 0) this.selectedDays.pop();
           console.log("multiselect off");
         }
       }
+    },
+    applyMultiselect(dates) {
+      if (dates == null || dates.length === 0) return;
+      const newStartDate = dates.reduce((p, c) => c.isSameOrBefore(p) ? c : p);
+      const newEndDate = dates.reduce((p, c) => c.isSameOrAfter(p) ? c : p);
+
+      this.$emit("update:startDate", newStartDate);
+      this.$emit("update:endDate", newEndDate);
+    },
+    multiselectDay(d) {
+      const i = this.selectedDays.indexOf(d);
+      if (i >= 0) {
+        this.selectedDays.splice(i, 1);
+        console.log(`Remove ${ d }`);
+      } else {
+        console.log(`Add = ${ d }`);
+        this.selectedDays.push(d);
+      }
+    },
+    isSelected(d) {
+      const isSelected = this.selectedDays.indexOf(d) >= 0;
+      return isSelected;
     },
   },
   mounted() {
