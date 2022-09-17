@@ -362,19 +362,5 @@ export default {
   background: whitesmoke;
   border-radius: 1rem;
   padding: 0.5rem;
-
-  .days {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-
-    .hours {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-evenly;
-    }
-  }
 }
 </style>
