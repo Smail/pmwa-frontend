@@ -50,6 +50,7 @@ export default {
       type: Object,
       required: true,
     },
+    // List of String encoded dates
     weekDistributionDates: {
       type: Array,
       required: true,
