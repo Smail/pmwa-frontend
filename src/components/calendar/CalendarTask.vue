@@ -54,6 +54,18 @@ export default {
     },
   },
   computed: {
+    firstVisibleDay() {
+      return this.days[this.days.length - 1];
+    },
+    lastVisibleDay() {
+      return this.days[this.days.length - 1];
+    },
+    exceedsTaskCalendarViewStart() {
+      return this.firstVisibleDay.isSame(moment(this.task.startDate), "days");
+    },
+    exceedsTaskCalendarViewEnd() {
+      return this.lastVisibleDay.isSame(moment(this.task.endDate), "days");
+    },
     numDays() {
       let d = 0;
       for (let i = 0; true; i++) {
