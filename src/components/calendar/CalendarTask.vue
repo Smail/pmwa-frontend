@@ -64,9 +64,14 @@ export default {
     },
     numDays() {
       let d = 0;
-      for (let i = 0; true; i++) {
-        d += 1;
+      // Prevent infinite loop.
+      // Set a safe upper bound, i.e., one that won't interfere with the rendering/user experience, to prevent
+      // a stack overflow or hung up.
+      // It is irrelevant if the numDays are larger than the displayable length of the week.
+      // The 5 is arbitrary.
+      for (let i = 0; d < this.weekDistributionDates.length + 5; i++) {
         const m = moment(this.startDate).add(i, "days");
+        d += 1;
         if (this.endDate.isSame(m, "days")) {
           break;
         }
