@@ -97,8 +97,8 @@ export default {
   },
   methods: {
     normalizeDay(day) {
-      if (day === 0) return 0;
-      return (day % 7) + 1;
+      if (day === 7) return 7;
+      return (day % 7);
     },
     localeTimeString(m) {
       return m.toDate()
