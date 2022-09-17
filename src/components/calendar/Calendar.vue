@@ -42,7 +42,8 @@
                      @move-task="moveTask"
                      @move-finished="updateServer(task.id, { startDate: task.startDate, endDate: task.endDate})"
                      @resize-timeslot="resizeTimeslot"
-                     @resize-finished="updateServer(task.id, { endDate: task.endDate})"></calendar-task>
+                     @resize-finished="updateServer(task.id, { endDate: task.endDate})"
+      ></calendar-task>
     </template>
   </div>
 </template>
