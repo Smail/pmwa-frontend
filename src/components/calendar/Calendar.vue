@@ -22,7 +22,12 @@
               'border-right': d !== weekDistributionWeekDays.slice(-1)[0],
               'border-top': h > 0 && h < 24,
               'past-day': hasDatePast(createMoment(weekDistributionDates[i]).add(h, 'hour')),
-              }"
+              // Rounded corners for the time slot grid
+              'border-top-left-radius': i === 0 && h === 0,
+              'border-top-right-radius': i === weekDistributionWeekDays.length - 1 && h === 0,
+              'border-bottom-left-radius': i === 0 && h === 23,
+              'border-bottom-right-radius': i === weekDistributionWeekDays.length - 1 && h === 23,
+            }"
            :style="{ gridArea: `d${d}${h}` }"
            class="hour"
            @click="createTask(d, h)"
