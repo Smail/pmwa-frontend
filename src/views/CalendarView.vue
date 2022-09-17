@@ -1,23 +1,58 @@
 <template>
   <div class="calendar-view">
-    <h1>Calendar</h1>
+    <div class="page-header">
+      <h1 class="page-title">Calendar</h1>
+      <div class="nav-button-container">
+        <button class="nav-button material-symbols-outlined"
+                @click="advanceCalendarByDays(1)"
+        >chevron_left
+        </button>
+        <button class="nav-button material-symbols-outlined"
+                @click="advanceCalendarByDays(-1)"
+        >chevron_right
+        </button>
+      </div>
+    </div>
     <calendar :tasks="tasks" class="calendar-component" @create-task="createTask"></calendar>
   </div>
 </template>
 
 <style lang="scss">
+@import "@/scss/globals.scss";
+
 .calendar-view {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 
-  h1 {
-    margin: 0;
-    align-self: stretch;
-    text-align: left;
+  .page-header {
+    display: flex;
     background-color: whitesmoke;
     padding: 1rem;
     border-radius: 1rem;
+    justify-content: space-between;
+
+    .nav-button-container {
+      display: flex;
+      gap: 0.5em;
+    }
+
+    .nav-button {
+      font-size: 2em;
+      padding: 0;
+      margin: 0;
+      background: transparent;
+      border: none;
+      transition: color 250ms ease;
+
+      &:hover {
+        color: $theme;
+      }
+    }
+  }
+
+  .page-title {
+    margin: 0;
   }
 
   .calendar-component {
@@ -40,6 +75,9 @@ export default {
     },
   },
   methods: {
+    advanceCalendarByDays(numDays) {
+
+    },
     async createTask(task) {
       try {
         const response = await axios.post("tasks/", task);
