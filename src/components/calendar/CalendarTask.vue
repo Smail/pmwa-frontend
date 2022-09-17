@@ -5,12 +5,12 @@
          :style="{
             // Rows = hours. Columns = days
             // Start from 0 o'clock if it is a continued div/day
-            gridRowStart: `d${startDate.isoWeekday() + dayIdx}${dayHourStart(dayIdx)}`,
+            gridRowStart: `d${normalizeDay(startDate.isoWeekday() + dayIdx)}${dayHourStart(dayIdx)}`,
             // Max value of hour value encoded in grid-area: 23, e.g., max. is d123 (= day 1, hour 23) and NOT d124
             // ((endDate.hours() === 0 ? 24 : endDate.hours()) - 1)
-            gridRowEnd: `d${startDate.isoWeekday() + dayIdx}${dayHourEnd(dayIdx) - 1}`,
-            gridColumnStart: `d${startDate.isoWeekday() + dayIdx}0`,
-            gridColumnEnd: `d${startDate.isoWeekday() + dayIdx}0`,
+            gridRowEnd: `d${normalizeDay(startDate.isoWeekday() + dayIdx)}${dayHourEnd(dayIdx) - 1}`,
+            gridColumnStart: `d${normalizeDay(startDate.isoWeekday() + dayIdx)}0`,
+            gridColumnEnd: `d${normalizeDay(startDate.isoWeekday() + dayIdx)}0`,
           }"
          class="task"
          draggable="true"
@@ -74,6 +74,10 @@ export default {
     },
   },
   methods: {
+    normalizeDay(day) {
+      if (day === 0) return 0;
+      return (day % 7) + 1;
+    },
     localeTimeString(m) {
       return m.toDate()
           .toLocaleTimeString([this.$store.state.locale], { hour: "2-digit", minute: "2-digit" });
