@@ -31,7 +31,9 @@
            class="drag-div"
            draggable="true"
            @drag="$emit('resizeTimeslot', $event, task)"
-           @dragend="$emit('resizeFinished')">
+           @dragend="isDragging = false; $emit('resizeFinished')"
+           @dragstart="isDragging = true"
+      >
       </div>
     </div>
   </template>
