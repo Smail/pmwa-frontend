@@ -5,7 +5,8 @@
         :class="{ 'past-day': isPast(d, 24) }"
         :style="{ gridArea: dayStringShort(d - 1) }"
         class="day-header">
-      {{ dayString(d - 1) }}</h4>
+      {{ dayString(d - 1) }}
+    </h4>
     <!-- Display time annotations, e.g., 15:00 on the left side of the calendar -->
     <template v-for="(_, h) in 24">
       <!-- Don't show 00:00 -->
