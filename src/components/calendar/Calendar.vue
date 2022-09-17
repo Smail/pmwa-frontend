@@ -332,6 +332,22 @@ export default {
     }
   }
 
+  &.border-top-left-radius {
+    border-top-left-radius: 0.5em;
+  }
+
+  &.border-top-right-radius {
+    border-top-right-radius: 0.5em;
+  }
+
+  &.border-bottom-left-radius {
+    border-bottom-left-radius: 0.5em;
+  }
+
+  &.border-bottom-right-radius {
+    border-bottom-right-radius: 0.5em;
+  }
+
   &:nth-child(2n+1) {
     background: lighten($bg, 10);
 
