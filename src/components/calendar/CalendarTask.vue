@@ -1,6 +1,6 @@
 <template>
   <template v-for="(_, dayIdx) in numDays">
-    <div v-if="isValidStartDate"
+    <div v-show="isDateVisible(createMoment(startDate).add(dayIdx, 'days'))"
          :class="{ 'is-dragging': isDragging }"
          :style="{
             // Rows = hours. Columns = days
@@ -80,6 +80,12 @@ export default {
     },
   },
   methods: {
+    createMoment(v) {
+      return moment(v);
+    },
+    isDateVisible(m) {
+      return m.isBetween(moment(this.firstVisibleDay), moment(this.lastVisibleDay), "days", "[]");
+    },
     normalizeDay(day) {
       if (day === 7) return 7;
       return (day % 7);
