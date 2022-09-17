@@ -55,7 +55,7 @@ export default {
   },
   computed: {
     firstVisibleDay() {
-      return this.days[this.days.length - 1];
+      return this.days[0];
     },
     lastVisibleDay() {
       return this.days[this.days.length - 1];
