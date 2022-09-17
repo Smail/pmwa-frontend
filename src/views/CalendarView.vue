@@ -3,14 +3,13 @@
     <div class="page-header">
       <h1 class="page-title">Calendar</h1>
       <div class="nav-button-container">
-        <!--        TODO fix: display more than 7 days-->
-        <input :max="7"
+        <input :max="20"
                :min="1"
                :value="numDaysBetweenStartAndEnd"
                class="num-days-input"
                title="Number of visible days in the calendar"
                type="number"
-               @input="setDaysBetweenStartAndEndDate(Math.min(7, Math.max($event.target.value, 1)) - 1)"
+               @input="setDaysBetweenStartAndEndDate(Math.min(20, Math.max($event.target.value, 1)) - 1)"
         />
         <button class="nav-button material-symbols-outlined"
                 @click="advanceCalendarByDays(-1)"
