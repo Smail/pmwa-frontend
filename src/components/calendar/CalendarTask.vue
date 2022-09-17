@@ -196,7 +196,7 @@ export default {
   position: relative;
 
   &.is-dragging {
-    box-shadow: 0 0 1rem 0.5rem white;
+    box-shadow: 0 0.5rem 0.75rem -0.5rem black;
     background: lighten(rgba($theme, 0.6), 10);
   }
 
