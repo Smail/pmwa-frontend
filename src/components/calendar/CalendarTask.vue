@@ -69,18 +69,13 @@ export default {
     numDays() {
       let d = 0;
       for (let i = 0; true; i++) {
-        const m = moment(this.startDate).add(i, "days");
-
-        if (this.lastVisibleDay.isSame(m, "days")) {
-          break;
-        }
-
         d += 1;
-
+        const m = moment(this.startDate).add(i, "days");
         if (this.endDate.isSame(m, "days")) {
           break;
         }
       }
+
       return d;
     },
     startDate() {
