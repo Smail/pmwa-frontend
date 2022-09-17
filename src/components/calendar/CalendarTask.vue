@@ -48,6 +48,10 @@ export default {
       type: Object,
       required: true,
     },
+    days: {
+      type: Array,
+      required: true,
+    },
   },
   computed: {
     numDays() {
