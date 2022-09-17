@@ -73,6 +73,10 @@ export default {
         const m = moment(this.startDate).add(i, "days");
         d += 1;
         if (this.endDate.isSame(m, "days")) {
+          // Check if the tasks ends at midnight.
+          // If so, prevent drawing another full next day or rather switch to the next day.
+          // If this is removed, then the application will interpret 0:00 as the time for the next day at 24 o'clock.
+          if (moment(this.endDate).hour() === 0) d -= 1;
           break;
         }
       }
