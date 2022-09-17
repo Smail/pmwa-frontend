@@ -48,17 +48,17 @@ export default {
       type: Object,
       required: true,
     },
-    days: {
+    weekDistributionDates: {
       type: Array,
       required: true,
     },
   },
   computed: {
     firstVisibleDay() {
-      return this.days[0];
+      return this.weekDistributionDates[0];
     },
     lastVisibleDay() {
-      return this.days[this.days.length - 1];
+      return this.weekDistributionDates[this.weekDistributionDates.length - 1];
     },
     exceedsTaskCalendarViewStart() {
       return this.firstVisibleDay.isSame(moment(this.task.startDate), "days");

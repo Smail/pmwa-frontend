@@ -36,8 +36,8 @@
     </template>
     <!-- The task layer -->
     <template v-for="task in visibleTasks">
-      <calendar-task :days="weekDistributionDates"
-                     :task="task"
+      <calendar-task :task="task"
+                     :week-distribution-dates="weekDistributionDates"
                      @open-task="$router.push(`/tasks/${task.id}`)"
                      @move-task="moveTask"
                      @move-finished="updateServer(task.id, { startDate: task.startDate, endDate: task.endDate})"
