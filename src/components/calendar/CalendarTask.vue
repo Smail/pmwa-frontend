@@ -70,7 +70,13 @@ export default {
       let d = 0;
       for (let i = 0; true; i++) {
         const m = moment(this.startDate).add(i, "days");
+
+        if (this.lastVisibleDay.isSame(m, "days")) {
+          break;
+        }
+
         d += 1;
+
         if (this.endDate.isSame(m, "days")) {
           break;
         }
