@@ -106,7 +106,8 @@ export default {
           .toLocaleTimeString([this.$store.state.locale], { hour: "2-digit", minute: "2-digit" });
     },
     dayHourStart(dayIdx) {
-      // The only day, that doesn't start at 0 o'clock is the first one
+      // The task segment, that doesn't necessarily start at 0:00h is the first one,
+      // because it inherits the task's start time.
       return dayIdx === 0 ? this.startDate.hours() : 0;
     },
     dayHourEnd(dayIdx) {
