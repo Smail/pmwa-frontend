@@ -94,7 +94,6 @@ export default {
     },
     dayHourEnd(dayIdx) {
       if (dayIdx < 0 || dayIdx >= this.numDays) throw new Error("Out of bounds: day index");
-      if (dayIdx === this.numDays - 1 && this.exceedsTaskCalendarViewEnd) return 0;
       if (dayIdx === this.numDays - 1) return this.endDate.hours() === 0 ? 24 : this.endDate.hours();
       if (dayIdx < this.numDays) return 24;
     },
