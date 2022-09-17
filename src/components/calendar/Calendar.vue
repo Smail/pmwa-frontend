@@ -116,6 +116,9 @@ export default {
     },
   },
   methods: {
+    createMoment(v) {
+      return moment(v);
+    },
     updateServer(id, changes) {
       if (id == null) throw new Error("Invalid argument: ID is null");
       if (changes == null) throw new Error("Invalid argument: changes is null");
