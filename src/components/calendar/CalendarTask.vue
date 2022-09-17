@@ -5,12 +5,12 @@
          :style="{
             // Rows = hours. Columns = days
             // Start from 0 o'clock if it is a continued div/day
-            gridRowStart: `d${normalizeDay(startDate.isoWeekday() + dayIdx)}${dayHourStart(dayIdx)}`,
+            gridRowStart: `d${normalizeDay(startDate.isoWeekday() + dayIdx)}${dayHourStart(dayIdx)}-${weekSegment(createMoment(startDate).add(dayIdx, 'days'))}`,
             // Max value of hour value encoded in grid-area: 23, e.g., max. is d123 (= day 1, hour 23) and NOT d124
             // ((endDate.hours() === 0 ? 24 : endDate.hours()) - 1)
-            gridRowEnd: `d${normalizeDay(startDate.isoWeekday() + dayIdx)}${dayHourEnd(dayIdx) - 1}`,
-            gridColumnStart: `d${normalizeDay(startDate.isoWeekday() + dayIdx)}0`,
-            gridColumnEnd: `d${normalizeDay(startDate.isoWeekday() + dayIdx)}0`,
+            gridRowEnd: `d${normalizeDay(startDate.isoWeekday() + dayIdx)}${dayHourEnd(dayIdx) - 1}-${weekSegment(createMoment(startDate).add(dayIdx, 'days'))}`,
+            gridColumnStart: `d${normalizeDay(startDate.isoWeekday() + dayIdx)}0-${weekSegment(createMoment(startDate).add(dayIdx, 'days'))}`,
+            gridColumnEnd: `d${normalizeDay(startDate.isoWeekday() + dayIdx)}0-${weekSegment(createMoment(startDate).add(dayIdx, 'days'))}`,
           }"
          class="task"
          draggable="true"
@@ -89,8 +89,64 @@ export default {
     endDate() {
       return moment(this.task.endDate);
     },
+    dates() {
+      const dates = [];
+      const currDate = moment(this.startDate).startOf("day");
+      const lastDate = moment(this.endDate).startOf("day");
+
+      while (currDate.add(1, "days").diff(lastDate) < 0) {
+        dates.push(currDate.clone().toDate());
+      }
+
+      return dates;
+    },
+    weekNrs() {
+      const weekNrs = [];
+      for (let i = 0; i < this.weekDistributionDates.length; i += 7) {
+        console.log(`week = ${ Math.floor(i / 7) }`);
+      }
+
+      for (const date of this.dates) {
+
+      }
+
+      return weekNrs;
+    },
   },
   methods: {
+    weekSegment(date) {
+      const weeks = [];
+      for (let i = 0; i < this.weekDistributionDates.length; i += 7) {
+        const week = [];
+        for (let j = 0; j < 7; j++) {
+          if (i + j >= this.weekDistributionDates.length) break;
+          week.push(this.weekDistributionDates[i + j]);
+        }
+        weeks.push(week);
+      }
+
+      // for (let i = 0; i < this.weekDistributionDates.length; i += 7) {
+      //   for (let j = 0; j < Math.min(this.weekDistributionDates.length, 6); j++) {
+      //     let a = moment(this.weekDistributionDates[j]).startOf("day");
+      //     let b = a.isSame(date, "day");
+      //
+      //     if (b) return i;
+      //   }
+      // }
+
+      // console.log(weeks);
+
+      for (let weekNr = 0; weekNr < weeks.length; weekNr++) {
+        for (const day of weeks[weekNr]) {
+          let a = moment(day).startOf("day");
+          let b = a.isSame(date, "day");
+          if (b) {
+            return weekNr;
+          }
+        }
+      }
+      throw new Error("");
+    },
     createMoment(v) {
       return moment(v);
     },

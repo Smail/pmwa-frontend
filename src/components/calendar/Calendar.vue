@@ -2,9 +2,12 @@
   <div class="calendar">
     <!-- The names of the days, i.e., Monday, Tuesday, etc. -->
     <h4 v-for="(d, i) in weekDistributionWeekDays"
-        :class="{ 'past-day': hasDatePast(weekDistributionDates[i]) }"
-        :style="{ gridArea: dayStringShort(d - 1) }"
-        class="day-header">
+        :class="{
+            'past-day': hasDatePast(createMoment(weekDistributionDates[i]).add(1, 'day')),
+          }"
+        :style="{ gridArea: `${dayStringShort(d - 1)}-${Math.floor(i / 7)}` }"
+        class="day-header"
+    >
       {{ dayString(d - 1) }}
     </h4>
     <!-- Display time annotations, e.g., 15:00 on the left side of the calendar -->
@@ -29,7 +32,7 @@
               'border-bottom-right-radius': i === weekDistributionWeekDays.length - 1 && h === 23,
             }"
            :data-date="createMoment(weekDistributionDates[i]).add(h, 'hour').toISOString()"
-           :style="{ gridArea: `d${d}${h}` }"
+           :style="{ gridArea: `d${d}${h}-${Math.floor(i / 7)}` }"
            class="hour"
            @click="createTask(createMoment(weekDistributionDates[i]).add(h, 'hour').toISOString())"
       >
@@ -38,7 +41,7 @@
     <!-- The task layer -->
     <template v-for="task in visibleTasks">
       <calendar-task :task="task"
-                     :week-distribution-dates="weekDistributionDates"
+                     :week-distribution-dates="weekDistributionDates.map(d => d.toISOString())"
                      @open-task="$router.push(`/tasks/${task.id}`)"
                      @move-task="moveTask"
                      @move-finished="updateServer(task.id, { startDate: task.startDate, endDate: task.endDate})"
@@ -93,28 +96,27 @@ export default {
         dates.push(moment(i.toISOString()));
       }
 
-      console.log(dates);
-
       return dates;
     },
     gridTemplateAreas() {
       let gridTemplateAreas;
 
-      { // ". mon tue wed thu fri sat sun"
+      { // ". mon-0 tue-0 wed-0 thu-0 fri-0 sat-0 sun-0 mon-1 tue-2"
         gridTemplateAreas = `". `;
-        for (const day of this.weekDistributionWeekDays) {
-          console.log(day);
-          gridTemplateAreas += `${ this.dayStringShort(day - 1) } `;
+        for (let i = 0; i < this.weekDistributionWeekDays.length; i++) {
+          const day = this.weekDistributionWeekDays[i];
+          gridTemplateAreas += `${ this.dayStringShort(day - 1) }-${ Math.floor(i / 7) } `;
         }
         gridTemplateAreas += `" `;
       }
 
-      { // "h0 d10 d20 d30 d40 d50 d60 d70"
+      { // "h0 d10-0 d20-0 d30-0 d40-0 d50-0 d60-0 d70-0 d10-1 d20-2"
         let current = moment(this.startDate);
         for (let hour = 0; hour < this.numHours; hour++) {
           gridTemplateAreas += `"h${ hour } `;
-          for (const day of this.weekDistributionWeekDays) {
-            gridTemplateAreas += `d${ day }${ hour } `;
+          for (let i = 0; i < this.weekDistributionWeekDays.length; i++) {
+            const day = this.weekDistributionWeekDays[i];
+            gridTemplateAreas += `d${ day }${ hour }-${ Math.floor(i / 7) } `;
           }
           gridTemplateAreas += `" `;
         }
