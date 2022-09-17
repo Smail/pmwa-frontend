@@ -1,8 +1,8 @@
 <template>
   <div class="calendar">
     <!-- The names of the days, i.e., Monday, Tuesday, etc. -->
-    <h4 v-for="d in 7"
-        :class="{ 'past-day': isPast(d, 24) }"
+    <h4 v-for="(d, i) in weekDistributionWeekDays"
+        :class="{ 'past-day': hasDatePast(weekDistributionDates[i]) }"
         :style="{ gridArea: dayStringShort(d - 1) }"
         class="day-header">
       {{ dayString(d - 1) }}
@@ -15,9 +15,14 @@
       </p>
     </template>
     <!-- The actual time slots -->
-    <template v-for="d in 7">
+    <template v-for="(d, i) in weekDistributionWeekDays">
       <div v-for="(_, h) in 24"
-           :class="{ 'border-right': d < 7, 'border-top': h > 0 && h < 24, 'past-day': isPast(d, h) }"
+           :class="{
+              // Check if the current day is the last element of the array
+              'border-right': d !== weekDistributionWeekDays.slice(-1)[0],
+              'border-top': h > 0 && h < 24,
+              'past-day': hasDatePast(createMoment(weekDistributionDates[i]).add(h, 'hour')),
+              }"
            :style="{ gridArea: `d${d}${h}` }"
            class="hour"
            @click="createTask(d, h)"
@@ -97,17 +102,19 @@ export default {
 
       { // ". mon tue wed thu fri sat sun"
         gridTemplateAreas = `". `;
-        for (let day = 0; day < this.numDays; day++) {
-          gridTemplateAreas += `${ this.dayStringShort(day) }${ day + 1 !== this.numDays ? " " : "" }`;
+        for (const day of this.weekDistributionWeekDays) {
+          console.log(day);
+          gridTemplateAreas += `${ this.dayStringShort(day - 1) } `;
         }
         gridTemplateAreas += `" `;
       }
 
       { // "h0 d10 d20 d30 d40 d50 d60 d70"
+        let current = moment(this.startDate);
         for (let hour = 0; hour < this.numHours; hour++) {
           gridTemplateAreas += `"h${ hour } `;
-          for (let day = 0; day < this.numDays; day++) {
-            gridTemplateAreas += `d${ day + 1 }${ hour }${ day + 1 !== this.numDays ? " " : "" }`;
+          for (const day of this.weekDistributionWeekDays) {
+            gridTemplateAreas += `d${ day }${ hour } `;
           }
           gridTemplateAreas += `" `;
         }
@@ -258,9 +265,8 @@ export default {
         endDate: moment(startDate).add(1, "hours").toISOString(),
       });
     },
-    isPast(day, hour) {
-      const currentDate = moment();
-      return currentDate.day() > day || (currentDate.day() === day && currentDate.hour() > hour);
+    hasDatePast(date) {
+      return date.isBefore(moment(), "hour");
     },
     localeTimeString(h) {
       return moment()
@@ -272,7 +278,6 @@ export default {
   },
   data() {
     return {
-      numDays: 7,
       numHours: 24,
     };
   },
