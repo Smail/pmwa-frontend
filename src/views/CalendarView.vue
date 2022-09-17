@@ -93,5 +93,11 @@ export default {
   created() {
     this.$store.dispatch("loadTasks").catch(e => alert(e));
   },
+  data() {
+    return {
+      calendarStartDate: moment().startOf("isoWeek").add(4, "days"),
+      calendarEndDate: moment().endOf("isoWeek").add(4, "days"),
+    };
+  },
 };
 </script>
