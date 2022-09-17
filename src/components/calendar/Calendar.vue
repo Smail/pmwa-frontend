@@ -4,9 +4,12 @@
     <h4 v-for="(d, i) in weekDistributionWeekDays"
         :class="{
             'past-day': hasDatePast(createMoment(weekDistributionDates[i]).add(1, 'day')),
+            'multiselect': isDayMultiselectActive,
+            'selected': isSelected(weekDistributionDates[i]),
           }"
         :style="{ gridArea: `${dayStringShort(d - 1)}-${Math.floor(i / 7)}` }"
         class="day-header"
+        @click="isDayMultiselectActive && multiselectDay(weekDistributionDates[i])"
     >
       {{ dayString(d - 1) }}
     </h4>
@@ -59,18 +62,18 @@ import CalendarTask from "@/components/calendar/CalendarTask";
 export default {
   name: "Calendar",
   components: { CalendarTask },
-  emits: ["createTask"],
+  emits: ["createTask", "update:startDate", "update:endDate"],
   props: {
     tasks: {
       type: Array,
       required: true,
     },
     startDate: {
-      type: String,
+      type: Object /* moment */,
       required: true,
     },
     endDate: {
-      type: String,
+      type: Object /* moment */,
       required: true,
       // TODO Validator is end after/same start
     },
@@ -256,9 +259,54 @@ export default {
           .toDate()
           .toLocaleTimeString([this.$store.state.locale], { hour: "2-digit", minute: "2-digit" });
     },
+    keyPress(evt) {
+      if (evt.key === "Control") {
+        if (evt.type === "keydown" && !this.isDayMultiselectActive) {
+          this.isDayMultiselectActive = true;
+          console.log("multiselect on");
+        } else if (evt.type === "keyup" && this.isDayMultiselectActive) {
+          this.isDayMultiselectActive = false;
+          this.applyMultiselect(this.selectedDays);
+          while (this.selectedDays.length > 0) this.selectedDays.pop();
+          console.log("multiselect off");
+        }
+      }
+    },
+    applyMultiselect(dates) {
+      if (dates == null || dates.length === 0) return;
+      const newStartDate = dates.reduce((p, c) => c.isSameOrBefore(p) ? c : p);
+      const newEndDate = dates.reduce((p, c) => c.isSameOrAfter(p) ? c : p);
+
+      this.$emit("update:startDate", newStartDate);
+      this.$emit("update:endDate", newEndDate);
+    },
+    multiselectDay(d) {
+      const i = this.selectedDays.indexOf(d);
+      if (i >= 0) {
+        this.selectedDays.splice(i, 1);
+        console.log(`Remove ${ d }`);
+      } else {
+        console.log(`Add = ${ d }`);
+        this.selectedDays.push(d);
+      }
+    },
+    isSelected(d) {
+      const isSelected = this.selectedDays.indexOf(d) >= 0;
+      return isSelected;
+    },
+  },
+  mounted() {
+    window.addEventListener("keydown", this.keyPress);
+    window.addEventListener("keyup", this.keyPress);
+  },
+  unmounted() {
+    window.removeEventListener("keydown", this.keyPress);
+    window.removeEventListener("keyup", this.keyPress);
   },
   data() {
     return {
+      isDayMultiselectActive: false,
+      selectedDays: [],
       numHours: 24,
     };
   },
@@ -274,7 +322,7 @@ export default {
   justify-content: center;
   text-transform: capitalize;
   color: white;
-  background: linear-gradient(to top right, $theme, lighten($theme, 10));
+  background: lighten($theme, 10) linear-gradient(to top right, $theme, lighten($theme, 10));
   border-radius: 2rem;
   width: 90%;
   justify-self: center;
@@ -283,6 +331,33 @@ export default {
   &.past-day {
     color: #2c3e50;
     background: $bg;
+  }
+
+  &.multiselect {
+    user-select: none;
+    cursor: pointer;
+    outline: 0.1em dashed red;
+    color: white;
+    background: darken($theme, 10);
+    transition: color 200ms ease-in-out,
+    background 200ms ease-in-out,
+    scale 200ms ease-in-out,
+    translate 200ms ease-in-out;
+
+    // Order of hover, selected and active is important!
+    &:hover {
+      scale: 105%;
+      translate: 0 -0.08em;
+      background: darken($theme, 0);
+    }
+
+    &.selected {
+      background: lighten($theme, 10);
+    }
+
+    &:active {
+      background: lighten($theme, 5);
+    }
   }
 }
 
@@ -330,6 +405,22 @@ export default {
     &.past-day {
       background: darken($bg, 20);
     }
+  }
+
+  &.border-top-left-radius {
+    border-top-left-radius: 0.5em;
+  }
+
+  &.border-top-right-radius {
+    border-top-right-radius: 0.5em;
+  }
+
+  &.border-bottom-left-radius {
+    border-bottom-left-radius: 0.5em;
+  }
+
+  &.border-bottom-right-radius {
+    border-bottom-right-radius: 0.5em;
   }
 
   &:nth-child(2n+1) {
