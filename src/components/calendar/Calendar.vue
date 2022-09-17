@@ -269,6 +269,8 @@ export default {
   },
   data() {
     return {
+      isDayMultiselectActive: false,
+      selectedDays: [],
       numHours: 24,
     };
   },
