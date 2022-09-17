@@ -48,6 +48,15 @@ export default {
       type: Array,
       required: true,
     },
+    startDate: {
+      type: String,
+      required: true,
+    },
+    endDate: {
+      type: String,
+      required: true,
+      // TODO Validator is end after/same start
+    },
   },
   computed: {
     gridTemplateAreas() {

@@ -13,7 +13,11 @@
         </button>
       </div>
     </div>
-    <calendar :tasks="tasks" class="calendar-component" @create-task="createTask"></calendar>
+    <calendar :end-date="calendarEndDate.toISOString()"
+              :start-date="calendarStartDate.toISOString()"
+              :tasks="tasks"
+              class="calendar-component"
+              @create-task="createTask"></calendar>
   </div>
 </template>
 
