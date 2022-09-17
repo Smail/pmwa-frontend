@@ -256,6 +256,16 @@ export default {
           .toDate()
           .toLocaleTimeString([this.$store.state.locale], { hour: "2-digit", minute: "2-digit" });
     },
+    keyPress(evt) {
+    },
+  },
+  mounted() {
+    window.addEventListener("keydown", this.keyPress);
+    window.addEventListener("keyup", this.keyPress);
+  },
+  unmounted() {
+    window.removeEventListener("keydown", this.keyPress);
+    window.removeEventListener("keyup", this.keyPress);
   },
   data() {
     return {
