@@ -4,11 +4,11 @@
       <h1 class="page-title">Calendar</h1>
       <div class="nav-button-container">
         <button class="nav-button material-symbols-outlined"
-                @click="advanceCalendarByDays(1)"
+                @click="advanceCalendarByDays(-1)"
         >chevron_left
         </button>
         <button class="nav-button material-symbols-outlined"
-                @click="advanceCalendarByDays(-1)"
+                @click="advanceCalendarByDays(1)"
         >chevron_right
         </button>
       </div>
