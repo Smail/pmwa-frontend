@@ -60,12 +60,6 @@ export default {
     lastVisibleDay() {
       return this.weekDistributionDates[this.weekDistributionDates.length - 1];
     },
-    exceedsTaskCalendarViewStart() {
-      return this.firstVisibleDay.isSame(moment(this.task.startDate), "days");
-    },
-    exceedsTaskCalendarViewEnd() {
-      return this.lastVisibleDay.isSame(moment(this.task.endDate), "days");
-    },
     numDays() {
       let d = 0;
       for (let i = 0; true; i++) {
@@ -83,11 +77,6 @@ export default {
     },
     endDate() {
       return moment(this.task.endDate);
-    },
-    isValidStartDate() {
-      const b = this.startDate != null && this.startDate.toString() !== "Invalid Date";
-      if (!b) console.error(`Invalid date of prop task: task.startDate = ${ this.task.startDate }`);
-      return b;
     },
   },
   methods: {
