@@ -119,7 +119,7 @@ export default {
         }
       }
 
-      return gridTemplateAreas;
+      return gridTemplateAreas.trim();
     },
   },
   methods: {
