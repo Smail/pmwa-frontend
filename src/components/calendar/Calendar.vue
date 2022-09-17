@@ -73,17 +73,10 @@ export default {
   },
   computed: {
     visibleTasks() {
-      console.log(moment(this.startDate));
-      console.log(moment(this.endDate));
-      console.log(this.tasks
-              .filter(t => t.startDate != null)
-              .map(t => moment(t.startDate)),
-          // .map(d => d.isBetween(moment(this.startDate), moment(this.endDate), "hours", "[]"))
-      );
-
       return this.tasks
           .filter(t => t.startDate != null)
-          .filter(t => moment(t.startDate).isBetween(this.startDate, this.endDate));
+          .filter(t => moment(t.endDate).isAfter(moment(this.startDate).startOf("day")))
+          .filter(t => moment(t.startDate).isBefore(moment(this.endDate).endOf("day")));
     },
     numDays() {
       return this.weekDistributionWeekDays.length;
