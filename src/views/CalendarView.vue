@@ -51,6 +51,8 @@
 
     .num-days-input {
       font-size: 1.75em;
+      border: none;
+      background: transparent;
     }
 
     .nav-button {
