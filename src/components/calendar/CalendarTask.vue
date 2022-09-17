@@ -1,6 +1,6 @@
 <template>
   <template v-for="(_, dayIdx) in numDays">
-    <div v-show="isDateVisible(createMoment(startDate).add(dayIdx, 'days'))"
+    <div v-if="isDateVisible(createMoment(startDate).add(dayIdx, 'days'))"
          :class="{ 'is-dragging': isDragging }"
          :style="{
             // Rows = hours. Columns = days
