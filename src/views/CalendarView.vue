@@ -21,8 +21,8 @@
         </button>
       </div>
     </div>
-    <calendar :end-date="calendarEndDate.toISOString()"
-              :start-date="calendarStartDate.toISOString()"
+    <calendar v-model:end-date="calendarEndDate"
+              v-model:start-date="calendarStartDate"
               :tasks="tasks"
               class="calendar-component"
               @create-task="createTask"></calendar>

@@ -62,18 +62,18 @@ import CalendarTask from "@/components/calendar/CalendarTask";
 export default {
   name: "Calendar",
   components: { CalendarTask },
-  emits: ["createTask"],
+  emits: ["createTask", "update:startDate", "update:endDate"],
   props: {
     tasks: {
       type: Array,
       required: true,
     },
     startDate: {
-      type: String,
+      type: Object /* moment */,
       required: true,
     },
     endDate: {
-      type: String,
+      type: Object /* moment */,
       required: true,
       // TODO Validator is end after/same start
     },
