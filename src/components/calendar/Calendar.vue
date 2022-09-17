@@ -4,6 +4,8 @@
     <h4 v-for="(d, i) in weekDistributionWeekDays"
         :class="{
             'past-day': hasDatePast(createMoment(weekDistributionDates[i]).add(1, 'day')),
+            'multiselect': isDayMultiselectActive,
+            'selected': isSelected(weekDistributionDates[i]),
           }"
         :style="{ gridArea: `${dayStringShort(d - 1)}-${Math.floor(i / 7)}` }"
         class="day-header"
@@ -304,6 +306,33 @@ export default {
   &.past-day {
     color: #2c3e50;
     background: $bg;
+  }
+
+  &.multiselect {
+    user-select: none;
+    cursor: pointer;
+    outline: 0.1em dashed red;
+    color: white;
+    background: darken($theme, 10);
+    transition: color 200ms ease-in-out,
+    background 200ms ease-in-out,
+    scale 200ms ease-in-out,
+    translate 200ms ease-in-out;
+
+    // Order of hover, selected and active is important!
+    &:hover {
+      scale: 105%;
+      translate: 0 -0.08em;
+      background: darken($theme, 0);
+    }
+
+    &.selected {
+      background: lighten($theme, 10);
+    }
+
+    &:active {
+      background: lighten($theme, 5);
+    }
   }
 }
 
