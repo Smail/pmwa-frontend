@@ -65,6 +65,7 @@
 import Calendar from "@/components/calendar/Calendar.vue";
 import axios from "axios";
 import { logErrorAndAlert } from "@/util/logErrorAndAlert";
+import moment from "moment";
 
 export default {
   name: "CalendarView",
@@ -72,6 +73,9 @@ export default {
   computed: {
     tasks() {
       return this.$store.state.tasks;
+    },
+    numDaysBetweenStartAndEnd() {
+      return moment(this.calendarEndDate).diff(this.calendarStartDate, "days") + 1;
     },
   },
   methods: {
