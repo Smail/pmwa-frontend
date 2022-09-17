@@ -29,7 +29,7 @@
 
       <!-- Log out button -->
       <li class="menu" style="margin-top: auto">
-        <nav-bar-link class="wrapper" icon="logout" name="Log out" to="logout"
+        <nav-bar-link class="wrapper" icon="logout" name="Log out" to="sign-out"
                       @click="$store.dispatch('logOut')"></nav-bar-link>
       </li>
     </ul>
