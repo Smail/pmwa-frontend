@@ -257,6 +257,15 @@ export default {
           .toLocaleTimeString([this.$store.state.locale], { hour: "2-digit", minute: "2-digit" });
     },
     keyPress(evt) {
+      if (evt.key === "Control") {
+        if (evt.type === "keydown" && !this.isDayMultiselectActive) {
+          this.isDayMultiselectActive = true;
+          console.log("multiselect on");
+        } else if (evt.type === "keyup" && this.isDayMultiselectActive) {
+          this.isDayMultiselectActive = false;
+          console.log("multiselect off");
+        }
+      }
     },
   },
   mounted() {
