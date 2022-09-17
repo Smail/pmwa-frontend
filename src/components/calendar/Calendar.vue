@@ -322,7 +322,7 @@ export default {
   justify-content: center;
   text-transform: capitalize;
   color: white;
-  background: linear-gradient(to top right, $theme, lighten($theme, 10));
+  background: lighten($theme, 10) linear-gradient(to top right, $theme, lighten($theme, 10));
   border-radius: 2rem;
   width: 90%;
   justify-self: center;
