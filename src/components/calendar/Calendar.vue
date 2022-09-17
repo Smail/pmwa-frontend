@@ -25,7 +25,8 @@
     </template>
     <!-- The task layer -->
     <template v-for="task in visibleTasks">
-      <calendar-task :task="task"
+      <calendar-task :days="weekDistributionDates"
+                     :task="task"
                      @open-task="$router.push(`/tasks/${task.id}`)"
                      @move-task="moveTask"
                      @move-finished="updateServer(task.id, { startDate: task.startDate, endDate: task.endDate})"
@@ -71,6 +72,24 @@ export default {
       return this.tasks
           .filter(t => t.startDate != null)
           .filter(t => moment(t.startDate).isBetween(this.startDate, this.endDate));
+    },
+    numDays() {
+      return this.weekDistributionWeekDays.length;
+    },
+    weekDistributionWeekDays() {
+      return this.weekDistributionDates.map(date => date.isoWeekday());
+    },
+    weekDistributionDates() {
+      const dates = [];
+      // TODO clip small/large values
+
+      for (let i = moment(this.startDate); i.isSameOrBefore(this.endDate); i.add(1, "days")) {
+        dates.push(moment(i.toISOString()));
+      }
+
+      console.log(dates);
+
+      return dates;
     },
     gridTemplateAreas() {
       let gridTemplateAreas;
