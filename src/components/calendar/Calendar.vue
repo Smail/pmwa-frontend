@@ -30,7 +30,7 @@
             }"
            :style="{ gridArea: `d${d}${h}` }"
            class="hour"
-           @click="createTask(d, h)"
+           @click="createTask(createMoment(weekDistributionDates[i]).add(h, 'hour').toISOString())"
       >
       </div>
     </template>
@@ -263,8 +263,7 @@ export default {
         }
       }
     },
-    createTask(d, h) {
-      const startDate = moment().set("day", d).set("hours", h).set("minutes", 0);
+    createTask(startDate) {
       this.$emit("createTask", {
         name: "(Missing title)",
         startDate: moment(startDate).toISOString(),
