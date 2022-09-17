@@ -79,8 +79,21 @@ export default {
     },
   },
   methods: {
+    addDaysToStartDate(numDays) {
+      console.log(numDays);
+      console.log(this.calendarStartDate);
+      this.calendarStartDate = moment(this.calendarStartDate).add(numDays, "days");
+      console.log(this.calendarStartDate);
+    },
+    addDaysToEndDate(numDays) {
+      this.calendarEndDate = moment(this.calendarEndDate).add(numDays, "days");
+    },
+    setDaysBetweenStartAndEndDate(numDays) {
+      this.calendarEndDate = moment(this.calendarStartDate).add(numDays, "days");
+    },
     advanceCalendarByDays(numDays) {
-
+      this.addDaysToEndDate(numDays);
+      this.addDaysToStartDate(numDays);
     },
     async createTask(task) {
       try {
