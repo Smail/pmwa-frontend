@@ -3,17 +3,29 @@
     <div class="page-header">
       <h1 class="page-title">Calendar</h1>
       <div class="nav-button-container">
+        <input :max="20"
+               :min="1"
+               :value="numDaysBetweenStartAndEnd"
+               class="num-days-input"
+               title="Number of visible days in the calendar"
+               type="number"
+               @input="setDaysBetweenStartAndEndDate(Math.min(20, Math.max($event.target.value, 1)) - 1)"
+        />
         <button class="nav-button material-symbols-outlined"
-                @click="advanceCalendarByDays(1)"
+                @click="advanceCalendarByDays(-1)"
         >chevron_left
         </button>
         <button class="nav-button material-symbols-outlined"
-                @click="advanceCalendarByDays(-1)"
+                @click="advanceCalendarByDays(1)"
         >chevron_right
         </button>
       </div>
     </div>
-    <calendar :tasks="tasks" class="calendar-component" @create-task="createTask"></calendar>
+    <calendar :end-date="calendarEndDate.toISOString()"
+              :start-date="calendarStartDate.toISOString()"
+              :tasks="tasks"
+              class="calendar-component"
+              @create-task="createTask"></calendar>
   </div>
 </template>
 
@@ -35,6 +47,12 @@
     .nav-button-container {
       display: flex;
       gap: 0.5em;
+    }
+
+    .num-days-input {
+      font-size: 1.75em;
+      border: none;
+      background: transparent;
     }
 
     .nav-button {
@@ -65,6 +83,7 @@
 import Calendar from "@/components/calendar/Calendar.vue";
 import axios from "axios";
 import { logErrorAndAlert } from "@/util/logErrorAndAlert";
+import moment from "moment";
 
 export default {
   name: "CalendarView",
@@ -73,10 +92,26 @@ export default {
     tasks() {
       return this.$store.state.tasks;
     },
+    numDaysBetweenStartAndEnd() {
+      return moment(this.calendarEndDate).diff(this.calendarStartDate, "days") + 1;
+    },
   },
   methods: {
+    addDaysToStartDate(numDays) {
+      console.log(numDays);
+      console.log(this.calendarStartDate);
+      this.calendarStartDate = moment(this.calendarStartDate).add(numDays, "days");
+      console.log(this.calendarStartDate);
+    },
+    addDaysToEndDate(numDays) {
+      this.calendarEndDate = moment(this.calendarEndDate).add(numDays, "days");
+    },
+    setDaysBetweenStartAndEndDate(numDays) {
+      this.calendarEndDate = moment(this.calendarStartDate).add(numDays, "days");
+    },
     advanceCalendarByDays(numDays) {
-
+      this.addDaysToEndDate(numDays);
+      this.addDaysToStartDate(numDays);
     },
     async createTask(task) {
       try {
@@ -92,6 +127,12 @@ export default {
   },
   created() {
     this.$store.dispatch("loadTasks").catch(e => alert(e));
+  },
+  data() {
+    return {
+      calendarStartDate: moment().startOf("isoWeek").add(4, "days"),
+      calendarEndDate: moment().endOf("isoWeek").add(4, "days"),
+    };
   },
 };
 </script>

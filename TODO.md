@@ -9,3 +9,5 @@
 - [ ] Task color; use in calendar
 - [ ] Fix tags
 - [ ] Tag search
+- [ ] Scroll days/weeks in calendar
+- [ ] Add task description

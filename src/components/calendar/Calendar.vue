@@ -1,11 +1,15 @@
 <template>
   <div class="calendar">
     <!-- The names of the days, i.e., Monday, Tuesday, etc. -->
-    <h4 v-for="d in 7"
-        :class="{ 'past-day': isPast(d, 24) }"
-        :style="{ gridArea: dayStringShort(d - 1) }"
-        class="day-header">
-      {{ dayString(d - 1) }}</h4>
+    <h4 v-for="(d, i) in weekDistributionWeekDays"
+        :class="{
+            'past-day': hasDatePast(createMoment(weekDistributionDates[i]).add(1, 'day')),
+          }"
+        :style="{ gridArea: `${dayStringShort(d - 1)}-${Math.floor(i / 7)}` }"
+        class="day-header"
+    >
+      {{ dayString(d - 1) }}
+    </h4>
     <!-- Display time annotations, e.g., 15:00 on the left side of the calendar -->
     <template v-for="(_, h) in 24">
       <!-- Don't show 00:00 -->
@@ -14,23 +18,36 @@
       </p>
     </template>
     <!-- The actual time slots -->
-    <template v-for="d in 7">
+    <template v-for="(d, i) in weekDistributionWeekDays">
       <div v-for="(_, h) in 24"
-           :class="{ 'border-right': d < 7, 'border-top': h > 0 && h < 24, 'past-day': isPast(d, h) }"
-           :style="{ gridArea: `d${d}${h}` }"
+           :class="{
+              // Check if the current day is the last element of the array
+              'border-right': d !== weekDistributionWeekDays.slice(-1)[0],
+              'border-top': h > 0 && h < 24,
+              'past-day': hasDatePast(createMoment(weekDistributionDates[i]).add(h, 'hour')),
+              // Rounded corners for the time slot grid
+              'border-top-left-radius': i === 0 && h === 0,
+              'border-top-right-radius': i === weekDistributionWeekDays.length - 1 && h === 0,
+              'border-bottom-left-radius': i === 0 && h === 23,
+              'border-bottom-right-radius': i === weekDistributionWeekDays.length - 1 && h === 23,
+            }"
+           :data-date="createMoment(weekDistributionDates[i]).add(h, 'hour').toISOString()"
+           :style="{ gridArea: `d${d}${h}-${Math.floor(i / 7)}` }"
            class="hour"
-           @click="createTask(d, h)"
+           @click="createTask(createMoment(weekDistributionDates[i]).add(h, 'hour').toISOString())"
       >
       </div>
     </template>
     <!-- The task layer -->
-    <template v-for="task in tasks.filter(t => t.startDate != null)">
+    <template v-for="task in visibleTasks">
       <calendar-task :task="task"
+                     :week-distribution-dates="weekDistributionDates.map(d => d.toISOString())"
                      @open-task="$router.push(`/tasks/${task.id}`)"
                      @move-task="moveTask"
                      @move-finished="updateServer(task.id, { startDate: task.startDate, endDate: task.endDate})"
                      @resize-timeslot="resizeTimeslot"
-                     @resize-finished="updateServer(task.id, { endDate: task.endDate})"></calendar-task>
+                     @resize-finished="updateServer(task.id, { endDate: task.endDate})"
+      ></calendar-task>
     </template>
   </div>
 </template>
@@ -48,33 +65,70 @@ export default {
       type: Array,
       required: true,
     },
+    startDate: {
+      type: String,
+      required: true,
+    },
+    endDate: {
+      type: String,
+      required: true,
+      // TODO Validator is end after/same start
+    },
   },
   computed: {
+    visibleTasks() {
+      return this.tasks
+          .filter(t => t.startDate != null)
+          .filter(t => moment(t.endDate).isAfter(moment(this.startDate).startOf("day")))
+          .filter(t => moment(t.startDate).isBefore(moment(this.endDate).endOf("day")));
+    },
+    numDays() {
+      return this.weekDistributionWeekDays.length;
+    },
+    weekDistributionWeekDays() {
+      return this.weekDistributionDates.map(date => date.isoWeekday());
+    },
+    weekDistributionDates() {
+      const dates = [];
+      // TODO clip small/large values
+
+      for (let i = moment(this.startDate); i.isSameOrBefore(this.endDate); i.add(1, "days")) {
+        dates.push(moment(i.toISOString()));
+      }
+
+      return dates;
+    },
     gridTemplateAreas() {
       let gridTemplateAreas;
 
-      { // ". mon tue wed thu fri sat sun"
+      { // ". mon-0 tue-0 wed-0 thu-0 fri-0 sat-0 sun-0 mon-1 tue-2"
         gridTemplateAreas = `". `;
-        for (let day = 0; day < this.numDays; day++) {
-          gridTemplateAreas += `${ this.dayStringShort(day) }${ day + 1 !== this.numDays ? " " : "" }`;
+        for (let i = 0; i < this.weekDistributionWeekDays.length; i++) {
+          const day = this.weekDistributionWeekDays[i];
+          gridTemplateAreas += `${ this.dayStringShort(day - 1) }-${ Math.floor(i / 7) } `;
         }
         gridTemplateAreas += `" `;
       }
 
-      { // "h0 d10 d20 d30 d40 d50 d60 d70"
+      { // "h0 d10-0 d20-0 d30-0 d40-0 d50-0 d60-0 d70-0 d10-1 d20-2"
+        let current = moment(this.startDate);
         for (let hour = 0; hour < this.numHours; hour++) {
           gridTemplateAreas += `"h${ hour } `;
-          for (let day = 0; day < this.numDays; day++) {
-            gridTemplateAreas += `d${ day + 1 }${ hour }${ day + 1 !== this.numDays ? " " : "" }`;
+          for (let i = 0; i < this.weekDistributionWeekDays.length; i++) {
+            const day = this.weekDistributionWeekDays[i];
+            gridTemplateAreas += `d${ day }${ hour }-${ Math.floor(i / 7) } `;
           }
           gridTemplateAreas += `" `;
         }
       }
 
-      return gridTemplateAreas;
+      return gridTemplateAreas.trim();
     },
   },
   methods: {
+    createMoment(v) {
+      return moment(v);
+    },
     updateServer(id, changes) {
       if (id == null) throw new Error("Invalid argument: ID is null");
       if (changes == null) throw new Error("Invalid argument: changes is null");
@@ -136,23 +190,12 @@ export default {
         // Get the time slot over which the mouse (event) hovers
         if (event.clientX >= clientRect.left && event.clientX <= clientRect.right) {
           if (event.clientY >= clientRect.top && event.clientY <= clientRect.bottom) {
-            // Example: d123 = day 1, hour 23
-            // Add one, because the day hours start with 0 and go to 23 (inclusive), but we want 1-24
-            const hour = Number.parseInt(timeSlot.style.gridRowEnd.substring(2)) + 1;
-            const day = Number.parseInt(timeSlot.style.gridRowStart.substring(1, 2));
+            const timeSlotDate = timeSlot.dataset.date;
+            if (timeSlotDate == null) throw new Error("No dataset attribute 'date' set on timeslot");
 
             const currentEndDate = moment(task.endDate);
-            const newEndDate = moment(task.endDate);
-            let currentEndDay = currentEndDate.day();
-            let currentEndHour = currentEndDate.hour();
-            // We must treat 0 o'clock as 24 o'clock.
-            if (currentEndDay === 0) currentEndDay = 7;
-            if (currentEndHour === 0) currentEndHour = 24;
-            const diffHours = hour - currentEndHour;
-            const diffDays = day - currentEndDay;
+            const newEndDate = moment(timeSlotDate).add(1, "hour");
 
-            if (diffDays !== 0) newEndDate.add(diffDays, "day");
-            if (diffHours !== 0) newEndDate.add(diffHours, "hours");
             // Prevent the end date happening before the start date
             if (newEndDate < moment(task.startDate)) return;
             if (newEndDate === currentEndDate) return;
@@ -171,32 +214,23 @@ export default {
         // Get the time slot over which the mouse (event) hovers
         if (event.clientX >= clientRect.left && event.clientX <= clientRect.right) {
           if (event.clientY >= clientRect.top && event.clientY <= clientRect.bottom) {
-            // Example: d27; day 2 hour 7 => d47; day 4 hour 7
-            const startDate = moment(task.startDate);
-            const endDate = moment(task.endDate);
-            const duration = endDate.hours() - startDate.hours();
+            if (timeSlot.dataset.date == null) throw new Error("No dataset attribute 'date' set on timeslot");
+            const newStartDate = moment(timeSlot.dataset.date);
+            const duration = (moment(task.endDate).diff(moment(task.startDate), "hours"));
+            const newEndDate = moment(newStartDate.toISOString()).add(duration, "hour");
 
-            // Get new data from the CSS grid data
-            const newWeekDay = Number.parseInt(timeSlot.style.gridRowStart.substring(1, 2));
-            const newStartHour = Number.parseInt(timeSlot.style.gridRowStart.substring(2));
-            const newEndHour = newStartHour + duration;
+            const newStartDateString = newStartDate.toISOString();
+            const newEndDateString = newEndDate.toISOString();
 
-            // Translate the dates by an equidistant amount
-            const startHourDelta = newStartHour - startDate.hours();
-            const endHourDelta = newEndHour - endDate.hours();
-            const dayDelta = newWeekDay - startDate.isoWeekday();
-            startDate.add(startHourDelta, "hours").add(dayDelta, "days");
-            endDate.add(endHourDelta, "hours").add(dayDelta, "days");
-
-            const newStartDayString = startDate.toISOString();
-            const newEndDayString = endDate.toISOString();
-            // Don't update if nothing has changed
-            if (task.startDate === newStartDayString && task.endDate === newEndDayString) break;
-
+            if (task.startDate === newStartDateString && task.endDate === newEndDateString) break;
+            if (newEndDate.isBefore(newStartDate)) {
+              console.warn("End date before start date. Not moving the task");
+              return;
+            }
             // Commit the changes to the model. This will only update the model locally.
             // The server will be notified of the change when the user stops moving the task around (@see updateServer).
-            task.startDate = newStartDayString;
-            task.endDate = newEndDayString;
+            task.startDate = newStartDateString;
+            task.endDate = newEndDateString;
 
             // There exists only one timeslot in the calendar for the searched date.
             // Hence, we can break the loop here.
@@ -205,17 +239,15 @@ export default {
         }
       }
     },
-    createTask(d, h) {
-      const startDate = moment().set("day", d).set("hours", h).set("minutes", 0);
+    createTask(startDate) {
       this.$emit("createTask", {
         name: "(Missing title)",
         startDate: moment(startDate).toISOString(),
         endDate: moment(startDate).add(1, "hours").toISOString(),
       });
     },
-    isPast(day, hour) {
-      const currentDate = moment();
-      return currentDate.day() > day || (currentDate.day() === day && currentDate.hour() > hour);
+    hasDatePast(date) {
+      return date.isBefore(moment(), "hour");
     },
     localeTimeString(h) {
       return moment()
@@ -227,7 +259,6 @@ export default {
   },
   data() {
     return {
-      numDays: 7,
       numHours: 24,
     };
   },
@@ -318,19 +349,5 @@ export default {
   background: whitesmoke;
   border-radius: 1rem;
   padding: 0.5rem;
-
-  .days {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-
-    .hours {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-evenly;
-    }
-  }
 }
 </style>
