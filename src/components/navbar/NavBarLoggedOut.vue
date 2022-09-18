@@ -10,6 +10,7 @@
 
 <script>
 import NavBarLink from "@/components/navbar/NavBarLink";
+
 export default {
   name: "NavBarLoggedOut",
   components: { NavBarLink },
