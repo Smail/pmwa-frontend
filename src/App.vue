@@ -93,6 +93,17 @@ body {
   backdrop-filter: blur(10rem);
 }
 
+::-webkit-scrollbar {
+  width: 0.35vw;
+  background: slategray;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: $theme;
+  border-radius: 1rem;
+  outline: none;
+}
+
 ::selection {
   background: $theme;
 }
