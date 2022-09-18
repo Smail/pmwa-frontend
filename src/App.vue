@@ -38,11 +38,6 @@ button {
   cursor: pointer;
 }
 
-// a {
-//   color: inherit;
-//   text-decoration: none;
-// }
-
 body {
   margin: 0;
   min-height: 100vh;
