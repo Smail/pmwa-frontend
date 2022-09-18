@@ -11,3 +11,6 @@
 - [ ] Tag search
 - [ ] Scroll days/weeks in calendar
 - [ ] Add task description
+- [ ] Select calendar range with ctrl click on day names
+- [ ] tasks multiselect/multiedit
+- [ ] Pomodoro

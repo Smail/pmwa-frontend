@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <div class="login-form-wrapper">
-      <sign-in-form title="Welcome back!"></sign-in-form>
+      <sign-in-form></sign-in-form>
     </div>
   </div>
 </template>

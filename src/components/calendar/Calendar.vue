@@ -403,7 +403,15 @@ export default {
     background: $bg;
 
     &.past-day {
-      background: darken($bg, 20);
+      background: darken($bg, 80);
+    }
+  }
+
+  &:nth-child(2n+1) {
+    background: darken($bg, 20);
+
+    &.past-day {
+      background: darken($bg, 100);
     }
   }
 
@@ -422,14 +430,6 @@ export default {
   &.border-bottom-right-radius {
     border-bottom-right-radius: 0.5em;
   }
-
-  &:nth-child(2n+1) {
-    background: lighten($bg, 10);
-
-    &.past-day {
-      background: darken($bg, 10);
-    }
-  }
 }
 
 .calendar {
@@ -437,7 +437,7 @@ export default {
   grid-template-areas: v-bind("gridTemplateAreas");
   grid-template-rows: repeat(v-bind("numHours + 1"), minmax(0, 1fr));
   grid-template-columns: 0.2fr repeat(v-bind("numDays"), minmax(0, 1fr));
-  background: whitesmoke;
+  background: $bg;
   border-radius: 1rem;
   padding: 0.5rem;
 }

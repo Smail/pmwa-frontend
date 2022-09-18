@@ -43,12 +43,13 @@
   flex-direction: column;
   // align-items: flex-start;
   gap: 0.5rem;
+  color: $color;
 
   h1 {
     margin: 0;
     align-self: stretch;
     text-align: left;
-    background-color: whitesmoke;
+    background: $bg;
     padding: 1rem;
     border-radius: 1rem;
   }
@@ -56,7 +57,7 @@
   .settings-overview {
     display: flex;
     flex-direction: row;
-    background-color: whitesmoke;
+    background: $bg;
     border-radius: 1rem;
     padding: 1rem;
     flex: 1;

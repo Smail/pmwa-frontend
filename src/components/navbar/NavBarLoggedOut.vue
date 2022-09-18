@@ -10,6 +10,7 @@
 
 <script>
 import NavBarLink from "@/components/navbar/NavBarLink";
+
 export default {
   name: "NavBarLoggedOut",
   components: { NavBarLink },
@@ -25,8 +26,15 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+@import "@/scss/globals.scss";
+
 .logged-out {
+  .navbar {
+    //background: transparentize($theme, 0.8);
+    background: none;
+  }
+
   flex-direction: row;
   justify-content: flex-end;
 }

@@ -15,4 +15,9 @@ $apple-brown-light: rgb(162, 132, 94);
 $red: $apple-red-light;
 $green: $apple-green-light;
 
-$theme: $apple-pink-light;
+$theme: $apple-orange-light;
+$color: white;
+$bg: whitesmoke;
+$bg: transparentize($bg, 0.8);
+$theme: transparentize($theme, 0.25);
+

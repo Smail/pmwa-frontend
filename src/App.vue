@@ -26,6 +26,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import "@/scss/globals.scss";
+
 * {
   list-style: none;
   margin: 0;
@@ -37,11 +39,6 @@ export default {
 button {
   cursor: pointer;
 }
-
-// a {
-//   color: inherit;
-//   text-decoration: none;
-// }
 
 body {
   margin: 0;
@@ -80,6 +77,32 @@ body {
         flex: 1;
       }
     }
+  }
+}
+
+body {
+  background: linear-gradient(to top right, orange, #501010);
+  //background-image: url("/public/bg2.jpg");
+  //background-size: 100% 110%;
+  //background-position: 120% 100%;
+  // Animations kills the GPU
+  //animation: animate-page-background 30s ease-in-out infinite alternate;
+}
+
+#app {
+  backdrop-filter: blur(10rem);
+}
+
+::selection {
+  background: $theme;
+}
+
+@keyframes animate-page-background {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 100% 0;
   }
 }
 </style>

@@ -1,13 +1,25 @@
 <template>
   <form class="login-form" @submit.prevent="signIn">
-    <h2 v-if="title != null" class="login-form-title">{{ title }}</h2>
-    <label class="login-form-label">Username
-      <input v-model="username" autocomplete="username" class="login-form-input" name="username" placeholder="Username"
-             required type="text"/>
+    <h2 class="login-form-title">Sign In</h2>
+    <p class="login-form-desc">Log in to access the site.</p>
+    <label class="login-form-label material-symbols-outlined">person
+      <input v-model="username"
+             autocomplete="username"
+             class="login-form-input"
+             name="username"
+             placeholder="Username"
+             required
+             spellcheck="false"
+             type="text"/>
     </label>
-    <label class="login-form-label">Password
-      <input v-model="password" autocomplete="current-password" class="login-form-input" name="password"
-             placeholder="Password" required type="password"/>
+    <label class="login-form-label material-symbols-outlined">password
+      <input v-model="password"
+             autocomplete="current-password"
+             class="login-form-input"
+             name="password"
+             placeholder="Password"
+             required
+             type="password"/>
     </label>
     <button class="login-form-btn login-form-input" type="submit">Login</button>
   </form>
@@ -18,7 +30,6 @@ import { logErrorAndAlert } from "@/util/logErrorAndAlert";
 
 export default {
   name: "SignInForm",
-  props: ["title"],
   data() {
     return {
       username: "",
@@ -46,10 +57,22 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  padding: 1rem;
-  background-color:  $theme;
+  padding: 2rem 3rem;
+  background: transparentize($theme, 0.7);
   border-radius: 1rem;
-  filter: drop-shadow(0 0 0.1rem #a0a0a0);
+  position: relative;
+  backdrop-filter: blur(20rem);
+  box-shadow: 0 0 1rem -0.75rem black;
+}
+
+.login-form-title {
+  align-self: flex-start;
+}
+
+.login-form-desc {
+  align-self: flex-start;
+  color: #d9d9d9;
+  margin-bottom: 1rem;
 }
 
 .login-form-label {
@@ -57,22 +80,39 @@ export default {
   justify-content: space-between;
   gap: 0.5rem;
   align-items: center;
+  font-weight: normal;
+  border: 1px solid darken($theme, 20%);
+  background-color: darken($theme, 10%);
+  border-radius: 0.25rem;
+  padding-left: 0.5rem;
+  transition: all 50ms ease-in-out;
+
+  .login-form-input {
+    padding: 0.75rem;
+  }
+
+  &.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0,
+    'wght' 300,
+    'GRAD' 0,
+    'opsz' 48
+  }
+
+  &:hover {
+    background-color: darken($theme, 5%);
+  }
+
+  &:focus-within {
+    box-shadow: 0 0 1rem -0.25rem white;
+  }
 }
 
 .login-form-input {
-  background-color: darken($theme, 10%);
+  background-color: transparent;
   outline: none;
-  border: 1px solid darken($theme, 20%);
-  border-radius: 0.25rem;
   padding: 0.5rem;
-}
-
-.login-form-input:hover {
-  background-color: darken($theme, 5%);
-}
-
-.login-form-input:focus {
-  filter: drop-shadow(0 0 0.1rem white);
+  border-radius: 0.25rem;
+  border: none;
 }
 
 .login-form-input::placeholder {
@@ -81,5 +121,17 @@ export default {
 
 .login-form-btn {
   cursor: pointer;
+  border: none;
+  background: $theme;
+  margin-top: 1rem;
+  transition: all 150ms ease-in-out;
+
+  &:hover {
+    background-color: lighten($theme, 2.5%);
+  }
+
+  &:active {
+    background-color: darken($theme, 2.5%);
+  }
 }
 </style>
