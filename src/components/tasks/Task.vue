@@ -30,7 +30,7 @@
     outline: $theme solid 0.1rem;
     border-radius: 0.25rem;
     padding: 0.5em;
-    background: white;
+    background: $bg;
 
     &:focus-within {
       outline: darken($theme, 10) dashed 0.1rem;
@@ -38,7 +38,7 @@
 
     .task-input {
       outline: none;
-      background: inherit;
+      background: transparent;
       flex: 1;
       border: none;
       font-size: 1rem;
@@ -51,12 +51,11 @@
     justify-items: center;
     padding: 0 0.5rem;
     border: none;
-    background: inherit;
 
     // If the button is a material icons buttons
     &.material-symbols-outlined {
       color: $red;
-      background: lighten($red, 30);
+      background: transparentize($red, 0.7);
       border: none;
       border-radius: 0.5rem;
       outline: $red solid 0.1rem;

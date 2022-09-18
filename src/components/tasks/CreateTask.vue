@@ -19,13 +19,14 @@
     padding: 0.5em;
     font-size: 1rem;
     outline: $theme solid 0.1rem;
+    background: $bg;
 
     &:focus {
       outline: darken($theme, 10) dashed 0.1rem;
     }
 
     &::placeholder {
-      color: darken($bg, 20);
+      color: darken($color, 20);
     }
   }
 
@@ -35,12 +36,11 @@
     justify-items: center;
     padding: 0 0.5rem;
     border: none;
-    background: inherit;
 
     // If the button is a material icons buttons
     &.material-symbols-outlined {
       color: $theme;
-      background: lighten($theme, 40);
+      background: transparentize($theme, 0.5);
       border: none;
       border-radius: 0.5rem;
       outline: $theme solid 0.1rem;

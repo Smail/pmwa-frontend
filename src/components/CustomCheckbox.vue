@@ -46,12 +46,12 @@ export default {
 .checkbox-label {
   width: 1.25rem;
   height: 1.25rem;
-  background: white;
+  background: $bg;
   align-self: center;
   cursor: pointer;
   border-radius: 1.5rem;
   border: 0.1em $theme solid;
-  transition: all 250ms ease-in-out;
+  transition: all 50ms ease-in-out;
 
   display: flex;
   align-items: center;

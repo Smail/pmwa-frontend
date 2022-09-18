@@ -4,11 +4,14 @@
 </template>
 
 <style lang="scss">
+@import "@/scss/globals.scss";
+
 .navbar {
   display: inline-flex;
-  background-color: whitesmoke;
+  background: $bg;
   border-radius: 1rem;
   padding: 1rem;
+  color: $color;
 
   hr {
     height: 1px;

@@ -36,10 +36,11 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  color: $color;
 
   .page-header {
     display: flex;
-    background-color: whitesmoke;
+    background: $bg;
     padding: 1rem;
     border-radius: 1rem;
     justify-content: space-between;

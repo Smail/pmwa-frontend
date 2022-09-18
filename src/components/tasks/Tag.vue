@@ -41,7 +41,7 @@ export default {
     bgColor() {
       if (this.enforceSameHslLightingValue) {
         const hsl = this.colorAsHsl;
-        return "hsl(" + hsl[0] + ", " + hsl[1] + "%, " + this.hslLightAmount + "%)";
+        return "hsla(" + hsl[0] + ", " + hsl[1] + "%, " + this.hslLightAmount + "%, 0.7)";
       }
 
       return this.color;

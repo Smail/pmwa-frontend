@@ -35,10 +35,11 @@
   flex-direction: column;
   margin: 0;
   gap: 0.5rem;
+  color: $color;
 
   .header-bar {
     display: flex;
-    background-color: whitesmoke;
+    background: $bg;
     border-radius: 1rem;
     padding: 1rem;
     justify-content: space-between;
@@ -51,6 +52,7 @@
 
     .display-extensive-task-view-btn {
       border: none;
+      color: $color;
       background: transparent;
       transition: all 150ms linear;
 
@@ -65,7 +67,7 @@
     flex: 1;
     display: flex;
     border-radius: 1rem;
-    background-color: whitesmoke;
+    background: $bg;
     padding: 1rem;
     gap: 1rem;
 

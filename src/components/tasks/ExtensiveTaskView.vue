@@ -148,7 +148,8 @@ export default {
       outline: 0.1em solid $border-color;
       padding: 0.5em;
       border-radius: 1em;
-      background: white;
+      color: $color;
+      background: $bg;
       font: inherit;
     }
 
