@@ -1,6 +1,7 @@
 <template>
   <form class="login-form" @submit.prevent="signIn">
     <h2 class="login-form-title">Sign In</h2>
+    <p class="login-form-desc">Log in to access the site.</p>
     <label class="login-form-label material-symbols-outlined">person
       <input v-model="username"
              autocomplete="username"
