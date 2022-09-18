@@ -1,6 +1,6 @@
 <template>
   <form class="login-form" @submit.prevent="signIn">
-    <h2 v-if="title != null" class="login-form-title">{{ title }}</h2>
+    <h2 class="login-form-title">Sign In</h2>
     <label class="login-form-label material-symbols-outlined">person
       <input v-model="username"
              autocomplete="username"
@@ -29,7 +29,6 @@ import { logErrorAndAlert } from "@/util/logErrorAndAlert";
 
 export default {
   name: "SignInForm",
-  props: ["title"],
   data() {
     return {
       username: "",
