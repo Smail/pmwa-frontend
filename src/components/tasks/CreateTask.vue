@@ -44,7 +44,7 @@
       border: none;
       border-radius: 0.5rem;
       outline: $theme solid 0.1rem;
-      box-shadow: inset 0 0 0.2rem white,
+      box-shadow: inset 0 0 0.1rem white,
       0 0 0.2rem darken($theme, 20);
       transition: all 250ms;
 
