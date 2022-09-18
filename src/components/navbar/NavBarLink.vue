@@ -80,7 +80,7 @@ export default {
       flex: 1;
       display: flex;
       border-radius: 0.5em;
-      transition: all 250ms;
+      transition: all 50ms ease-in-out;
 
       .view {
         flex: 1;
