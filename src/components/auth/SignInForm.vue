@@ -1,7 +1,7 @@
 <template>
   <form class="login-form" @submit.prevent="signIn">
     <h2 v-if="title != null" class="login-form-title">{{ title }}</h2>
-    <label class="login-form-label">Username
+    <label class="login-form-label material-symbols-outlined">person
       <input v-model="username"
              autocomplete="username"
              class="login-form-input"
@@ -11,7 +11,7 @@
              spellcheck="false"
              type="text"/>
     </label>
-    <label class="login-form-label">Password
+    <label class="login-form-label material-symbols-outlined">password
       <input v-model="password"
              autocomplete="current-password"
              class="login-form-input"
