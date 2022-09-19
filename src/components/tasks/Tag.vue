@@ -297,6 +297,6 @@ export default {
   padding: 0.1rem 0.25rem;
   border-radius: 1rem;
   outline: v-bind('bgColor') solid 0.1rem;
-  font-size: inherit;
+  font-family: monospace;
 }
 </style>
