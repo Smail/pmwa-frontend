@@ -30,6 +30,9 @@
           <toggle-button :isActive="$store.state.showClockSeconds" @click="$store.commit('toggleShowClockSeconds')">
           </toggle-button>
         </li>
+        <li>
+          <theme-picker></theme-picker>
+        </li>
       </ul>
     </div>
   </div>
@@ -106,10 +109,11 @@
 
 <script>
 import ToggleButton from "@/components/ToggleButton.vue";
+import ThemePicker from "@/components/settings/ThemePicker";
 
 export default {
   name: "SettingsView",
-  components: { ToggleButton },
+  components: { ThemePicker, ToggleButton },
   computed: {
     currentUser() {
       return this.$store.state.user;
