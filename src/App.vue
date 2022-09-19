@@ -52,6 +52,11 @@ button {
 }
 
 body {
+  background-size: 100% 100%;
+  backdrop-filter: blur(10rem);
+}
+
+body {
   margin: 0;
   min-height: 100vh;
   // Let flexbox deal with width
@@ -89,19 +94,6 @@ body {
       }
     }
   }
-}
-
-body {
-  background: linear-gradient(to top right, orange, #501010);
-  //background-image: url("/public/bg2.jpg");
-  //background-size: 100% 110%;
-  //background-position: 120% 100%;
-  // Animations kills the GPU
-  //animation: animate-page-background 30s ease-in-out infinite alternate;
-}
-
-#app {
-  backdrop-filter: blur(10rem);
 }
 
 ::-webkit-scrollbar {
