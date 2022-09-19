@@ -89,8 +89,6 @@ body {
       gap: 1rem;
       flex: 1;
 
-      // .navbar {}
-
       &.logged-out {
         flex-direction: column;
       }
