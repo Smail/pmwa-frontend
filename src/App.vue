@@ -1,8 +1,8 @@
 <template>
-  <div :class="{
-          'logged-in': this.$store.state.isLoggedIn,
-          'logged-out': !this.$store.state.isLoggedIn
-        }"
+  <div :class="[themeClass, {
+          'logged-in': $store.state.isLoggedIn,
+          'logged-out': !$store.state.isLoggedIn,
+        }]"
        class="app-content-wrapper">
     <nav-bar id="app-navbar"></nav-bar>
     <router-view id="app-content"/>
@@ -21,6 +21,17 @@ export default {
     if (!this.$store.state.isLoggedIn && hasValidRefreshToken()) {
       await this.$store.dispatch("signIn").catch(e => logErrorAndAlert(e.message, "Could not sign in"));
     }
+
+    // Set theme
+    this.$store.commit("setTheme", "purple");
+  },
+  computed: {
+    theme() {
+      return this.$store.state.settings.theme;
+    },
+    themeClass() {
+      return `theme-${ this.theme }`;
+    },
   },
 };
 </script>
