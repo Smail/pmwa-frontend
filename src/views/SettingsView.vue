@@ -49,7 +49,7 @@
     margin: 0;
     align-self: stretch;
     text-align: left;
-    background: $bg;
+    background: var(--primary-color-900-0\.9);
     padding: 1rem;
     border-radius: 1rem;
   }
@@ -57,7 +57,7 @@
   .settings-overview {
     display: flex;
     flex-direction: row;
-    background: $bg;
+    background: var(--primary-color-900-0\.9);
     border-radius: 1rem;
     padding: 1rem;
     flex: 1;
@@ -92,7 +92,7 @@
         .settings-change-btn {
           border: none;
           color: white;
-          background-color: $theme;
+          background-color: var(--primary-color-500);
           padding: 0.5rem 1rem;
           border-radius: 1rem;
           text-transform: uppercase;

@@ -161,7 +161,7 @@ export default {
   flex-direction: column;
   gap: 0.5rem;
   padding: 1rem;
-  background-color: $theme;
+  background-color: var(--primary-color-500);
   border-radius: 1rem;
   box-shadow: 0 0 0.1rem black;
 }
@@ -174,15 +174,15 @@ export default {
 }
 
 .signup-form-input {
-  background-color: darken($theme, 10%);
+  border: 1px solid var(--primary-color-300);
+  background-color: var(--primary-color-400);
   outline: none;
-  border: 1px solid darken($theme, 20%);
   border-radius: 0.25rem;
   padding: 0.5rem;
 }
 
 .signup-form-input:hover {
-  background-color: darken($theme, 5%);
+  background-color: var(--primary-color-500);
 }
 
 .signup-form-input:focus {
@@ -190,7 +190,7 @@ export default {
 }
 
 .signup-form-input::placeholder {
-  color: lighten($theme, 20%);
+  color: var(--primary-color-700);
 }
 
 .signup-form-btn-wrapper {

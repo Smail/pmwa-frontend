@@ -17,7 +17,7 @@
   gap: 0.5rem;
 
   color: white;
-  background-color: $theme;
+  background-color: var(--primary-color-500);
   border-radius: 0.5rem;
 }
 </style>

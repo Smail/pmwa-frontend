@@ -8,7 +8,7 @@
 
 .navbar {
   display: inline-flex;
-  background: $bg;
+  background: var(--primary-color-900-0\.9);
   border-radius: 1rem;
   padding: 1rem;
   color: $color;

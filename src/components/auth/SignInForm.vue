@@ -58,7 +58,7 @@ export default {
   flex-direction: column;
   gap: 0.5rem;
   padding: 2rem 3rem;
-  background: transparentize($theme, 0.7);
+  background: var(--primary-color-500-0\.8);
   border-radius: 1rem;
   position: relative;
   backdrop-filter: blur(20rem);
@@ -81,8 +81,8 @@ export default {
   gap: 0.5rem;
   align-items: center;
   font-weight: normal;
-  border: 1px solid darken($theme, 20%);
-  background-color: darken($theme, 10%);
+  border: 1px solid var(--primary-color-300);
+  background-color: var(--primary-color-400);
   border-radius: 0.25rem;
   padding-left: 0.5rem;
   transition: all 50ms ease-in-out;
@@ -99,7 +99,7 @@ export default {
   }
 
   &:hover {
-    background-color: darken($theme, 5%);
+    background-color: var(--primary-color-500);
   }
 
   &:focus-within {
@@ -122,16 +122,16 @@ export default {
 .login-form-btn {
   cursor: pointer;
   border: none;
-  background: $theme;
+  background: var(--primary-color-500);
   margin-top: 1rem;
   transition: all 150ms ease-in-out;
 
   &:hover {
-    background-color: lighten($theme, 2.5%);
+    background-color: var(--primary-color-500);
   }
 
   &:active {
-    background-color: darken($theme, 2.5%);
+    background-color: var(--primary-color-400);
   }
 }
 </style>

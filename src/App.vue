@@ -106,25 +106,16 @@ body {
 
 ::-webkit-scrollbar {
   width: 0.35vw;
-  background: slategray;
+  background: var(--primary-color-200);
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: $theme;
+  background-color: var(--primary-color-500);
   border-radius: 1rem;
   outline: none;
 }
 
 ::selection {
-  background: $theme;
-}
-
-@keyframes animate-page-background {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 100% 0;
-  }
+  background: var(--primary-color-500);
 }
 </style>

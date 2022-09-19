@@ -123,7 +123,7 @@ export default {
 @import "@/scss/globals.scss";
 
 .extensive-task-view {
-  $border-color: darken($bg, 10);
+  $border-color: var(--primary-color-200-0\.5);
   border-left: 0.1rem solid $border-color;
   display: flex;
   flex-direction: column;
@@ -134,7 +134,7 @@ export default {
   // Resort to margin-top on each individual item
   .header, .task-content {
     margin-top: 1rem;
-    $border-color: $theme;
+    $border-color: var(--primary-color-500);
   }
 
   .meta-input-wrapper {
@@ -149,7 +149,7 @@ export default {
       padding: 0.5em;
       border-radius: 1em;
       color: $color;
-      background: $bg;
+      background: var(--primary-color-900-0\.9);
       font: inherit;
     }
 

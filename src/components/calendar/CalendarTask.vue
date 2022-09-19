@@ -186,9 +186,9 @@ export default {
 
 .task {
   cursor: pointer;
-  color: white;
-  border: 1px solid $theme;
-  background: rgba($theme, 0.6);
+  color: $color;
+  border: 1px solid var(--primary-color-500);
+  background: var(--primary-color-500-0\.4);
   border-radius: 0.5em;
   display: flex;
   flex-direction: column;
@@ -197,7 +197,7 @@ export default {
 
   &.is-dragging {
     box-shadow: 0 0.5rem 0.75rem -0.5rem black;
-    background: lighten(rgba($theme, 0.6), 10);
+    background: var(--primary-color-600-0\.3);
   }
 
   .task-content {

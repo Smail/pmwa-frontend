@@ -27,12 +27,6 @@
     .task-wrapper, .new-task-wrapper {
       flex: 1;
     }
-
-    .checkbox {
-      zoom: 1.5;
-      accent-color: $theme;
-      height: 100%;
-    }
   }
 }
 </style>

@@ -46,11 +46,11 @@ export default {
 .checkbox-label {
   width: 1.25rem;
   height: 1.25rem;
-  background: $bg;
+  background: var(--primary-color-900-0\.9);
   align-self: center;
   cursor: pointer;
   border-radius: 1.5rem;
-  border: 0.1em $theme solid;
+  border: 0.1em var(--primary-color-500) solid;
   transition: all 50ms ease-in-out;
 
   display: flex;
@@ -66,7 +66,7 @@ export default {
   }
 
   &.checked {
-    background: $theme;
+    background: var(--primary-color-500);
 
     .checkmark {
       opacity: 1;

@@ -18,15 +18,15 @@
     border-radius: 0.25rem;
     padding: 0.5em;
     font-size: 1rem;
-    outline: $theme solid 0.1rem;
-    background: $bg;
+    outline: var(--primary-color-500) solid 0.1rem;
+    background: var(--primary-color-900-0\.9);
 
     &:focus {
-      outline: darken($theme, 10) dashed 0.1rem;
+      outline-style: dashed;
     }
 
     &::placeholder {
-      color: darken($color, 20);
+      color: var(--primary-color-800);
     }
   }
 
@@ -39,18 +39,18 @@
 
     // If the button is a material icons buttons
     &.material-symbols-outlined {
-      color: $theme;
-      background: transparentize($theme, 0.5);
+      color: var(--primary-color-500);
+      background: var(--primary-color-500-0\.7);
       border: none;
       border-radius: 0.5rem;
-      outline: $theme solid 0.1rem;
+      outline: var(--primary-color-500) solid 0.1rem;
       box-shadow: inset 0 0 0.1rem white,
-      0 0 0.2rem darken($theme, 20);
+      0 0 0.2rem var(--primary-color-300);
       transition: all 50ms ease-in-out;
 
       &:hover, &:focus {
         //font-size: 2rem;
-        background: lighten($theme, 42.5);
+        background: var(--primary-color-500-0\.5);
         transform: scale(1.05) translateZ(0);
       }
     }

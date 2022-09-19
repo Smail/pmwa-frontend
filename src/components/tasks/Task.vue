@@ -27,13 +27,14 @@
   .task-input-tag-wrapper {
     flex: 1;
     display: flex;
-    outline: $theme solid 0.1rem;
+    outline: var(--primary-color-500) solid 0.1rem;
     border-radius: 0.25rem;
+    transition: background $bg-transition-params;
     padding: 0.5em;
-    background: $bg;
+    background: var(--primary-color-900-0\.9);
 
     &:focus-within {
-      outline: darken($theme, 10) dashed 0.1rem;
+      outline-style: dashed;
     }
 
     .task-input {
@@ -60,12 +61,12 @@
       border-radius: 0.5rem;
       outline: $red solid 0.1rem;
       box-shadow: inset 0 0 0.1rem white,
-      0 0 0.2rem darken($red, 20);
+      0 0 0.2rem var(--primary-color-300);
       transition: all 50ms ease-in-out;
 
       &:hover, &:focus {
         //font-size: 2rem;
-        background: lighten($red, 35);
+        background: transparentize($red, 0.5);
         transform: scale(1.05) translateZ(0);
       }
     }

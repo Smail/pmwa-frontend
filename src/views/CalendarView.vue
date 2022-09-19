@@ -40,7 +40,7 @@
 
   .page-header {
     display: flex;
-    background: $bg;
+    background: var(--primary-color-900-0\.9);
     padding: 1rem;
     border-radius: 1rem;
     justify-content: space-between;
@@ -65,7 +65,7 @@
       transition: color 250ms ease;
 
       &:hover {
-        color: $theme;
+        color: var(--primary-color-500);
       }
     }
   }
