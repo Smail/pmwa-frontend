@@ -21,3 +21,36 @@ $bg: whitesmoke;
 $bg: transparentize($bg, 0.8);
 $theme: transparentize($theme, 0.25);
 
+$colors: (
+        "red": $apple-red-light,
+        "pink": #ff0070,
+        "orange": rgb(255, 149, 0),
+        "yellow": rgb(255, 204, 0),
+        "green": rgb(52, 199, 80),
+        "mint": rgb(0, 199, 190),
+        "teal": rgb(48, 176, 199),
+        "blue": $apple-cyan-light,
+        "indigo": rgb(88, 86, 214),
+        "purple": rgb(175, 82, 222),
+        "brown": rgb(162, 132, 94),
+);
+
+@each $name, $color in $colors {
+  .theme-#{$name} {
+    $c: hsl(hue($color), saturation($color), 0%);
+    --primary-color-000: #{$c};
+
+    @for $j from 0 through 9 {
+      --primary-color-000-0\.#{$j}: #{transparentize($c, calc($j / 10))};
+    }
+
+    @for $i from 1 through 9 {
+      $c: hsl(hue($color), saturation($color), calc($i * 10) * 1%);
+      --primary-color-#{calc($i * 100)}: #{$c};
+
+      @for $j from 0 through 9 {
+        --primary-color-#{calc($i * 100)}-0\.#{$j}: #{transparentize($c, calc($j / 10))};
+      }
+    }
+  }
+}
