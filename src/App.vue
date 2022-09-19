@@ -69,7 +69,17 @@ body {
     flex: 1;
 
     .app-content-wrapper {
-      font-family: Avenir, Helvetica, Arial, sans-serif;
+      font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
+
+      // Set font weight
+      font-weight: 300;
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0,
+        'wght' 300,
+        'GRAD' 0,
+        'opsz' 48
+      }
+
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       text-align: center;
