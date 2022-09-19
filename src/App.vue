@@ -118,4 +118,8 @@ body {
 ::selection {
   background: var(--primary-color-500);
 }
+
+::placeholder {
+  color: var(--primary-color-800);
+}
 </style>

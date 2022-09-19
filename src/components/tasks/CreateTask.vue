@@ -24,10 +24,6 @@
     &:focus {
       outline-style: dashed;
     }
-
-    &::placeholder {
-      color: var(--primary-color-800);
-    }
   }
 
   .new-task-submit {

@@ -115,10 +115,6 @@ export default {
   border: none;
 }
 
-.login-form-input::placeholder {
-  color: lighten($theme, 20%);
-}
-
 .login-form-btn {
   cursor: pointer;
   border: none;
