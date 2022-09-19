@@ -7,15 +7,17 @@
     <nav-bar id="app-navbar"></nav-bar>
     <router-view id="app-content"/>
   </div>
+  <!--  <debug-overlay></debug-overlay>-->
 </template>
 
 <script>
 import NavBar from "@/components/navbar/NavBar.vue";
 import { hasValidRefreshToken } from "@/services/hasValidRefreshToken";
 import { logErrorAndAlert } from "@/util/logErrorAndAlert";
+import DebugOverlay from "@/components/DebugOverlay";
 
 export default {
-  components: { NavBar },
+  components: { DebugOverlay, NavBar },
   async created() {
     // Check if already signed it, because the router also may call signIn
     if (!this.$store.state.isLoggedIn && hasValidRefreshToken()) {
