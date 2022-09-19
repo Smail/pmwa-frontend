@@ -85,7 +85,7 @@ body {
       text-align: center;
       color: #2c3e50;
       display: flex;
-      margin: 0.5rem;
+      padding: 0.5rem;
       gap: 1rem;
       flex: 1;
 
