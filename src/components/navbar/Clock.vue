@@ -1,8 +1,6 @@
 <template>
-  <h4 class="clock">
-    <span class="material-symbols-outlined">schedule</span>
-    {{ time }}
-  </h4>
+  <span class="material-symbols-outlined">schedule</span>
+  <span>{{ time }}</span>
 </template>
 
 <style lang="scss">
