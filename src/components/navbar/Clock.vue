@@ -3,23 +3,6 @@
   <span>{{ time }}</span>
 </template>
 
-<style lang="scss">
-@import "@/scss/globals.scss";
-
-.clock {
-  margin: 0;
-  padding: 0.5rem;
-  display: flex;
-  align-items: center;
-  font-weight: normal;
-  gap: 0.5rem;
-
-  color: white;
-  background-color: var(--primary-color-500);
-  border-radius: 0.5rem;
-}
-</style>
-
 <script>
 export default {
   name: "Clock",
