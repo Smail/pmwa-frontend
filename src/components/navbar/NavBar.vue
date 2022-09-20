@@ -31,18 +31,11 @@ export default {
 
 .navbar {
   display: inline-flex;
-  background: var(--primary-color-900-0\.9);
   border-radius: 1rem;
   padding: 1rem;
   color: $color;
-
-  hr {
-    height: 1px;
-    background-color: currentColor;
-    border-radius: 1rem;
-    border: none;
-    margin: 0.5rem 0;
-  }
+  justify-content: flex-end;
+  background: transparent;
 
   .links {
     flex: 1;
