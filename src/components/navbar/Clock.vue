@@ -31,9 +31,7 @@ export default {
   created() {
     this.setTime();
     // Update the time every second
-    this.interval = setInterval(() => {
-      this.setTime();
-    }, 1000);
+    this.interval = setInterval(() => this.setTime(), 1000);
   },
   unmounted() {
     // Prevent memory leak
