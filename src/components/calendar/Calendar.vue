@@ -322,7 +322,7 @@ export default {
   justify-content: center;
   text-transform: capitalize;
   color: white;
-  background: lighten($theme, 10) linear-gradient(to top right, $theme, lighten($theme, 10));
+  background: var(--primary-color-600) linear-gradient(to top right, var(--primary-color-400), var(--primary-color-600));
   border-radius: 2rem;
   width: 90%;
   justify-self: center;
@@ -336,9 +336,9 @@ export default {
   &.multiselect {
     user-select: none;
     cursor: pointer;
-    outline: 0.1em dashed red;
+    outline: 0.1em dashed var(--primary-color-700);
     color: white;
-    background: darken($theme, 10);
+    background: var(--primary-color-300) linear-gradient(to top right, var(--primary-color-300), var(--primary-color-400));
     transition: color 200ms ease-in-out,
     background 200ms ease-in-out,
     scale 200ms ease-in-out,
@@ -348,15 +348,15 @@ export default {
     &:hover {
       scale: 105%;
       translate: 0 -0.08em;
-      background: darken($theme, 0);
+      background: var(--primary-color-700);
     }
 
     &.selected {
-      background: lighten($theme, 10);
+      background: var(--primary-color-500);
     }
 
     &:active {
-      background: lighten($theme, 5);
+      background: var(--primary-color-400);
     }
   }
 }
@@ -366,7 +366,7 @@ export default {
   margin-right: 1em;
   //border-top: 1px solid aqua;
   position: relative;
-  color: darken($theme, 35);
+  color: var(--primary-color-900);
   font-size: 0.7rem;
   text-align: right;
 }
@@ -400,18 +400,18 @@ export default {
   }
 
   &:nth-child(2n) {
-    background: $bg;
+    background: var(--primary-color-400-0\.8);
 
     &.past-day {
-      background: darken($bg, 80);
+      background: var(--primary-color-000-0\.8);
     }
   }
 
   &:nth-child(2n+1) {
-    background: darken($bg, 20);
+    background: var(--primary-color-600-0\.8);
 
     &.past-day {
-      background: darken($bg, 100);
+      background: var(--primary-color-100-0\.8);
     }
   }
 
@@ -437,7 +437,7 @@ export default {
   grid-template-areas: v-bind("gridTemplateAreas");
   grid-template-rows: repeat(v-bind("numHours + 1"), minmax(0, 1fr));
   grid-template-columns: 0.2fr repeat(v-bind("numDays"), minmax(0, 1fr));
-  background: $bg;
+  background: var(--primary-color-900-0\.9);
   border-radius: 1rem;
   padding: 0.5rem;
 }

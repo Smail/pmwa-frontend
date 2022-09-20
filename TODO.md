@@ -14,3 +14,7 @@
 - [ ] Select calendar range with ctrl click on day names
 - [ ] tasks multiselect/multiedit
 - [ ] Pomodoro
+- [ ] params in calendar: range
+- [ ] calendar: extensive view on right
+- [ ] calendar: colored tasks
+- [ ] calendar: drag drop tasks without date attached; display in box right of calendar

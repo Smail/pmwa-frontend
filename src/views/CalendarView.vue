@@ -8,7 +8,7 @@
                :value="numDaysBetweenStartAndEnd"
                class="num-days-input"
                title="Number of visible days in the calendar"
-               type="number"
+               type="range"
                @input="setDaysBetweenStartAndEndDate(Math.min(20, Math.max($event.target.value, 1)) - 1)"
         />
         <button class="nav-button material-symbols-outlined"
@@ -40,7 +40,7 @@
 
   .page-header {
     display: flex;
-    background: $bg;
+    background: var(--primary-color-900-0\.9);
     padding: 1rem;
     border-radius: 1rem;
     justify-content: space-between;
@@ -65,7 +65,7 @@
       transition: color 250ms ease;
 
       &:hover {
-        color: $theme;
+        color: var(--primary-color-500);
       }
     }
   }

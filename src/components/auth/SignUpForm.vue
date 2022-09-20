@@ -1,79 +1,95 @@
 <template>
-  <form class="signup-form" @submit.prevent="signUp">
-    <h2 v-if="title != null" class="signup-form-title">{{ title }}</h2>
-    <label class="signup-form-label signup-form-label-username">Username
+  <auth-common-component description="Create a new account."
+                         title="Sign up"
+                         @reset="clearForm"
+                         @submit="signUp">
+    <label class="material-symbols-outlined">person
       <input v-model="username"
              autocomplete="username"
              class="signup-form-input"
              name="username"
              placeholder="Username"
              required
+             title="Enter a username"
              type="text"/>
     </label>
-    <label class="signup-form-label">First Name
+    <label class="material-symbols-outlined">abc
       <input v-model="firstName"
              autocomplete="given-name"
              class="signup-form-input"
              name="first-name"
              placeholder="First Name"
              required
+             title="Enter your first name"
              type="text"/>
     </label>
-    <label class="signup-form-label">Last Name
+    <label class="material-symbols-outlined">abc
       <input v-model="lastName"
              autocomplete="family-name"
              class="signup-form-input"
              name="last-name"
              placeholder="Last Name"
              required
+             title="Enter your last name"
              type="text"/>
     </label>
-    <label class="signup-form-label">E-Mail
+    <label class="material-symbols-outlined">Email
       <input v-model="email"
              autocomplete="email"
              class="signup-form-input"
              name="email"
              placeholder="example@example.com"
              required
+             title="Enter your E-Mail"
              type="email"/>
     </label>
-    <label class="signup-form-label">Password
+    <label :style="{ '--box-color': passwordStrengthColor }"
+           class="password material-symbols-outlined">Password
       <input v-model="password"
              autocomplete="new-password"
              class="signup-form-input"
              name="password"
              placeholder="Password"
              required
+             title="Enter a password"
              type="password"/>
     </label>
-    <div v-if="password.length > 0" class="signup-form-password-strength-wrapper">
-      <span :style="{ 'background-color': passwordStrengthColor }" class="signup-form-password-strength-color"></span>
-      <span class="signup-form-password-strength-text">{{ passwordStrength }}</span>
-    </div>
-    <label class="signup-form-label">Repeat Password
+    <p v-show="password" class="password-info">{{ passwordStrength }}</p>
+    <label :class="{ mismatch: password !== repeatedPassword }"
+           class="repeated-pw material-symbols-outlined"
+    >Repeat
       <input v-model="repeatedPassword"
              autocomplete="new-password"
              class="signup-form-input"
              name="password-repeat"
              placeholder="Repeat Password"
              required
+             title="Repeat your password"
              type="password"/>
     </label>
-    <div v-if="!passwordsMatch" class="signup-form-password-match">
-      Passwords don't match
-    </div>
+    <p v-show="password && repeatedPassword && !passwordsMatch" class="password-info">Passwords don't match</p>
     <div class="signup-form-btn-wrapper">
-      <button class="signup-form-input signup-form-btn" type="reset">Clear</button>
-      <button class="signup-form-input signup-form-btn" type="submit">Sign Up</button>
+      <button type="reset">Clear Form</button>
+      <span :class="{ disabled: !canSubmit }" class="submit-btn-wrapper">
+        <button :class="{ disabled: !canSubmit }" type="submit">Sign Up</button>
+      </span>
     </div>
-  </form>
+  </auth-common-component>
 </template>
 
 <script>
+import AuthCommonComponent from "@/components/auth/AuthCommonComponent";
+
 export default {
   name: "SignUpForm",
+  components: { AuthCommonComponent },
+
   props: ["title"],
   computed: {
+    canSubmit() {
+      return this.username && this.firstName && this.lastName && this.email
+          && this.password && this.repeatedPassword && this.passwordsMatch;
+    },
     passwordStrength() {
       let numLower = 0;
       let numUpper = 0;
@@ -96,34 +112,26 @@ export default {
       } else if (this.password.length >= 8 && numLower >= 2 && numUpper >= 1 && numDigits >= 1) {
         return "weak";
       } else {
-        return "invalid";
+        return "too weak";
       }
     },
     passwordStrengthColor() {
       switch (this.passwordStrength) {
         case "strong":
-          return "green";
+          return "lime";
         case "medium":
-          return "orange";
+          return "yellow";
         case "weak":
-          return "orangered";
+          return "orange";
+        case "too weak":
+          return "red"
         default:
-          return "lightgray";
+          return "";
       }
     },
     passwordsMatch() {
       return this.password === this.repeatedPassword;
     },
-  },
-  data() {
-    return {
-      firstName: "",
-      lastName: "",
-      username: "",
-      email: "",
-      password: "",
-      repeatedPassword: "",
-    };
   },
   methods: {
     async signUp() {
@@ -148,81 +156,69 @@ export default {
         }
       }
     },
+    clearForm() {
+      this.firstName = "";
+      this.lastName = "";
+      this.username = "";
+      this.email = "";
+      this.password = "";
+      this.repeatedPassword = "";
+    }
+  },
+  data() {
+    return {
+      firstName: "",
+      lastName: "",
+      username: "",
+      email: "",
+      password: "",
+      repeatedPassword: "",
+    };
   },
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "@/scss/globals.scss";
-
-.signup-form {
-  color: white;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  padding: 1rem;
-  background-color: $theme;
-  border-radius: 1rem;
-  box-shadow: 0 0 0.1rem black;
-}
-
-.signup-form-label {
-  display: flex;
-  justify-content: space-between;
-  gap: 0.5rem;
-  align-items: center;
-}
-
-.signup-form-input {
-  background-color: darken($theme, 10%);
-  outline: none;
-  border: 1px solid darken($theme, 20%);
-  border-radius: 0.25rem;
-  padding: 0.5rem;
-}
-
-.signup-form-input:hover {
-  background-color: darken($theme, 5%);
-}
-
-.signup-form-input:focus {
-  filter: drop-shadow(0 0 0.1rem white);
-}
-
-.signup-form-input::placeholder {
-  color: lighten($theme, 20%);
-}
 
 .signup-form-btn-wrapper {
   display: flex;
-  gap: 0.5rem;
-
-  * {
-    // Make form buttons same size
-    flex: 1;
-  }
+  gap: 0.5em;
 }
 
-.signup-form-password-strength-wrapper {
+.password:focus-within {
+  border-color: var(--box-color);
+  box-shadow: 0 0 0.25rem var(--box-color);
+}
+
+.repeated-pw.mismatch {
+  border-color: red;
+  box-shadow: 0 0 0.25rem red;
+}
+
+.submit-btn-wrapper {
   display: flex;
-  gap: 0.5rem;
-  font-size: smaller;
+  flex: 1;
 
-  .signup-form-password-strength-color {
+  &.disabled {
+    cursor: not-allowed;
+  }
+
+  button {
     flex: 1;
-    border-radius: 1rem;
   }
 
-  .signup-form-password-strength-text {
-    text-transform: capitalize;
+  button.disabled {
+    background: #444;
+    pointer-events: none;
+    cursor: not-allowed !important;
+    border-color: #555;
   }
 }
 
-.signup-form-password-match {
-  color: pink;
-}
-
-.signup-form-btn {
-  cursor: pointer;
+.password-info {
+  text-align: left;
+  font-size: 0.7rem;
+  text-transform: capitalize;
 }
 </style>

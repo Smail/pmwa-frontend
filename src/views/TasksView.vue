@@ -39,7 +39,7 @@
 
   .header-bar {
     display: flex;
-    background: $bg;
+    background: var(--primary-color-900-0\.9);
     border-radius: 1rem;
     padding: 1rem;
     justify-content: space-between;
@@ -57,7 +57,7 @@
       transition: all 150ms linear;
 
       &:hover {
-        color: $theme;
+        color: var(--primary-color-500);
         scale: 125%;
       }
     }
@@ -67,7 +67,7 @@
     flex: 1;
     display: flex;
     border-radius: 1rem;
-    background: $bg;
+    background: var(--primary-color-900-0\.9);
     padding: 1rem;
     gap: 1rem;
 

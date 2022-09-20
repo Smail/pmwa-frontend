@@ -29,6 +29,10 @@ export default createStore({
     showClock: true,
     showClockSeconds: false,
     tasks: [],
+    themes: ["red", "green", "pink", "purple", "blue", "mint"],
+    settings: {
+      theme: "red",
+    },
   },
   getters: {},
   mutations: {
@@ -70,6 +74,14 @@ export default createStore({
     toggleShowClock: (state) => state.showClock = !state.showClock,                      // TODO update on server
     toggleShowClockSeconds: (state) => state.showClockSeconds = !state.showClockSeconds, // TODO update on server
     setTasks: (state, tasks) => state.tasks = tasks,
+    setTheme: (state, theme) => {
+      if (!state.themes.includes(theme)) throw new Error(`Unknown theme: ${ theme }`);
+      state.settings.theme = theme;
+
+      // Set page background
+      const backgroundImage = require(`/public/${ theme }.png`);
+      document.body.style.backgroundImage = `url("${ backgroundImage }")`;
+    },
     updateTask: (state, task) => {
       let hasFoundId = false;
       for (const stateTask of state.tasks) {

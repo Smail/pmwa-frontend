@@ -30,6 +30,9 @@
           <toggle-button :isActive="$store.state.showClockSeconds" @click="$store.commit('toggleShowClockSeconds')">
           </toggle-button>
         </li>
+        <li>
+          <theme-picker></theme-picker>
+        </li>
       </ul>
     </div>
   </div>
@@ -49,7 +52,7 @@
     margin: 0;
     align-self: stretch;
     text-align: left;
-    background: $bg;
+    background: var(--primary-color-900-0\.9);
     padding: 1rem;
     border-radius: 1rem;
   }
@@ -57,7 +60,7 @@
   .settings-overview {
     display: flex;
     flex-direction: row;
-    background: $bg;
+    background: var(--primary-color-900-0\.9);
     border-radius: 1rem;
     padding: 1rem;
     flex: 1;
@@ -92,7 +95,7 @@
         .settings-change-btn {
           border: none;
           color: white;
-          background-color: $theme;
+          background-color: var(--primary-color-500);
           padding: 0.5rem 1rem;
           border-radius: 1rem;
           text-transform: uppercase;
@@ -106,10 +109,11 @@
 
 <script>
 import ToggleButton from "@/components/ToggleButton.vue";
+import ThemePicker from "@/components/settings/ThemePicker";
 
 export default {
   name: "SettingsView",
-  components: { ToggleButton },
+  components: { ThemePicker, ToggleButton },
   computed: {
     currentUser() {
       return this.$store.state.user;

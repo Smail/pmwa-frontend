@@ -1,26 +1,39 @@
 <template>
-  <div :class="{
-          'logged-in': this.$store.state.isLoggedIn,
-          'logged-out': !this.$store.state.isLoggedIn
-        }"
+  <div :class="[themeClass, {
+          'logged-in': $store.state.isLoggedIn,
+          'logged-out': !$store.state.isLoggedIn,
+        }]"
        class="app-content-wrapper">
     <nav-bar id="app-navbar"></nav-bar>
     <router-view id="app-content"/>
   </div>
+  <!--  <debug-overlay></debug-overlay>-->
 </template>
 
 <script>
 import NavBar from "@/components/navbar/NavBar.vue";
 import { hasValidRefreshToken } from "@/services/hasValidRefreshToken";
 import { logErrorAndAlert } from "@/util/logErrorAndAlert";
+import DebugOverlay from "@/components/DebugOverlay";
 
 export default {
-  components: { NavBar },
+  components: { DebugOverlay, NavBar },
   async created() {
     // Check if already signed it, because the router also may call signIn
     if (!this.$store.state.isLoggedIn && hasValidRefreshToken()) {
       await this.$store.dispatch("signIn").catch(e => logErrorAndAlert(e.message, "Could not sign in"));
     }
+
+    // Set theme
+    this.$store.commit("setTheme", "purple");
+  },
+  computed: {
+    theme() {
+      return this.$store.state.settings.theme;
+    },
+    themeClass() {
+      return `theme-${ this.theme }`;
+    },
   },
 };
 </script>
@@ -41,6 +54,11 @@ button {
 }
 
 body {
+  background-size: 100% 100%;
+  backdrop-filter: blur(10rem);
+}
+
+body {
   margin: 0;
   min-height: 100vh;
   // Let flexbox deal with width
@@ -53,17 +71,25 @@ body {
     flex: 1;
 
     .app-content-wrapper {
-      font-family: Avenir, Helvetica, Arial, sans-serif;
+      font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
+
+      // Set font weight
+      font-weight: 300;
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0,
+        'wght' 300,
+        'GRAD' 0,
+        'opsz' 48
+      }
+
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       text-align: center;
       color: #2c3e50;
       display: flex;
-      margin: 0.5rem;
+      padding: 0.5rem;
       gap: 1rem;
       flex: 1;
-
-      // .navbar {}
 
       &.logged-out {
         flex-direction: column;
@@ -80,29 +106,22 @@ body {
   }
 }
 
-body {
-  background: linear-gradient(to top right, orange, #501010);
-  //background-image: url("/public/bg2.jpg");
-  //background-size: 100% 110%;
-  //background-position: 120% 100%;
-  // Animations kills the GPU
-  //animation: animate-page-background 30s ease-in-out infinite alternate;
+::-webkit-scrollbar {
+  width: 0.35vw;
+  background: var(--primary-color-200);
 }
 
-#app {
-  backdrop-filter: blur(10rem);
+::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color-500);
+  border-radius: 1rem;
+  outline: none;
 }
 
 ::selection {
-  background: $theme;
+  background: var(--primary-color-500);
 }
 
-@keyframes animate-page-background {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 100% 0;
-  }
+::placeholder {
+  color: var(--primary-color-800);
 }
 </style>

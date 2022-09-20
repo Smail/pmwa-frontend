@@ -97,18 +97,18 @@ export default {
 
       &.router-link-active {
         color: white;
-        box-shadow: 0 0 0.5em $theme;
-        background-color: $theme;
+        box-shadow: 0 0 0.5em var(--primary-color-500);
+        background-color: var(--primary-color-500);
       }
 
       &:hover {
         color: white;
-        box-shadow: 0 0 0.5em lighten($theme, 5);
-        background-color: lighten($theme, 5);
+        box-shadow: 0 0 0.5em var(--primary-color-600);
+        background-color: var(--primary-color-600);
       }
 
       &:active {
-        opacity: 70%;
+        background: var(--primary-color-400);
       }
     }
 
