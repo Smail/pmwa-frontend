@@ -1,10 +1,10 @@
 <template>
-  <label :class="{checked: isChecked}"
+  <label :class="{checked: isChecked, disabled: isDisabled}"
          :for="name"
          :title="title"
          class="checkbox-label"
          tabindex="0"
-         @click="$emit('input')"
+         @click="!isDisabled && $emit('input')"
          @focusout="$emit('focusout')"
   >
     <span class="checkmark material-symbols-outlined">done</span>
@@ -30,6 +30,10 @@ export default {
     },
     title: {
       type: String,
+    },
+    isDisabled: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -71,6 +75,15 @@ export default {
     .checkmark {
       opacity: 1;
     }
+
+    &.disabled {
+      background: gray;
+    }
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+    border-color: slategray;
   }
 }
 
