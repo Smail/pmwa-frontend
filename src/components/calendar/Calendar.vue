@@ -3,7 +3,7 @@
     <!-- The names of the days, i.e., Monday, Tuesday, etc. -->
     <h4 v-for="(d, i) in weekDistributionWeekDays"
         :class="{
-            'past-day': hasDatePast(createMoment(weekDistributionDates[i]).add(1, 'day')),
+            'past-day': hasDayPast(weekDistributionDates[i]),
             'multiselect': isDayMultiselectActive,
             'selected': isSelected(weekDistributionDates[i]),
           }"
@@ -251,6 +251,9 @@ export default {
     },
     hasDatePast(date) {
       return date.isBefore(moment(), "hour");
+    },
+    hasDayPast(date) {
+      return moment(date).isBefore(moment(), "day");
     },
     localeTimeString(h) {
       return moment()
