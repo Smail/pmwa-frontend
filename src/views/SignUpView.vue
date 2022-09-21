@@ -1,5 +1,5 @@
 <template>
-  <div class="signup">
+  <div class="sign-up-view">
     <div class="signup-form-wrapper">
       <sign-up-form title="Welcome back!"></sign-up-form>
     </div>
@@ -16,7 +16,7 @@ export default {
 </script>
 
 <style lang="scss">
-.signup {
+.sign-up-view {
   display: flex;
   // Center sign up component
   flex-direction: column;

@@ -1,5 +1,5 @@
 <template>
-  <div class="login">
+  <div class="sign-in-view">
     <div class="login-form-wrapper">
       <sign-in-form></sign-in-form>
     </div>
@@ -16,7 +16,7 @@ export default {
 </script>
 
 <style lang="scss">
-.login {
+.sign-in-view {
   display: flex;
   // Center sign in component
   flex-direction: column;

@@ -1,12 +1,10 @@
 <template>
-  <div :class="[themeClass, {
-          'logged-in': $store.state.isLoggedIn,
-          'logged-out': !$store.state.isLoggedIn,
-        }]"
-       class="app-content-wrapper">
-    <nav-bar id="app-navbar"></nav-bar>
-    <router-view id="app-content"/>
-  </div>
+  <logged-in-view-template v-if="isLoggedIn" :class="themeClass">
+    <router-view/>
+  </logged-in-view-template>
+  <logged-out-view-template v-else :class="themeClass">
+    <router-view/>
+  </logged-out-view-template>
   <!--  <debug-overlay></debug-overlay>-->
 </template>
 
@@ -15,9 +13,11 @@ import NavBar from "@/components/navbar/NavBar.vue";
 import { hasValidRefreshToken } from "@/services/hasValidRefreshToken";
 import { logErrorAndAlert } from "@/util/logErrorAndAlert";
 import DebugOverlay from "@/components/DebugOverlay";
+import LoggedInViewTemplate from "@/views/LoggedInViewTemplate";
+import LoggedOutViewTemplate from "@/views/LoggedOutViewTemplate";
 
 export default {
-  components: { DebugOverlay, NavBar },
+  components: { LoggedOutViewTemplate, LoggedInViewTemplate, DebugOverlay, NavBar },
   async created() {
     // Check if already signed it, because the router also may call signIn
     if (!this.$store.state.isLoggedIn && hasValidRefreshToken()) {
@@ -25,9 +25,20 @@ export default {
     }
 
     // Set theme
-    this.$store.commit("setTheme", "purple");
+    let theme = this.themes[0];
+    // Set user's preferred theme TODO save this on server and not in local storage
+    if (this.themes.includes(localStorage["userPreferredTheme"])) {
+      theme = localStorage["userPreferredTheme"];
+    }
+    this.$store.commit("setTheme", theme);
   },
   computed: {
+    isLoggedIn() {
+      return this.$store.state.isLoggedIn;
+    },
+    themes() {
+      return this.$store.state.themes;
+    },
     theme() {
       return this.$store.state.settings.theme;
     },
@@ -40,6 +51,10 @@ export default {
 
 <style lang="scss">
 @import "@/scss/globals.scss";
+
+:root {
+  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
+}
 
 * {
   list-style: none;
@@ -54,55 +69,35 @@ button {
 }
 
 body {
-  background-size: 100% 100%;
-  backdrop-filter: blur(10rem);
-}
-
-body {
   margin: 0;
   min-height: 100vh;
-  // Let flexbox deal with width
-  // min-width: 100vw;
-  // width: 100vw;
   display: flex;
+  background-size: 100% 100%;
+  backdrop-filter: blur(10rem);
 
   #app {
-    display: flex;
     flex: 1;
+    display: flex;
+    padding: 0.5rem;
+    gap: 1rem;
 
-    .app-content-wrapper {
-      font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
-
-      // Set font weight
-      font-weight: 300;
-      .material-symbols-outlined {
-        font-variation-settings: 'FILL' 0,
-        'wght' 300,
-        'GRAD' 0,
-        'opsz' 48
-      }
-
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      text-align: center;
-      color: #2c3e50;
-      display: flex;
-      padding: 0.5rem;
-      gap: 1rem;
+    & > :first-child {
       flex: 1;
-
-      &.logged-out {
-        flex-direction: column;
-      }
-
-      &.logged-in {
-        flex-direction: row;
-      }
-
-      #app-content {
-        flex: 1;
-      }
     }
+
+    $font-weight: 300;
+    font-weight: $font-weight;
+
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0,
+      'wght' $font-weight,
+      'GRAD' 0,
+      'opsz' 48
+    }
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
   }
 }
 

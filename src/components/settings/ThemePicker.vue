@@ -4,7 +4,7 @@
       <li v-for="(theme, i) in themes">
         <label :class="theme">
           <h4 :class="theme">{{ theme }}</h4>
-          <input :checked="theme === $store.state.settings.theme" type="radio" @input="setTheme(theme)"/>
+          <input :checked="theme === currentTheme" type="radio" @input="setTheme(theme)"/>
           <!-- Only for prefetch. Doesn't actually show -->
           <img :src="preloadedImages[i]"/>
         </label>
@@ -17,6 +17,9 @@
 export default {
   name: "ThemePicker",
   computed: {
+    currentTheme() {
+      return this.$store.state.settings.theme;
+    },
     themes() {
       return this.$store.state.themes;
     },

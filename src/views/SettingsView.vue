@@ -22,13 +22,18 @@
         </li>
         <li class="settings-list-item">
           <h4>Show Clock:</h4>
-          <toggle-button :isActive="$store.state.showClock" @click="$store.commit('toggleShowClock')">
-          </toggle-button>
+          <custom-checkbox :is-checked="$store.state.showClock"
+                           :title="($store.state.showClock ? 'Hide the' : 'Display a') + ' clock in the sidebar'"
+                           @input="$store.commit('toggleShowClock')">
+          </custom-checkbox>
         </li>
         <li class="settings-list-item">
           <h4>Show Clock Seconds:</h4>
-          <toggle-button :isActive="$store.state.showClockSeconds" @click="$store.commit('toggleShowClockSeconds')">
-          </toggle-button>
+          <custom-checkbox :is-checked="$store.state.showClockSeconds"
+                           :is-disabled="!$store.state.showClock"
+                           :title="showClockSecondsCheckboxTitle"
+                           @input="$store.commit('toggleShowClockSeconds')">
+          </custom-checkbox>
         </li>
         <li>
           <theme-picker></theme-picker>
@@ -108,16 +113,20 @@
 </style>
 
 <script>
-import ToggleButton from "@/components/ToggleButton.vue";
 import ThemePicker from "@/components/settings/ThemePicker";
+import CustomCheckbox from "@/components/CustomCheckbox";
 
 export default {
   name: "SettingsView",
-  components: { ThemePicker, ToggleButton },
+  components: { CustomCheckbox, ThemePicker },
   computed: {
     currentUser() {
       return this.$store.state.user;
     },
+    showClockSecondsCheckboxTitle() {
+      if (!this.$store.state.showClock) return 'Please enable the clock to change this setting';
+      return (this.$store.state.showClockSeconds ? 'Hide' : 'Show') + ' the second indicator in the sidebar clock';
+    }
   },
   methods: {
     async updateUser() {

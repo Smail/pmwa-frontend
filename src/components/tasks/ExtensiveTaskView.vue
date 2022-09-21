@@ -124,11 +124,8 @@ export default {
 
 .extensive-task-view {
   $border-color: var(--primary-color-200-0\.5);
-  border-left: 0.1rem solid $border-color;
   display: flex;
   flex-direction: column;
-  // Because of outline-offset of context and header
-  padding-left: 1rem;
 
   // When using gap, the spellchecker extension causes the all elements to move, because it injects a hidden element
   // Resort to margin-top on each individual item

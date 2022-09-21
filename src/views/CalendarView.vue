@@ -131,8 +131,8 @@ export default {
   },
   data() {
     return {
-      calendarStartDate: moment().startOf("isoWeek").add(4, "days"),
-      calendarEndDate: moment().endOf("isoWeek").add(4, "days"),
+      calendarStartDate: moment().startOf("isoWeek"),
+      calendarEndDate: moment().endOf("isoWeek"),
     };
   },
 };

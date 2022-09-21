@@ -3,7 +3,7 @@
     <!-- The names of the days, i.e., Monday, Tuesday, etc. -->
     <h4 v-for="(d, i) in weekDistributionWeekDays"
         :class="{
-            'past-day': hasDatePast(createMoment(weekDistributionDates[i]).add(1, 'day')),
+            'past': hasDayPast(weekDistributionDates[i]),
             'multiselect': isDayMultiselectActive,
             'selected': isSelected(weekDistributionDates[i]),
           }"
@@ -27,17 +27,17 @@
               // Check if the current day is the last element of the array
               'border-right': d !== weekDistributionWeekDays.slice(-1)[0],
               'border-top': h > 0 && h < 24,
-              'past-day': hasDatePast(createMoment(weekDistributionDates[i]).add(h, 'hour')),
+              'past': hasHourPast(moment(weekDistributionDates[i]).add(h, 'hour')),
               // Rounded corners for the time slot grid
               'border-top-left-radius': i === 0 && h === 0,
               'border-top-right-radius': i === weekDistributionWeekDays.length - 1 && h === 0,
               'border-bottom-left-radius': i === 0 && h === 23,
               'border-bottom-right-radius': i === weekDistributionWeekDays.length - 1 && h === 23,
             }"
-           :data-date="createMoment(weekDistributionDates[i]).add(h, 'hour').toISOString()"
+           :data-date="moment(weekDistributionDates[i]).add(h, 'hour').toISOString()"
            :style="{ gridArea: `d${d}${h}-${Math.floor(i / 7)}` }"
            class="hour"
-           @click="createTask(createMoment(weekDistributionDates[i]).add(h, 'hour').toISOString())"
+           @click="createTask(moment(weekDistributionDates[i]).add(h, 'hour').toISOString())"
       >
       </div>
     </template>
@@ -129,9 +129,7 @@ export default {
     },
   },
   methods: {
-    createMoment(v) {
-      return moment(v);
-    },
+    moment: moment,
     updateServer(id, changes) {
       if (id == null) throw new Error("Invalid argument: ID is null");
       if (changes == null) throw new Error("Invalid argument: changes is null");
@@ -162,24 +160,7 @@ export default {
       }
     },
     dayStringShort(day) {
-      switch (day) {
-        case 0:
-          return "mon";
-        case 1:
-          return "tue";
-        case 2:
-          return "wed";
-        case 3:
-          return "thu";
-        case 4:
-          return "fri";
-        case 5:
-          return "sat";
-        case 6:
-          return "sun";
-        default:
-          throw new Error("Invalid day value: " + day);
-      }
+      return this.dayString(day).substring(0, 3);
     },
     resizeTimeslot(event, task) {
       // Prevents also calling moveTask
@@ -249,8 +230,11 @@ export default {
         endDate: moment(startDate).add(1, "hours").toISOString(),
       });
     },
-    hasDatePast(date) {
-      return date.isBefore(moment(), "hour");
+    hasHourPast(date) {
+      return moment(date).isBefore(moment(), "hour");
+    },
+    hasDayPast(date) {
+      return moment(date).isBefore(moment(), "day");
     },
     localeTimeString(h) {
       return moment()
@@ -291,8 +275,7 @@ export default {
       }
     },
     isSelected(d) {
-      const isSelected = this.selectedDays.indexOf(d) >= 0;
-      return isSelected;
+      return this.selectedDays.indexOf(d) >= 0;
     },
   },
   mounted() {
@@ -328,7 +311,7 @@ export default {
   justify-self: center;
   margin-bottom: 0.5em;
 
-  &.past-day {
+  &.past {
     color: #2c3e50;
     background: $bg;
   }
@@ -402,7 +385,7 @@ export default {
   &:nth-child(2n) {
     background: var(--primary-color-400-0\.8);
 
-    &.past-day {
+    &.past {
       background: var(--primary-color-000-0\.8);
     }
   }
@@ -410,7 +393,7 @@ export default {
   &:nth-child(2n+1) {
     background: var(--primary-color-600-0\.8);
 
-    &.past-day {
+    &.past {
       background: var(--primary-color-100-0\.8);
     }
   }

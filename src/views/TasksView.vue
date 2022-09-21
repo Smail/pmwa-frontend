@@ -17,6 +17,7 @@
                  @task-deleted="$router.replace('/tasks')"
       >
       </task-list>
+      <hr v-show="showExtensiveTaskView">
       <extensive-task-view v-if="activeTask != null"
                            v-show="showExtensiveTaskView"
                            :task="activeTask"
@@ -30,7 +31,6 @@
 @import "@/scss/globals.scss";
 
 .task-view {
-  flex: 1;
   display: flex;
   flex-direction: column;
   margin: 0;
@@ -74,6 +74,12 @@
     .task-list {
       flex: 1;
       background-color: transparent;
+    }
+
+    hr {
+      border-radius: 1rem;
+      border-style: solid;
+      border-color: var(--primary-color-500-0\.7);
     }
 
     .extensive-task-view {

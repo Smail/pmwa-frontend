@@ -40,6 +40,7 @@ export default {
   }
 
   .scroll-down-notification {
+    user-select: none;
     font-size: 4rem;
     filter: drop-shadow(0 0 0.5rem lighten(black, 20));
     animation: animation-bounce ease-in-out 1.5s infinite alternate;
