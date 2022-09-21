@@ -69,17 +69,14 @@ button {
 }
 
 body {
-  background-size: 100% 100%;
-  backdrop-filter: blur(10rem);
-}
-
-body {
   margin: 0;
   min-height: 100vh;
   // Let flexbox deal with width
   // min-width: 100vw;
   // width: 100vw;
   display: flex;
+  background-size: 100% 100%;
+  backdrop-filter: blur(10rem);
 
   #app {
     flex: 1;
