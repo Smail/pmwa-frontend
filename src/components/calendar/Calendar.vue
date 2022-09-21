@@ -294,8 +294,7 @@ export default {
       }
     },
     isSelected(d) {
-      const isSelected = this.selectedDays.indexOf(d) >= 0;
-      return isSelected;
+      return this.selectedDays.indexOf(d) >= 0;
     },
   },
   mounted() {
