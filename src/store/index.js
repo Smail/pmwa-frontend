@@ -31,7 +31,7 @@ export default createStore({
     tasks: [],
     themes: ["red", "green", "pink", "purple", "blue", "mint"],
     settings: {
-      theme: "red",
+      theme: null,
     },
   },
   getters: {},
@@ -77,6 +77,7 @@ export default createStore({
     setTheme: (state, theme) => {
       if (!state.themes.includes(theme)) throw new Error(`Unknown theme: ${ theme }`);
       state.settings.theme = theme;
+      localStorage["userPreferredTheme"] = theme;
 
       // Set page background
       const backgroundImage = require(`/public/${ theme }.png`);

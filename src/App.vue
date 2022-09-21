@@ -25,11 +25,19 @@ export default {
     }
 
     // Set theme
-    this.$store.commit("setTheme", "purple");
+    let theme = this.themes[0];
+    // Set user's preferred theme TODO save this on server and not in local storage
+    if (this.themes.includes(localStorage["userPreferredTheme"])) {
+      theme = localStorage["userPreferredTheme"];
+    }
+    this.$store.commit("setTheme", theme);
   },
   computed: {
     isLoggedIn() {
       return this.$store.state.isLoggedIn;
+    },
+    themes() {
+      return this.$store.state.themes;
     },
     theme() {
       return this.$store.state.settings.theme;
