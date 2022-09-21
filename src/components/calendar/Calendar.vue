@@ -3,7 +3,7 @@
     <!-- The names of the days, i.e., Monday, Tuesday, etc. -->
     <h4 v-for="(d, i) in weekDistributionWeekDays"
         :class="{
-            'past-day': hasDayPast(weekDistributionDates[i]),
+            'past': hasDayPast(weekDistributionDates[i]),
             'multiselect': isDayMultiselectActive,
             'selected': isSelected(weekDistributionDates[i]),
           }"
@@ -27,7 +27,7 @@
               // Check if the current day is the last element of the array
               'border-right': d !== weekDistributionWeekDays.slice(-1)[0],
               'border-top': h > 0 && h < 24,
-              'past-day': hasHourPast(moment(weekDistributionDates[i]).add(h, 'hour')),
+              'past': hasHourPast(moment(weekDistributionDates[i]).add(h, 'hour')),
               // Rounded corners for the time slot grid
               'border-top-left-radius': i === 0 && h === 0,
               'border-top-right-radius': i === weekDistributionWeekDays.length - 1 && h === 0,
@@ -328,7 +328,7 @@ export default {
   justify-self: center;
   margin-bottom: 0.5em;
 
-  &.past-day {
+  &.past {
     color: #2c3e50;
     background: $bg;
   }
@@ -402,7 +402,7 @@ export default {
   &:nth-child(2n) {
     background: var(--primary-color-400-0\.8);
 
-    &.past-day {
+    &.past {
       background: var(--primary-color-000-0\.8);
     }
   }
@@ -410,7 +410,7 @@ export default {
   &:nth-child(2n+1) {
     background: var(--primary-color-600-0\.8);
 
-    &.past-day {
+    &.past {
       background: var(--primary-color-100-0\.8);
     }
   }
