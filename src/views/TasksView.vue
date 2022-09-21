@@ -17,6 +17,7 @@
                  @task-deleted="$router.replace('/tasks')"
       >
       </task-list>
+      <hr v-show="showExtensiveTaskView">
       <extensive-task-view v-if="activeTask != null"
                            v-show="showExtensiveTaskView"
                            :task="activeTask"
