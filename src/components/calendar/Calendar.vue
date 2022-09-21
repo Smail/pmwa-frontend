@@ -27,17 +27,17 @@
               // Check if the current day is the last element of the array
               'border-right': d !== weekDistributionWeekDays.slice(-1)[0],
               'border-top': h > 0 && h < 24,
-              'past-day': hasHourPast(createMoment(weekDistributionDates[i]).add(h, 'hour')),
+              'past-day': hasHourPast(moment(weekDistributionDates[i]).add(h, 'hour')),
               // Rounded corners for the time slot grid
               'border-top-left-radius': i === 0 && h === 0,
               'border-top-right-radius': i === weekDistributionWeekDays.length - 1 && h === 0,
               'border-bottom-left-radius': i === 0 && h === 23,
               'border-bottom-right-radius': i === weekDistributionWeekDays.length - 1 && h === 23,
             }"
-           :data-date="createMoment(weekDistributionDates[i]).add(h, 'hour').toISOString()"
+           :data-date="moment(weekDistributionDates[i]).add(h, 'hour').toISOString()"
            :style="{ gridArea: `d${d}${h}-${Math.floor(i / 7)}` }"
            class="hour"
-           @click="createTask(createMoment(weekDistributionDates[i]).add(h, 'hour').toISOString())"
+           @click="createTask(moment(weekDistributionDates[i]).add(h, 'hour').toISOString())"
       >
       </div>
     </template>
@@ -129,9 +129,7 @@ export default {
     },
   },
   methods: {
-    createMoment(v) {
-      return moment(v);
-    },
+    moment: moment,
     updateServer(id, changes) {
       if (id == null) throw new Error("Invalid argument: ID is null");
       if (changes == null) throw new Error("Invalid argument: changes is null");
