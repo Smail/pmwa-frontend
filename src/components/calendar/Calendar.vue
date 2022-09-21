@@ -304,7 +304,6 @@ export default {
   align-items: center;
   justify-content: center;
   text-transform: capitalize;
-  color: white;
   background: var(--primary-color-600) linear-gradient(to top right, var(--primary-color-400), var(--primary-color-600));
   border-radius: 2rem;
   width: 90%;
@@ -320,7 +319,6 @@ export default {
     user-select: none;
     cursor: pointer;
     outline: 0.1em dashed var(--primary-color-700);
-    color: white;
     background: var(--primary-color-300) linear-gradient(to top right, var(--primary-color-300), var(--primary-color-400));
     transition: color 200ms ease-in-out,
     background 200ms ease-in-out,

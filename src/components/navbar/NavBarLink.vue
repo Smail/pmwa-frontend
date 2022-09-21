@@ -96,13 +96,11 @@ export default {
       }
 
       &.router-link-active {
-        color: white;
         box-shadow: 0 0 0.5em var(--primary-color-500);
         background-color: var(--primary-color-500);
       }
 
       &:hover {
-        color: white;
         box-shadow: 0 0 0.5em var(--primary-color-600);
         background-color: var(--primary-color-600);
       }
@@ -118,7 +116,6 @@ export default {
       transition: all 250ms;
 
       &:hover {
-        color: white;
         box-shadow: 0 0 0.5em rgb(106, 178, 255);
         background-color: rgb(106, 178, 255);
       }
@@ -138,13 +135,11 @@ export default {
         $color: rgb(255, 45, 85);
 
         &.router-link-active {
-          color: white;
           box-shadow: 0 0 0.5em $color;
           background-color: $color;
         }
 
         &:hover {
-          color: white;
           box-shadow: 0 0 0.5em $color;
           background-color: lighten($color, 10);
         }

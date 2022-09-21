@@ -186,7 +186,6 @@ export default {
 
 .task {
   cursor: pointer;
-  color: $color;
   border: 1px solid var(--primary-color-500);
   background: var(--primary-color-500-0\.4);
   border-radius: 0.5em;

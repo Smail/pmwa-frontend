@@ -53,6 +53,7 @@ export default {
 @import "@/scss/globals.scss";
 
 :root {
+  color: $color;
   font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
 }
 

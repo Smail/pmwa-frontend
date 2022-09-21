@@ -63,7 +63,6 @@ export default {
 
   .checkmark {
     font-size: 1.25rem;
-    color: white;
     opacity: 0;
     transition: inherit;
     user-select: none;

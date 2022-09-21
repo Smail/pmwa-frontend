@@ -51,7 +51,6 @@
   flex-direction: column;
   // align-items: flex-start;
   gap: 0.5rem;
-  color: $color;
 
   h1 {
     margin: 0;
@@ -99,7 +98,6 @@
 
         .settings-change-btn {
           border: none;
-          color: white;
           background-color: var(--primary-color-500);
           padding: 0.5rem 1rem;
           border-radius: 1rem;

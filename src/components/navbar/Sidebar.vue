@@ -53,6 +53,7 @@ export default {
         { name: "Dashboard", href: "/dashboard", icon: "space_dashboard", routeName: "dashboard" },
         { name: "Todo", href: "/tasks", icon: "check", routeName: "tasks" },
         { name: "Calendar", href: "/calendar", icon: "calendar_month", routeName: "calendar" },
+        { name: "Fitness", icon: "fitness_center", routeName: "fitness" },
         { name: "Flashcards", href: "/flashcards", icon: "school", routeName: "flashcards" },
         { name: "Projects", href: "/projects", icon: "view_kanban", routeName: "projects" },
         { name: "Settings", href: "/settings", icon: "settings", routeName: "settings" },
@@ -69,7 +70,6 @@ export default {
   display: flex;
   flex-direction: column;
 
-  color: $color;
   padding: 1rem;
   border-radius: 1rem;
   background: var(--primary-color-900-0\.9);

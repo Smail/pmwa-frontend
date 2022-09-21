@@ -25,7 +25,6 @@ export default {
 @import "@/scss/globals.scss";
 
 .auth-form {
-  color: white;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;

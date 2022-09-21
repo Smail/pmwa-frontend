@@ -36,7 +36,6 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  color: $color;
 
   .page-header {
     display: flex;
