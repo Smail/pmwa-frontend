@@ -160,24 +160,7 @@ export default {
       }
     },
     dayStringShort(day) {
-      switch (day) {
-        case 0:
-          return "mon";
-        case 1:
-          return "tue";
-        case 2:
-          return "wed";
-        case 3:
-          return "thu";
-        case 4:
-          return "fri";
-        case 5:
-          return "sat";
-        case 6:
-          return "sun";
-        default:
-          throw new Error("Invalid day value: " + day);
-      }
+      return this.dayString(day).substring(0, 3);
     },
     resizeTimeslot(event, task) {
       // Prevents also calling moveTask
