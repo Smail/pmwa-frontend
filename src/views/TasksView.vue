@@ -76,6 +76,12 @@
       background-color: transparent;
     }
 
+    hr {
+      border-radius: 1rem;
+      border-style: solid;
+      border-color: var(--primary-color-500-0\.7);
+    }
+
     .extensive-task-view {
       flex: 1;
       background-color: transparent;
