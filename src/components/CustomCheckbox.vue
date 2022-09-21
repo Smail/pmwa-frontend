@@ -50,7 +50,7 @@ export default {
 .checkbox-label {
   width: 1.25rem;
   height: 1.25rem;
-  background: var(--primary-color-900-0\.9);
+  background: var(--primary-color-500-0\.8);
   align-self: center;
   cursor: pointer;
   border-radius: 1.5rem;
