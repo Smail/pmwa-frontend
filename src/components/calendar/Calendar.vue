@@ -27,7 +27,7 @@
               // Check if the current day is the last element of the array
               'border-right': d !== weekDistributionWeekDays.slice(-1)[0],
               'border-top': h > 0 && h < 24,
-              'past-day': hasDatePast(createMoment(weekDistributionDates[i]).add(h, 'hour')),
+              'past-day': hasHourPast(createMoment(weekDistributionDates[i]).add(h, 'hour')),
               // Rounded corners for the time slot grid
               'border-top-left-radius': i === 0 && h === 0,
               'border-top-right-radius': i === weekDistributionWeekDays.length - 1 && h === 0,
@@ -249,8 +249,8 @@ export default {
         endDate: moment(startDate).add(1, "hours").toISOString(),
       });
     },
-    hasDatePast(date) {
-      return date.isBefore(moment(), "hour");
+    hasHourPast(date) {
+      return moment(date).isBefore(moment(), "hour");
     },
     hasDayPast(date) {
       return moment(date).isBefore(moment(), "day");
