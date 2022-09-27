@@ -10,8 +10,6 @@
 
 <script>
 import NavBar from "@/components/navbar/NavBar.vue";
-import { hasValidRefreshToken } from "@/services/hasValidRefreshToken";
-import { logErrorAndAlert } from "@/util/logErrorAndAlert";
 import DebugOverlay from "@/components/DebugOverlay";
 import LoggedInViewTemplate from "@/views/LoggedInViewTemplate";
 import LoggedOutViewTemplate from "@/views/LoggedOutViewTemplate";
@@ -19,11 +17,6 @@ import LoggedOutViewTemplate from "@/views/LoggedOutViewTemplate";
 export default {
   components: { LoggedOutViewTemplate, LoggedInViewTemplate, DebugOverlay, NavBar },
   async created() {
-    // Check if already signed it, because the router also may call signIn
-    if (!this.$store.state.isLoggedIn && hasValidRefreshToken()) {
-      await this.$store.dispatch("signIn").catch(e => logErrorAndAlert(e.message, "Could not sign in"));
-    }
-
     // Set theme
     let theme = this.themes[0];
     // Set user's preferred theme TODO save this on server and not in local storage
