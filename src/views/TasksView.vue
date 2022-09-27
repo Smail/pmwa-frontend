@@ -117,21 +117,16 @@ export default {
   },
   methods: {
     selectTask(task) {
-      console.log(`Select task %s`, JSON.stringify(task));
       // this.activeTaskId = task.id;
       this.$router.push(`/tasks/${ task.id }`);
     },
   },
   created() {
-    console.log(this.$route.params);
     this.showExtensiveTaskView = this.$route.params.id != null && this.$route.params.id.length > 0;
     this.$store.dispatch("loadTasks").catch(e => alert(e));
   },
   beforeRouteUpdate(to, from) {
-    console.log(from);
-    console.log(to);
     this.showExtensiveTaskView = to.params.id != null && to.params.id.length > 0;
-    console.log("jlködj");
   },
   data() {
     return {
