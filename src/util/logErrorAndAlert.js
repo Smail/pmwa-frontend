@@ -1,4 +1,5 @@
 export function logErrorAndAlert(logMsg, alertMsg) {
-  console.error(logMsg);
+  const stack = new Error().stack;
+  console.error(`${ logMsg }\n${ stack }`);
   alert(alertMsg != null ? alertMsg : logMsg);
 }
