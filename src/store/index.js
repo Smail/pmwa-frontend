@@ -176,7 +176,6 @@ export default createStore({
         console.debug("Successful sign in");
       } catch (e) {
         context.dispatch("logOut").catch(e => logErrorAndAlert("Could not log out"));
-        logErrorAndAlert(e.message, "Could not sign in");
         throw new Error("Sign in failed", { cause: e });
       }
     },
