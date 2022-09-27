@@ -33,6 +33,7 @@ axios.interceptors.request.use(function (config) {
   return config;
 });
 
+// Acts as mutex
 let isRefreshing;
 
 async function refreshTokens() {
@@ -74,7 +75,7 @@ async function resendInitialRequest(error) {
 axios.interceptors.response.use(r => r, async function (error) {
     // Any status code >= 400 triggers this function
     let httpCode = error.response.status;
-    console.debug(`Server responded with ${ httpCode } (${ getReasonPhrase(httpCode) })`);
+    console.debug(`Server responded with ${ httpCode } (${ getReasonPhrase(httpCode) }) for URL ${ error.config.baseURL }/${ error.config.url }: ${ error.response.data }`);
 
     // Forbidden happens when the credentials are wrong or invalid. Expired tokens also cause a forbidden status code.
     if (httpCode === StatusCodes.FORBIDDEN) {
@@ -96,7 +97,7 @@ axios.interceptors.response.use(r => r, async function (error) {
 
         try {
           setTokens(await refreshTokens());
-          // Update Authorization header for all future requests
+          // Update the Authorization header for all future requests.
           axios.defaults.headers.common["Authorization"] = `Bearer ${ getAccessToken() }`;
         } catch (e) {
           let errMsg = "Could not refresh tokens.";
@@ -142,7 +143,8 @@ axios.interceptors.response.use(r => r, async function (error) {
     }
 
     if (httpCode === StatusCodes.UNAUTHORIZED || httpCode === StatusCodes.FORBIDDEN) {
-      // No user-provided credentials or tokens were supplied to the server.
+      // No valid (user-provided) credentials could be supplied to the server.
+      // Hence, we're logging out the user and require a new sign in.
       await store.dispatch("logOut");
     }
 
