@@ -78,39 +78,65 @@ axios.interceptors.response.use(r => r, async function (error) {
 
     // Forbidden happens when the credentials are wrong or invalid. Expired tokens also cause a forbidden status code.
     if (httpCode === StatusCodes.FORBIDDEN) {
-      // Try to refresh the tokens and resend the request.
-      if (getRefreshToken() != null) {
-        console.debug("Trying to refresh tokens and then to resend the failed request");
+      // Only try to refresh and resend if there's even a refresh token available.
+      let shouldRefreshTokens = (getRefreshToken() != null);
+      let shouldResendRequest = shouldRefreshTokens;
+
+      let oldAccessToken = error.config.headers.Authorization?.split(" ");
+      if (oldAccessToken != null && oldAccessToken.length === 2 && getAccessToken() !== oldAccessToken[1]) {
+        console.debug("Access token has changed in between request and response. " +
+          "Trying to resend the request with the new tokens");
+        // Try resending the request with the newly updated tokens.
+        shouldRefreshTokens = false;
+      }
+
+      if (shouldRefreshTokens) {
+        // Try to refresh the tokens and resend the request.
+        console.debug("Trying to refresh tokens.");
 
         try {
           setTokens(await refreshTokens());
           // Update Authorization header for all future requests
           axios.defaults.headers.common["Authorization"] = `Bearer ${ getAccessToken() }`;
-          // Update the initial request Authorization header (important when resending it)
-          error.config.headers.Authorization = `Bearer ${ getAccessToken() }`;
-
-          try {
-            return await resendInitialRequest(error);
-          } catch (e) {
-            if (e.response == null) console.error(`Response of resent request is null: ${ e.message }`);
-              // Update the response code to the one of the resent request.
-              // The resent request may also fail, but for another reason, e.g.,
-              // initial request is made => forbidden access, because token is outdated
-              // => refresh tokens => resend initial request => 404 not found.
-            // As you can see, the initial request would have failed anyway if the credentials were valid.
-            else if (e.response.status != null) httpCode = e.response;
-            // Resent request has failed again, due to unauthorized access.
-            else if (e.response.status === StatusCodes.FORBIDDEN) {
-              let errMsg = "Resending a failed request, due to 403 (Forbidden), failed again due to 403 (Forbidden).";
-              if (e.response.data != null) errMsg += `\nResponse data: ${ e.response.data }.`;
-              console.warn(errMsg + `\n${ e }`);
-            }
-          }
         } catch (e) {
           let errMsg = "Could not refresh tokens.";
-          if (e.response == null) errMsg += " Note: No request has been made.";
-          else if (e.response.data != null) errMsg += `\nResponse data: ${ e.response.data }.`;
+          if (e.response == null) {
+            errMsg += " Note: No request has been made.";
+          } else if (e.response.data != null) {
+            errMsg += `\nResponse data: ${ e.response.data }.`;
+          }
+
           console.warn(errMsg + `\n${ e }`);
+
+          // Any subsequent request will inevitably fail as well, since we couldn't get new tokens.
+          // Hence, we don't even have to try.
+          shouldResendRequest = false;
+        }
+      }
+
+      if (shouldResendRequest) {
+        console.debug("Resending the failed request.");
+        try {
+          // Update the Authorization header in the initial request (important when resending the same object).
+          error.config.headers.Authorization = `Bearer ${ getAccessToken() }`;
+          return await resendInitialRequest(error);
+        } catch (e) {
+          if (e.response == null) {
+            console.error(`Response of resent request is null: ${ e.message }`);
+          } else if (e.response.status != null) {
+            // Update the response code to the one of the resent request.
+            // The resent request may also fail, but for another reason, e.g.,
+            // initial request is made => forbidden access, because token is outdated
+            // => refresh tokens => resend initial request => 404 not found.
+            // As you can see, the initial request would have failed anyway if the credentials were valid.
+            httpCode = e.response;
+          } else if (e.response.status === StatusCodes.FORBIDDEN) {
+            // Resent request has failed again, due to unauthorized access.
+            let errMsg = "Resending a failed request, that failed due to 403 (Forbidden), " +
+              "has failed again with the same error code";
+            if (e.response.data != null) errMsg += `\nResponse data: ${ e.response.data }.`;
+            console.warn(errMsg + `\n${ e }`);
+          }
         }
       }
     }
