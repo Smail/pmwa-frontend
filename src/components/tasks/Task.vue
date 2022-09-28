@@ -65,7 +65,7 @@
   .delete-task-btn {
     display: flex;
     align-items: center;
-    justify-items: center;
+    justify-content: center;
     padding: 0 0.5rem;
     border: none;
     color: $red;
