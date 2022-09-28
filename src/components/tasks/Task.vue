@@ -14,6 +14,12 @@
             @click="deleteTask(); $emit('taskDeleted', task)"
     >delete
     </button>
+
+    <context-menu>
+      <ul class="context-menu-content_task">
+
+      </ul>
+    </context-menu>
   </div>
 </template>
 
@@ -77,10 +83,11 @@
 <script>
 import TagList from "@/components/tasks/TagList";
 import TaskCheckbox from "@/components/tasks/TaskCheckbox";
+import ContextMenu from "@/components/ContextMenu";
 
 export default {
   name: "Task",
-  components: { TaskCheckbox, TagList },
+  components: { ContextMenu, TaskCheckbox, TagList },
   emits: ["taskSelected", "taskDeleted"],
   props: {
     task: {
