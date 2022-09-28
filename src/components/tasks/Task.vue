@@ -17,6 +17,23 @@
 
     <context-menu>
       <ul class="context-menu-content_task">
+        <li style="display: flex; flex-direction: column;">
+          <h5 style="align-self: flex-start; cursor: default;">Priority</h5>
+          <ul class="priority-list">
+            <li>
+              <button type="button" class="priority_none" @click="setPriority('none')">-</button>
+            </li>
+            <li>
+              <button type="button" class="priority_low" @click="setPriority('low')">!</button>
+            </li>
+            <li>
+              <button type="button" class="priority_medium" @click="setPriority('medium')">!!</button>
+            </li>
+            <li>
+              <button type="button" class="priority_high" @click="setPriority('high')">!!!</button>
+            </li>
+          </ul>
+        </li>
 
         <li>
           <button class="delete-task-btn"
@@ -35,6 +52,49 @@
 
 <style lang="scss" scoped>
 @import "@/scss/globals.scss";
+
+.priority-list {
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+  gap: 0.5em;
+
+  @mixin priority($color) {
+    color: $color;
+    background: transparentize($color, 0.8);
+    border: thin solid $color;
+    transition: background 50ms linear;
+
+    &:hover {
+      background: transparentize($color, 0.6);
+    }
+  }
+
+  li {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;;
+
+    button {
+      @include priority(white);
+      flex: 1;
+      border-radius: 1em;
+    }
+  }
+
+  .priority_low {
+    @include priority(yellow);
+  }
+
+  .priority_medium {
+    @include priority(orange);
+  }
+
+  .priority_high {
+    @include priority(red);
+  }
+}
 
 .task {
   display: flex;
