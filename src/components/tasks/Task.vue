@@ -176,6 +176,9 @@ export default {
     },
   },
   methods: {
+    setPriority(priority) {
+      this.priority = priority;
+    },
     async requestTags() {
       const response = await this.$http.get(`tasks/${ this.task.id }/tags`);
       // Sort array lexicographically based on property "name"
@@ -212,6 +215,7 @@ export default {
     return {
       changes: {},
       tags: [],
+      priority: "none",
     };
   },
 };
