@@ -36,6 +36,10 @@
         </li>
 
         <li>
+          <span class="material-symbols-outlined">star</span>
+        </li>
+
+        <li>
           <button class="delete-task-btn"
                   type="button"
                   @click="deleteTask(); $emit('taskDeleted', task)"
