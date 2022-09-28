@@ -18,6 +18,16 @@
     <context-menu>
       <ul class="context-menu-content_task">
 
+        <li>
+          <button class="delete-task-btn"
+                  type="button"
+                  @click="deleteTask(); $emit('taskDeleted', task)"
+          >
+            Delete
+            <span class="material-symbols-outlined">delete</span>
+          </button>
+
+        </li>
       </ul>
     </context-menu>
   </div>
@@ -58,23 +68,32 @@
     justify-items: center;
     padding: 0 0.5rem;
     border: none;
+    color: $red;
+    background: transparentize($red, 0.7);
+    border-radius: 0.5rem;
+    outline: $red solid 0.1rem;
+    transition: all 50ms ease-in-out;
 
-    // If the button is a material icons buttons
-    &.material-symbols-outlined {
-      color: $red;
-      background: transparentize($red, 0.7);
-      border: none;
-      border-radius: 0.5rem;
-      outline: $red solid 0.1rem;
-      box-shadow: inset 0 0 0.1rem white,
-      0 0 0.2rem var(--primary-color-300);
-      transition: all 50ms ease-in-out;
+    &:hover, &:focus {
+      //font-size: 2rem;
+      background: transparentize($red, 0.5);
+      transform: scale(1.05) translateZ(0);
+    }
+  }
+}
 
-      &:hover, &:focus {
-        //font-size: 2rem;
-        background: transparentize($red, 0.5);
-        transform: scale(1.05) translateZ(0);
-      }
+.context-menu-content_task {
+  display: flex;
+  padding: 0.5rem;
+  flex-direction: column;
+
+  .delete-task-btn {
+    flex: 1;
+    justify-content: space-between;
+    padding: 0.5em;
+
+    &:hover {
+      transform: none;
     }
   }
 }
