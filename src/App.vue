@@ -117,4 +117,10 @@ body {
 ::placeholder {
   color: var(--primary-color-800);
 }
+
+@media (prefers-color-scheme: dark) {
+  input {
+    color-scheme: dark;
+  }
+}
 </style>
