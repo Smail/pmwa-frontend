@@ -71,15 +71,23 @@ button {
 
 body {
   margin: 0;
+  min-width: 100vw;
+  max-width: 100vw;
   min-height: 100vh;
+  max-height: 100vh;
   display: flex;
   background-size: 100% 100%;
   backdrop-filter: blur(10rem);
 
+  // Allow overflow in CSS grid cells
+  height: 100vh;
+  padding: 0.5em;
+  // Keep page not scrollable when adding padding
+  box-sizing: border-box;
+
   #app {
     flex: 1;
     display: flex;
-    padding: 0.5rem;
     gap: 1rem;
 
     & > :first-child {
