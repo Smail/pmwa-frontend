@@ -25,14 +25,14 @@
       <div v-for="(_, h) in 24"
            :class="{
               // Check if the current day is the last element of the array
-              'border-right': d !== weekDistributionWeekDays.slice(-1)[0],
+              'border-right': i < weekDistributionDates.length - 1,
               'border-top': h > 0 && h < 24,
               'past': hasHourPast(moment(weekDistributionDates[i]).add(h, 'hour')),
               // Rounded corners for the time slot grid
               'border-top-left-radius': i === 0 && h === 0,
-              'border-top-right-radius': i === weekDistributionWeekDays.length - 1 && h === 0,
+              'border-top-right-radius': i === weekDistributionDates.length - 1 && h === 0,
               'border-bottom-left-radius': i === 0 && h === 23,
-              'border-bottom-right-radius': i === weekDistributionWeekDays.length - 1 && h === 23,
+              'border-bottom-right-radius': i === weekDistributionDates.length - 1 && h === 23,
             }"
            :data-date="moment(weekDistributionDates[i]).add(h, 'hour').toISOString()"
            :style="{ gridArea: `d${d}${h}-${Math.floor(i / 7)}` }"
