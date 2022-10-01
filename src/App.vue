@@ -47,6 +47,7 @@ export default {
 
 :root {
   font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 0.75rem;
 }
 
 * {
@@ -92,6 +93,14 @@ body {
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
   }
+}
+
+button, input {
+  font-size: 0.9rem;
+}
+
+.material-symbols-outlined {
+  font-size: 1.5rem;
 }
 
 ::-webkit-scrollbar {
