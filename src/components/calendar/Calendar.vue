@@ -11,7 +11,7 @@
         class="day-header"
         @click="isDayMultiselectActive && multiselectDay(weekDistributionDates[i])"
     >
-      {{ dayString(d - 1) }}
+      {{ header(weekDistributionDates[i]) }}
     </h4>
     <!-- Display time annotations, e.g., 15:00 on the left side of the calendar -->
     <template v-for="(_, h) in 24">
@@ -130,6 +130,13 @@ export default {
   },
   methods: {
     moment: moment,
+    header(date) {
+      return Intl.DateTimeFormat(this.$store.state.locale, {
+        weekday: "short",
+        month: "short",
+        day: "numeric",
+      }).format(date);
+    },
     updateServer(id, changes) {
       if (id == null) throw new Error("Invalid argument: ID is null");
       if (changes == null) throw new Error("Invalid argument: changes is null");
