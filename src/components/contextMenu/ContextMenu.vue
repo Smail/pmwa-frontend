@@ -1,5 +1,5 @@
 <template>
-  <div :id="id" class="context-menu" :style="style">
+  <div :id="id" class="context-menu" :style="style" v-show="!isHidden">
     <slot></slot>
   </div>
 </template>
@@ -7,12 +7,12 @@
 <script>
 export default {
   name: "ContextMenu",
+  emits: ["opened", "closed"],
   computed: {
     style() {
       return {
         top: this.y + "px",
         left: this.x + "px",
-        display: this.isHidden ? "none" : "",
       };
     },
     contextMenu() {
@@ -20,7 +20,7 @@ export default {
     },
     parent() {
       return this.contextMenu.parentElement;
-    }
+    },
   },
   methods: {
     handler(event) {
@@ -36,21 +36,30 @@ export default {
       this.x = event.clientX;
       this.y = event.clientY;
 
-      if (!this.isHidden) {
-      }
-
-      this.isHidden = !this.isHidden;
+      // We must remove the display: none property or
+      // otherwise the offset width/height will be 0 when retrieved.
+      // This is safe, since the element will be visible anyway after this function.
+      this.contextMenu.style.display = null;
+      const width = this.contextMenu.offsetWidth;
+      const height = this.contextMenu.offsetHeight;
 
       // Prevent page overflow
-      if (this.x + this.width > window.innerWidth) {
-        this.x = window.innerWidth - this.width;
+      if (this.x + width > window.innerWidth) {
+        this.x = window.innerWidth - width;
       }
-      if (this.y + this.height > window.innerHeight) {
-        this.y = window.innerHeight - this.height;
+      if (this.y + height > window.innerHeight) {
+        this.y = window.innerHeight - height;
       }
+
+      this.show();
+    },
+    show() {
+      this.isHidden = false;
+      this.$emit("opened");
     },
     hide() {
       this.isHidden = true;
+      this.$emit("closed");
     },
     eventStopPropagation(e) {
       e.stopPropagation();
@@ -74,8 +83,6 @@ export default {
       id: Math.random().toString(36).substring(2),
       x: 0,
       y: 0,
-      width: 300,
-      height: 500,
       isHidden: true,
     };
   },
@@ -86,8 +93,6 @@ export default {
 .context-menu {
   box-sizing: border-box;
   position: fixed;
-  width: v-bind("width + 'px'");
-  height: v-bind("height + 'px'");
   background: linear-gradient(75deg, var(--primary-color-300-0\.1), var(--primary-color-400-0\.1));
   z-index: 9999;
   overflow: hidden;
