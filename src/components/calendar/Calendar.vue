@@ -426,8 +426,8 @@ export default {
 .calendar {
   display: grid;
   grid-template-areas: v-bind("gridTemplateAreas");
-  grid-template-rows: repeat(v-bind("numHours + 1"), minmax(0, 1fr));
-  grid-template-columns: 0.2fr repeat(v-bind("numDays"), minmax(0, 1fr));
+  grid-template-rows: 3rem repeat(v-bind("numHours"), minmax(0, 1fr));
+  grid-template-columns: 4.5rem repeat(v-bind("numDays"), minmax(0, 1fr));
   background: var(--primary-color-900-0\.9);
   border-radius: 1rem;
   padding: 0.5rem;
