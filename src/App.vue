@@ -117,6 +117,7 @@ button, input {
 ::-webkit-scrollbar {
   width: 0.35vw;
   background: var(--primary-color-200);
+  border-radius: 1rem;
 }
 
 ::-webkit-scrollbar-thumb {
