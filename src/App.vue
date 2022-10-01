@@ -45,6 +45,8 @@ export default {
 <style lang="scss">
 @import "@/scss/globals.scss";
 
+$font-weight: 300;
+
 :root {
   color: $color;
   font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
@@ -56,6 +58,10 @@ export default {
   padding: 0;
   color: inherit;
   text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  cursor: default;
 }
 
 button {
@@ -87,20 +93,19 @@ body {
       flex: 1;
     }
 
-    $font-weight: 300;
     font-weight: $font-weight;
-
-    .material-symbols-outlined {
-      font-variation-settings: 'FILL' 0,
-      'wght' $font-weight,
-      'GRAD' 0,
-      'opsz' 48
-    }
 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
   }
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0,
+  'wght' $font-weight,
+  'GRAD' 0,
+  'opsz' 48
 }
 
 ::-webkit-scrollbar {
@@ -120,5 +125,11 @@ body {
 
 ::placeholder {
   color: var(--primary-color-800);
+}
+
+@media (prefers-color-scheme: dark) {
+  input {
+    color-scheme: dark;
+  }
 }
 </style>

@@ -11,7 +11,7 @@
         class="day-header"
         @click="isDayMultiselectActive && multiselectDay(weekDistributionDates[i])"
     >
-      {{ dayString(d - 1) }}
+      {{ header(weekDistributionDates[i]) }}
     </h4>
     <!-- Display time annotations, e.g., 15:00 on the left side of the calendar -->
     <template v-for="(_, h) in 24">
@@ -48,7 +48,7 @@
                      @open-task="$router.push(`/tasks/${task.id}`)"
                      @move-task="moveTask"
                      @move-finished="updateServer(task.id, { startDate: task.startDate, endDate: task.endDate})"
-                     @resize-timeslot="resizeTimeslot"
+                     @resize-task="resizeTask"
                      @resize-finished="updateServer(task.id, { endDate: task.endDate})"
       ></calendar-task>
     </template>
@@ -130,6 +130,13 @@ export default {
   },
   methods: {
     moment: moment,
+    header(date) {
+      return Intl.DateTimeFormat(this.$store.state.locale, {
+        weekday: "short",
+        month: "short",
+        day: "numeric",
+      }).format(date);
+    },
     updateServer(id, changes) {
       if (id == null) throw new Error("Invalid argument: ID is null");
       if (changes == null) throw new Error("Invalid argument: changes is null");
@@ -162,7 +169,7 @@ export default {
     dayStringShort(day) {
       return this.dayString(day).substring(0, 3);
     },
-    resizeTimeslot(event, task) {
+    resizeTask(event, task) {
       // Prevents also calling moveTask
       event.stopPropagation();
       const timeSlots = document.getElementsByClassName("hour");
@@ -309,6 +316,7 @@ export default {
   width: 90%;
   justify-self: center;
   margin-bottom: 0.5em;
+  white-space: nowrap;
 
   &.past {
     color: #2c3e50;
@@ -370,7 +378,7 @@ export default {
   justify-content: center;
   flex-direction: column;
   user-select: none;
-  $border: 1px solid #2c3e50;
+  $border: thin solid #2c3e50;
 
   &.border-top {
     border-top: $border;
@@ -416,8 +424,8 @@ export default {
 .calendar {
   display: grid;
   grid-template-areas: v-bind("gridTemplateAreas");
-  grid-template-rows: repeat(v-bind("numHours + 1"), minmax(0, 1fr));
-  grid-template-columns: 0.2fr repeat(v-bind("numDays"), minmax(0, 1fr));
+  grid-template-rows: 3rem repeat(v-bind("numHours"), minmax(0, 1fr));
+  grid-template-columns: 4.5rem repeat(v-bind("numDays"), minmax(0, 1fr));
   background: var(--primary-color-900-0\.9);
   border-radius: 1rem;
   padding: 0.5rem;

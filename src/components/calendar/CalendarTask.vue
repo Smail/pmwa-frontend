@@ -2,16 +2,7 @@
   <template v-for="(_, dayIdx) in numDays">
     <div v-if="isDateVisible(createMoment(startDate).add(dayIdx, 'days'))"
          :class="{ 'is-dragging': isDragging }"
-         :style="{
-            // Rows = hours. Columns = days
-            // Start from 0 o'clock if it is a continued div/day
-            gridRowStart: `d${normalizeDay(startDate.isoWeekday() + dayIdx)}${dayHourStart(dayIdx)}-${weekSegment(createMoment(startDate).add(dayIdx, 'days'))}`,
-            // Max value of hour value encoded in grid-area: 23, e.g., max. is d123 (= day 1, hour 23) and NOT d124
-            // ((endDate.hours() === 0 ? 24 : endDate.hours()) - 1)
-            gridRowEnd: `d${normalizeDay(startDate.isoWeekday() + dayIdx)}${dayHourEnd(dayIdx) - 1}-${weekSegment(createMoment(startDate).add(dayIdx, 'days'))}`,
-            gridColumnStart: `d${normalizeDay(startDate.isoWeekday() + dayIdx)}0-${weekSegment(createMoment(startDate).add(dayIdx, 'days'))}`,
-            gridColumnEnd: `d${normalizeDay(startDate.isoWeekday() + dayIdx)}0-${weekSegment(createMoment(startDate).add(dayIdx, 'days'))}`,
-          }"
+         :style="style(dayIdx)"
          :draggable="!isContextMenuOpen"
          class="task"
          @dblclick="!isContextMenuOpen && $emit('openTask')"
@@ -30,7 +21,7 @@
            :data-end="endDate" :data-start="startDate"
            class="drag-div"
            draggable="true"
-           @drag="$emit('resizeTimeslot', $event, task)"
+           @drag="$emit('resizeTask', $event, task)"
            @dragend="isDragging = false; $emit('resizeFinished')"
            @dragstart="isDragging = true"
       >
@@ -51,7 +42,7 @@ import CalendarTaskContextMenu from "@/components/calendar/CalendarTaskContextMe
 export default {
   name: "CalendarTask",
   components: { CalendarTaskContextMenu },
-  emits: ["moveTask", "resizeTimeslot", "resizeFinished", "moveFinished", "open-task", "deleteTask"],
+  emits: ["moveTask", "resizeTask", "resizeFinished", "moveFinished", "openTask", "deleteTask"],
   props: {
     task: {
       type: Object,
@@ -108,20 +99,41 @@ export default {
 
       return dates;
     },
-    weekNrs() {
-      const weekNrs = [];
-      for (let i = 0; i < this.weekDistributionDates.length; i += 7) {
-        console.log(`week = ${ Math.floor(i / 7) }`);
-      }
-
-      for (const date of this.dates) {
-
-      }
-
-      return weekNrs;
-    },
   },
   methods: {
+    style(dayIdx) {
+      // Rows = hours
+      // Columns = days
+      // Start from 0 o'clock for any dayIdx > 1 if the task stretches over multiple days.
+      // Max value of hour value encoded in grid-area: 23, e.g., max. is d123 (= day 1, hour 23) and NOT d124
+      const gridRowStart = {
+        day: this.normalizeDay(this.startDate.isoWeekday() + dayIdx),
+        hour: this.dayHourStart(dayIdx),
+        weekOffset: this.weekSegment(moment(this.startDate).add(dayIdx, "days")),
+      };
+
+      const gridRowEnd = {
+        day: gridRowStart.day,
+        hour: this.dayHourEnd(dayIdx) - 1,
+        weekOffset: gridRowStart.weekOffset,
+      };
+
+      const gridColumnStart = {
+        day: gridRowStart.day,
+        hour: 0,
+        weekOffset: gridRowStart.weekOffset,
+      };
+
+      const gridColumnEnd = gridColumnStart;
+      const toString = (o) => `d${ o.day }${ o.hour }-${ o.weekOffset }`;
+
+      return {
+        gridRowStart: toString(gridRowStart),
+        gridRowEnd: toString(gridRowEnd),
+        gridColumnStart: toString(gridColumnStart),
+        gridColumnEnd: toString(gridColumnEnd),
+      };
+    },
     weekSegment(date) {
       const weeks = [];
       for (let i = 0; i < this.weekDistributionDates.length; i += 7) {
@@ -133,27 +145,14 @@ export default {
         weeks.push(week);
       }
 
-      // for (let i = 0; i < this.weekDistributionDates.length; i += 7) {
-      //   for (let j = 0; j < Math.min(this.weekDistributionDates.length, 6); j++) {
-      //     let a = moment(this.weekDistributionDates[j]).startOf("day");
-      //     let b = a.isSame(date, "day");
-      //
-      //     if (b) return i;
-      //   }
-      // }
-
-      // console.log(weeks);
-
       for (let weekNr = 0; weekNr < weeks.length; weekNr++) {
         for (const day of weeks[weekNr]) {
-          let a = moment(day).startOf("day");
-          let b = a.isSame(date, "day");
-          if (b) {
+          if (moment(day).startOf("day").isSame(date, "day")) {
             return weekNr;
           }
         }
       }
-      throw new Error("");
+      throw new Error("Unknown error");
     },
     createMoment(v) {
       return moment(v);
@@ -218,6 +217,7 @@ export default {
     flex-direction: column;
     gap: 0.25em;
     text-align: left;
+    font-size: 0.9em;
 
     * {
       cursor: text;
@@ -226,17 +226,16 @@ export default {
     }
 
     .task-header {
-      font-size: 11pt;
       font-weight: bold;
     }
 
     .task-header-time-annotation {
       font-weight: normal;
-      font-size: 9pt;
+      font-size: 0.7em;
     }
 
     .task-description {
-      font-size: 10pt;
+      font-size: 0.8em;
     }
   }
 
@@ -249,8 +248,6 @@ export default {
     user-select: none;
     white-space: nowrap;
     text-wrap: none;
-    //background: lime;
-    //color: transparent;
   }
 }
 </style>

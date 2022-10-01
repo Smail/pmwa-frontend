@@ -17,20 +17,17 @@
 
     <context-menu>
       <ul class="context-menu-content_task">
-        <li style="display: flex; flex-direction: column;">
-          <h5 style="align-self: flex-start; cursor: default;">Priority</h5>
+        <li style="display: flex; flex-direction: column; gap: inherit">
+          <h5 style="align-self: flex-start;">Priority</h5>
           <ul class="priority-list">
-            <li>
-              <button type="button" class="priority_none" @click="setPriority('none')">-</button>
-            </li>
-            <li>
-              <button type="button" class="priority_low" @click="setPriority('low')">!</button>
-            </li>
-            <li>
-              <button type="button" class="priority_medium" @click="setPriority('medium')">!!</button>
-            </li>
-            <li>
-              <button type="button" class="priority_high" @click="setPriority('high')">!!!</button>
+            <li v-for="(p, i) in ['none', 'low', 'medium', 'high']">
+              <button type="button"
+                      :class="[`priority_${p}`, { active: priority === p }]"
+                      @click="setPriority(p)"
+              >
+                <template v-if="i > 0">{{ "!".repeat(i) }}</template>
+                <template v-else>-</template>
+              </button>
             </li>
           </ul>
         </li>
@@ -118,12 +115,16 @@
 
   @mixin priority($color) {
     color: $color;
-    background: transparentize($color, 0.8);
-    border: thin solid $color;
-    transition: background 50ms linear;
+    transition: all 50ms linear;
+
+    &.active {
+      background: transparentize($color, 0.8);
+      border: thin solid transparentize($color, 0.7);
+    }
 
     &:hover {
       background: transparentize($color, 0.6);
+      border: thin solid transparentize($color, 0.5);
     }
   }
 
@@ -137,6 +138,8 @@
       @include priority(white);
       flex: 1;
       border-radius: 1em;
+      border: none;
+      background: transparent;
     }
   }
 
@@ -203,6 +206,7 @@
   display: flex;
   padding: 0.5rem;
   flex-direction: column;
+  gap: 0.5em;
 
   .delete-task-btn {
     flex: 1;
