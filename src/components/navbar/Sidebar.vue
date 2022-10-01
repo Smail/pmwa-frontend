@@ -39,16 +39,26 @@ export default {
   components: { SidebarItem, SidebarLink, NavBarLink, Clock, UserAvatar },
   computed: {
     showClock() {
-      return this.$store.state.showClock;
+      return this.$store.state.showClock && this.screenWidth > 1500;
     },
   },
   methods: {
     signOut() {
-      this.$store.dispatch('logOut');
+      this.$store.dispatch("logOut");
     },
+    updateScreenWidth() {
+      this.screenWidth = window.innerWidth;
+    },
+  },
+  mounted() {
+    window.addEventListener("resize", this.updateScreenWidth);
+  },
+  unmounted() {
+    window.removeEventListener("resize", this.updateScreenWidth);
   },
   data() {
     return {
+      screenWidth: screen.width,
       menu: [
         // { name: "Dashboard", href: "/dashboard", icon: "space_dashboard", routeName: "dashboard" },
         { name: "Todo", href: "/tasks", icon: "check", routeName: "tasks" },
