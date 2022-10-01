@@ -292,7 +292,6 @@ export default {
   cursor: pointer;
   display: flex;
   align-items: center;
-  color: white;
   background: v-bind('bgColor');
   padding: 0.1rem 0.25rem;
   border-radius: 1rem;

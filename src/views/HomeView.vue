@@ -28,8 +28,6 @@ export default {
 @import "@/scss/globals.scss";
 
 .home {
-  color: $color;
-
   h1 {
     display: flex;
     align-items: center;

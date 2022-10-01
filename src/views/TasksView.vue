@@ -35,7 +35,6 @@
   flex-direction: column;
   margin: 0;
   gap: 0.5rem;
-  color: $color;
 
   .header-bar {
     display: flex;
@@ -52,7 +51,6 @@
 
     .display-extensive-task-view-btn {
       border: none;
-      color: $color;
       background: transparent;
       transition: all 150ms linear;
 

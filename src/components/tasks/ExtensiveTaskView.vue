@@ -145,7 +145,6 @@ export default {
       outline: 0.1em solid $border-color;
       padding: 0.5em;
       border-radius: 1em;
-      color: $color;
       background: var(--primary-color-900-0\.9);
       font: inherit;
     }
