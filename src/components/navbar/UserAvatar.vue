@@ -44,6 +44,14 @@
     }
   }
 }
+
+@media only screen and (max-width: 1500px) {
+  .user-avatar {
+    .user-avatar-greeting {
+      display: none;
+    }
+  }
+}
 </style>
 
 <script>

@@ -58,4 +58,14 @@ export default {
     background: var(--primary-color-400);
   }
 }
+
+@media only screen and (max-width: 1500px) {
+  .sidebar-link {
+    justify-content: center;
+  }
+
+  .name {
+    display: none;
+  }
+}
 </style>
