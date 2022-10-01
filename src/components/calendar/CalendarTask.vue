@@ -21,7 +21,7 @@
            :data-end="endDate" :data-start="startDate"
            class="drag-div"
            draggable="true"
-           @drag="$emit('resizeTimeslot', $event, task)"
+           @drag="$emit('resizeTask', $event, task)"
            @dragend="isDragging = false; $emit('resizeFinished')"
            @dragstart="isDragging = true"
       >
@@ -42,7 +42,7 @@ import CalendarTaskContextMenu from "@/components/calendar/CalendarTaskContextMe
 export default {
   name: "CalendarTask",
   components: { CalendarTaskContextMenu },
-  emits: ["moveTask", "resizeTimeslot", "resizeFinished", "moveFinished", "openTask", "deleteTask"],
+  emits: ["moveTask", "resizeTask", "resizeFinished", "moveFinished", "openTask", "deleteTask"],
   props: {
     task: {
       type: Object,

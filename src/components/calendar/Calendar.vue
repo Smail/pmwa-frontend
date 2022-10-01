@@ -48,7 +48,7 @@
                      @open-task="$router.push(`/tasks/${task.id}`)"
                      @move-task="moveTask"
                      @move-finished="updateServer(task.id, { startDate: task.startDate, endDate: task.endDate})"
-                     @resize-timeslot="resizeTimeslot"
+                     @resize-task="resizeTask"
                      @resize-finished="updateServer(task.id, { endDate: task.endDate})"
       ></calendar-task>
     </template>
@@ -162,7 +162,7 @@ export default {
     dayStringShort(day) {
       return this.dayString(day).substring(0, 3);
     },
-    resizeTimeslot(event, task) {
+    resizeTask(event, task) {
       // Prevents also calling moveTask
       event.stopPropagation();
       const timeSlots = document.getElementsByClassName("hour");
