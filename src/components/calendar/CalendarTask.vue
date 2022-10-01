@@ -159,9 +159,7 @@ export default {
 
       for (let weekNr = 0; weekNr < weeks.length; weekNr++) {
         for (const day of weeks[weekNr]) {
-          let a = moment(day).startOf("day");
-          let b = a.isSame(date, "day");
-          if (b) {
+          if (moment(day).startOf("day").isSame(date, "day")) {
             return weekNr;
           }
         }
