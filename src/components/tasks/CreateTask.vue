@@ -40,8 +40,6 @@
       border: none;
       border-radius: 0.5rem;
       outline: var(--primary-color-500) solid 0.1rem;
-      box-shadow: inset 0 0 0.1rem white,
-      0 0 0.2rem var(--primary-color-300);
       transition: all 50ms ease-in-out;
 
       &:hover, &:focus {

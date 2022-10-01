@@ -12,9 +12,9 @@
             gridColumnStart: `d${normalizeDay(startDate.isoWeekday() + dayIdx)}0-${weekSegment(createMoment(startDate).add(dayIdx, 'days'))}`,
             gridColumnEnd: `d${normalizeDay(startDate.isoWeekday() + dayIdx)}0-${weekSegment(createMoment(startDate).add(dayIdx, 'days'))}`,
           }"
+         :draggable="!isContextMenuOpen"
          class="task"
-         draggable="true"
-         @dblclick="$emit('open-task')"
+         @dblclick="!isContextMenuOpen && $emit('openTask')"
          @drag="$emit('moveTask', $event, task)"
          @dragend="isDragging = false; $emit('moveFinished')"
          @dragstart="isDragging = true"
@@ -35,16 +35,23 @@
            @dragstart="isDragging = true"
       >
       </div>
+      <calendar-task-context-menu :task="task"
+                                  @opened="isContextMenuOpen = true"
+                                  @closed="isContextMenuOpen = false"
+                                  @delete-task="$store.dispatch('deleteTask', task.id)"
+      ></calendar-task-context-menu>
     </div>
   </template>
 </template>
 
 <script>
 import moment from "moment";
+import CalendarTaskContextMenu from "@/components/calendar/CalendarTaskContextMenu";
 
 export default {
   name: "CalendarTask",
-  emits: ["moveTask", "resizeTimeslot", "resizeFinished", "moveFinished", "open-task"],
+  components: { CalendarTaskContextMenu },
+  emits: ["moveTask", "resizeTimeslot", "resizeFinished", "moveFinished", "open-task", "deleteTask"],
   props: {
     task: {
       type: Object,
@@ -176,6 +183,7 @@ export default {
   data() {
     return {
       isDragging: false,
+      isContextMenuOpen: false,
     };
   },
 };
