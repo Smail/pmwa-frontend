@@ -218,6 +218,7 @@ export default {
     flex-direction: column;
     gap: 0.25em;
     text-align: left;
+    font-size: 0.9em;
 
     * {
       cursor: text;
@@ -226,17 +227,16 @@ export default {
     }
 
     .task-header {
-      font-size: 11pt;
       font-weight: bold;
     }
 
     .task-header-time-annotation {
       font-weight: normal;
-      font-size: 9pt;
+      font-size: 0.7em;
     }
 
     .task-description {
-      font-size: 10pt;
+      font-size: 0.8em;
     }
   }
 
