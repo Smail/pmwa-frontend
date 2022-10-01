@@ -17,8 +17,8 @@
 
     <context-menu>
       <ul class="context-menu-content_task">
-        <li style="display: flex; flex-direction: column;">
-          <h5 style="align-self: flex-start; cursor: default;">Priority</h5>
+        <li style="display: flex; flex-direction: column; gap: inherit">
+          <h5 style="align-self: flex-start;">Priority</h5>
           <ul class="priority-list">
             <li v-for="(p, i) in ['none', 'low', 'medium', 'high']">
               <button type="button"
@@ -153,6 +153,7 @@
   display: flex;
   padding: 0.5rem;
   flex-direction: column;
+  gap: 0.5em;
 
   .delete-task-btn {
     flex: 1;
