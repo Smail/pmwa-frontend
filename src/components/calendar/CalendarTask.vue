@@ -133,17 +133,6 @@ export default {
         weeks.push(week);
       }
 
-      // for (let i = 0; i < this.weekDistributionDates.length; i += 7) {
-      //   for (let j = 0; j < Math.min(this.weekDistributionDates.length, 6); j++) {
-      //     let a = moment(this.weekDistributionDates[j]).startOf("day");
-      //     let b = a.isSame(date, "day");
-      //
-      //     if (b) return i;
-      //   }
-      // }
-
-      // console.log(weeks);
-
       for (let weekNr = 0; weekNr < weeks.length; weekNr++) {
         for (const day of weeks[weekNr]) {
           let a = moment(day).startOf("day");
