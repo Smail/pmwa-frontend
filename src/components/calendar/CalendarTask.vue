@@ -42,7 +42,7 @@ import CalendarTaskContextMenu from "@/components/calendar/CalendarTaskContextMe
 export default {
   name: "CalendarTask",
   components: { CalendarTaskContextMenu },
-  emits: ["moveTask", "resizeTimeslot", "resizeFinished", "moveFinished", "open-task", "deleteTask"],
+  emits: ["moveTask", "resizeTimeslot", "resizeFinished", "moveFinished", "openTask", "deleteTask"],
   props: {
     task: {
       type: Object,
