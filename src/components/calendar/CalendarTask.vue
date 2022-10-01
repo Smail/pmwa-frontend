@@ -99,18 +99,6 @@ export default {
 
       return dates;
     },
-    weekNrs() {
-      const weekNrs = [];
-      for (let i = 0; i < this.weekDistributionDates.length; i += 7) {
-        console.log(`week = ${ Math.floor(i / 7) }`);
-      }
-
-      for (const date of this.dates) {
-
-      }
-
-      return weekNrs;
-    },
   },
   methods: {
     style(dayIdx) {
