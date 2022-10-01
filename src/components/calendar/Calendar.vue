@@ -310,6 +310,7 @@ export default {
   width: 90%;
   justify-self: center;
   margin-bottom: 0.5em;
+  white-space: nowrap;
 
   &.past {
     color: #2c3e50;
