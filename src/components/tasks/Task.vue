@@ -166,7 +166,7 @@
 <script>
 import TagList from "@/components/tasks/TagList";
 import TaskCheckbox from "@/components/tasks/TaskCheckbox";
-import ContextMenu from "@/components/ContextMenu";
+import ContextMenu from "@/components/contextMenu/ContextMenu";
 
 export default {
   name: "Task",
