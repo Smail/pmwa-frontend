@@ -152,7 +152,7 @@ export default {
           }
         }
       }
-      throw new Error("");
+      throw new Error("Unknown error");
     },
     createMoment(v) {
       return moment(v);
