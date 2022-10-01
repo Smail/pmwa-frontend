@@ -380,7 +380,7 @@ export default {
   justify-content: center;
   flex-direction: column;
   user-select: none;
-  $border: 1px solid #2c3e50;
+  $border: thin solid #2c3e50;
 
   &.border-top {
     border-top: $border;
