@@ -19,12 +19,15 @@
   gap: 0.5rem;
 
   .user-avatar-icon {
-    width: 48px;
-    height: 48px;
-    // Needed for if icon is a materials icon and not an actual image
-    font-size: 48px;
+    $img-size: 3rem;
+    width: $img-size;
+    height: $img-size;
     border-radius: 50%;
     cursor: pointer;
+
+    &.material-symbols-outlined {
+      font-size: $img-size;
+    }
   }
 
   .user-avatar-greeting {

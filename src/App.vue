@@ -50,6 +50,7 @@ $font-weight: 300;
 :root {
   color: $color;
   font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 0.75rem;
 }
 
 * {
@@ -102,10 +103,15 @@ body {
 }
 
 .material-symbols-outlined {
+  font-size: 1.5rem;
   font-variation-settings: 'FILL' 0,
   'wght' $font-weight,
   'GRAD' 0,
   'opsz' 48
+}
+
+button, input {
+  font-size: 0.9rem;
 }
 
 ::-webkit-scrollbar {
