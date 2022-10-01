@@ -2,16 +2,7 @@
   <template v-for="(_, dayIdx) in numDays">
     <div v-if="isDateVisible(createMoment(startDate).add(dayIdx, 'days'))"
          :class="{ 'is-dragging': isDragging }"
-         :style="{
-            // Rows = hours. Columns = days
-            // Start from 0 o'clock if it is a continued div/day
-            gridRowStart: `d${normalizeDay(startDate.isoWeekday() + dayIdx)}${dayHourStart(dayIdx)}-${weekSegment(createMoment(startDate).add(dayIdx, 'days'))}`,
-            // Max value of hour value encoded in grid-area: 23, e.g., max. is d123 (= day 1, hour 23) and NOT d124
-            // ((endDate.hours() === 0 ? 24 : endDate.hours()) - 1)
-            gridRowEnd: `d${normalizeDay(startDate.isoWeekday() + dayIdx)}${dayHourEnd(dayIdx) - 1}-${weekSegment(createMoment(startDate).add(dayIdx, 'days'))}`,
-            gridColumnStart: `d${normalizeDay(startDate.isoWeekday() + dayIdx)}0-${weekSegment(createMoment(startDate).add(dayIdx, 'days'))}`,
-            gridColumnEnd: `d${normalizeDay(startDate.isoWeekday() + dayIdx)}0-${weekSegment(createMoment(startDate).add(dayIdx, 'days'))}`,
-          }"
+         :style="style(dayIdx)"
          :draggable="!isContextMenuOpen"
          class="task"
          @dblclick="!isContextMenuOpen && $emit('openTask')"
@@ -122,6 +113,39 @@ export default {
     },
   },
   methods: {
+    style(dayIdx) {
+      // Rows = hours
+      // Columns = days
+      // Start from 0 o'clock for any dayIdx > 1 if the task stretches over multiple days.
+      // Max value of hour value encoded in grid-area: 23, e.g., max. is d123 (= day 1, hour 23) and NOT d124
+      const gridRowStart = {
+        day: this.normalizeDay(this.startDate.isoWeekday() + dayIdx),
+        hour: this.dayHourStart(dayIdx),
+        weekOffset: this.weekSegment(moment(this.startDate).add(dayIdx, "days")),
+      };
+
+      const gridRowEnd = {
+        day: gridRowStart.day,
+        hour: this.dayHourEnd(dayIdx) - 1,
+        weekOffset: gridRowStart.weekOffset,
+      };
+
+      const gridColumnStart = {
+        day: gridRowStart.day,
+        hour: 0,
+        weekOffset: gridRowStart.weekOffset,
+      };
+
+      const gridColumnEnd = gridColumnStart;
+      const toString = (o) => `d${ o.day }${ o.hour }-${ o.weekOffset }`;
+
+      return {
+        gridRowStart: toString(gridRowStart),
+        gridRowEnd: toString(gridRowEnd),
+        gridColumnStart: toString(gridColumnStart),
+        gridColumnEnd: toString(gridColumnEnd),
+      };
+    },
     weekSegment(date) {
       const weeks = [];
       for (let i = 0; i < this.weekDistributionDates.length; i += 7) {
