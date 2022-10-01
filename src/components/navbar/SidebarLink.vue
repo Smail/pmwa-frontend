@@ -26,8 +26,8 @@ export default {
       type: String,
       require: true,
     },
-  }
-}
+  },
+};
 </script>
 
 <style lang="scss" scoped>

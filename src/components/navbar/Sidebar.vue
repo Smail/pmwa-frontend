@@ -40,12 +40,12 @@ export default {
   computed: {
     showClock() {
       return this.$store.state.showClock;
-    }
+    },
   },
   methods: {
     signOut() {
       this.$store.dispatch('logOut');
-    }
+    },
   },
   data() {
     return {
@@ -60,7 +60,7 @@ export default {
       ],
     };
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
