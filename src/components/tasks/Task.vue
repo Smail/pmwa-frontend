@@ -35,8 +35,17 @@
           </ul>
         </li>
 
-        <li>
-          <span class="material-symbols-outlined">star</span>
+        <li class="divider">
+          <hr>
+        </li>
+
+        <li class="favorite-task">
+          <button type="button" class="favorite-task"
+                  :class="{ active: isFavorite }"
+                  @click="toggleIsFavorite">
+            Favor task
+            <span class="material-symbols-outlined">star</span>
+          </button>
         </li>
 
         <li>
@@ -56,6 +65,50 @@
 
 <style lang="scss" scoped>
 @import "@/scss/globals.scss";
+
+.context-menu-content_task {
+  .divider {
+    display: flex;
+
+    hr {
+      flex: 1;
+      $color: var(--primary-color-700);
+      background: $color;
+      border-color: $color;
+    }
+  }
+}
+
+.context-menu-content_task {
+  button.favorite-task {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .material-symbols-outlined {
+      color: yellow;
+    }
+
+    // Fill out star if the task is set as favorite
+    &.active {
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 1;
+      }
+    }
+
+    background: transparent;
+    border: thin solid transparent;
+    padding: 0.25em;
+    border-radius: 0.5em;
+    transition: all 50ms linear;
+
+    &:hover {
+      border-color: yellow;
+      background: transparentize(yellow, 0.8);
+    }
+  }
+}
 
 .priority-list {
   display: flex;
@@ -180,6 +233,9 @@ export default {
     },
   },
   methods: {
+    toggleIsFavorite() {
+      this.isFavorite = !this.isFavorite;
+    },
     setPriority(priority) {
       this.priority = priority;
     },
@@ -220,6 +276,7 @@ export default {
       changes: {},
       tags: [],
       priority: "none",
+      isFavorite: false,
     };
   },
 };
