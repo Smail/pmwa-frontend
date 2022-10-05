@@ -31,7 +31,8 @@ want to display more than seven days.
 
 ### Designs
 
-It is possible to change between different app design in the settings panel.
+It is possible to change between different app design in the settings panel. Note, that some designs are not really
+user-friendly, e.g., the text is hardly visible, because it blends into the background (mint in particular).
 
 ## Project setup
 
@@ -64,11 +65,12 @@ yarn build
 
 ### Demo Mode
 
-This project can be run in demo mode, which runs locally on the client by emulating the server through the browser's local storage.
+This project can be run in demo mode, which runs locally on the client by emulating the server through the browser's
+local storage.
 Set the environment variable `VUE_APP_IS_DEMO` to `true` (for example in `.env.local`) to activate the demo/local
 storage mode.
 
 Start by creating a new user in the »Sign Up« section.
-Password checks are omitted during demo mode, 
+Password checks are omitted during demo mode,
 hence, after creating the user, you can simply log in with a random password and your entered username.
 If you create a new account, all data of the previous account are lost.
