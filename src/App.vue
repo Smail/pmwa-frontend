@@ -50,7 +50,6 @@ $font-weight: 300;
 :root {
   color: $color;
   font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
-  font-size: 0.75rem;
 }
 
 * {
@@ -135,7 +134,7 @@ button, input {
 }
 
 @media (prefers-color-scheme: dark) {
-  input {
+  * {
     color-scheme: dark;
   }
 }
