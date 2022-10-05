@@ -77,6 +77,7 @@
 <script>
 import TagList from "@/components/tasks/TagList";
 import TaskCheckbox from "@/components/tasks/TaskCheckbox";
+import { loadTaskTags } from "@/services/api/loadTaskTags";
 
 export default {
   name: "Task",
@@ -90,12 +91,6 @@ export default {
     },
   },
   methods: {
-    async requestTags() {
-      const response = await this.$http.get(`tasks/${ this.task.id }/tags`);
-      // Sort array lexicographically based on property "name"
-      response.data.sort((a, b) => a.name.toLocaleLowerCase().localeCompare(b.name.toLocaleLowerCase()));
-      response.data.forEach(tag => this.tags.push(tag));
-    },
     removeFocus() {
       document.activeElement.blur();
     },
@@ -117,7 +112,7 @@ export default {
     },
   },
   async created() {
-    await this.requestTags().catch(e => console.error("Could not load tags: %s\n%s",
+    await loadTaskTags(this.task.id).catch(e => console.error("Could not load tags: %s\n%s",
         e.message + (e.response?.data != null ? (". " + e.response.data) : ""), JSON.stringify(e)));
     // Save changes when user leaves the page without unnecessarily notifying them.
     window.addEventListener("beforeunload", () => this.update());
