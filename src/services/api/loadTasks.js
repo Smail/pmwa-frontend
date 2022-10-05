@@ -1,16 +1,4 @@
-import axios from "axios";
+import { loadTasks as offline } from "./offline/loadTasks";
+import { loadTasks as online } from "./online/loadTasks";
 
-/**
- * @throws {Error}
- */
-export async function loadTasks(context) {
-  try {
-    const response = await axios.get("tasks");
-    const data = response.data;
-
-    return await context.commit("setTasks", data);
-  } catch (e) {
-    console.error("Could not load tasks: %s", e.message);
-    throw new Error("Could not load tasks", { cause: e });
-  }
-}
+export const loadTasks = process.env.VUE_APP_IS_DEMO ? offline : online;

@@ -1,15 +1,4 @@
-import axios from "axios";
+import { deleteTask as offline } from "./offline/deleteTask";
+import { deleteTask as online } from "./online/deleteTask";
 
-/**
- * @throws {Error}
- */
-export async function deleteTask(context, taskId) {
-  try {
-    await axios.delete(`tasks/${ taskId }`);
-    console.debug(`%c[SUCCESS] %s`, "color: lime", "Task server deletion");
-    context.commit("removeTask", taskId);
-  } catch (e) {
-    console.error("Failed to delete task: %s", e.message);
-    throw new Error("Failed to delete task", { cause: e });
-  }
-}
+export const deleteTask = process.env.VUE_APP_IS_DEMO ? offline : online;
