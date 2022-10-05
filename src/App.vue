@@ -45,8 +45,12 @@ export default {
 <style lang="scss">
 @import "@/scss/globals.scss";
 
+$font-weight: 300;
+
 :root {
+  color: $color;
   font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 0.75rem;
 }
 
 * {
@@ -57,36 +61,40 @@ export default {
   text-decoration: none;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  cursor: default;
+}
+
 button {
   cursor: pointer;
 }
 
 body {
   margin: 0;
+  min-width: 100vw;
+  max-width: 100vw;
   min-height: 100vh;
+  max-height: 100vh;
   display: flex;
   background-size: 100% 100%;
   backdrop-filter: blur(10rem);
 
+  // Allow overflow in CSS grid cells
+  height: 100vh;
+  padding: 0.5em;
+  // Keep page not scrollable when adding padding
+  box-sizing: border-box;
+
   #app {
     flex: 1;
     display: flex;
-    padding: 0.5rem;
     gap: 1rem;
 
     & > :first-child {
       flex: 1;
     }
 
-    $font-weight: 300;
     font-weight: $font-weight;
-
-    .material-symbols-outlined {
-      font-variation-settings: 'FILL' 0,
-      'wght' $font-weight,
-      'GRAD' 0,
-      'opsz' 48
-    }
 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -94,9 +102,22 @@ body {
   }
 }
 
+.material-symbols-outlined {
+  font-size: 1.5rem;
+  font-variation-settings: 'FILL' 0,
+  'wght' $font-weight,
+  'GRAD' 0,
+  'opsz' 48
+}
+
+button, input {
+  font-size: 0.9rem;
+}
+
 ::-webkit-scrollbar {
   width: 0.35vw;
   background: var(--primary-color-200);
+  border-radius: 1rem;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -111,5 +132,11 @@ body {
 
 ::placeholder {
   color: var(--primary-color-800);
+}
+
+@media (prefers-color-scheme: dark) {
+  input {
+    color-scheme: dark;
+  }
 }
 </style>

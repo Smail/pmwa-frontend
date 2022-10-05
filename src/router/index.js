@@ -38,6 +38,12 @@ const routes = [
     component: () => import("../views/DashboardView.vue"),
   },
   {
+    path: "/fitness",
+    name: "fitness",
+    meta: { needsAuthentication: true },
+    component: () => import("../views/FitnessTrackerView.vue"),
+  },
+  {
     path: "/calendar",
     name: "calendar",
     meta: { needsAuthentication: true },

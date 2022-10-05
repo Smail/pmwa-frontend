@@ -62,7 +62,7 @@ export default {
   justify-content: center;
 
   .checkmark {
-    font-size: 1.25rem;
+    font-size: 1rem;
     color: white;
     opacity: 0;
     transition: inherit;

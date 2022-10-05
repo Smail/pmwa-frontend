@@ -36,7 +36,6 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  color: $color;
 
   .page-header {
     display: flex;
@@ -51,7 +50,6 @@
     }
 
     .num-days-input {
-      font-size: 1.75em;
       border: none;
       background: transparent;
     }

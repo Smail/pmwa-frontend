@@ -26,8 +26,8 @@ export default {
       type: String,
       require: true,
     },
-  }
-}
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -45,19 +45,27 @@ export default {
   border-radius: inherit;
 
   &.router-link-active {
-    color: white;
     box-shadow: 0 0 0.5em var(--primary-color-500);
     background: var(--primary-color-500);
   }
 
   &:hover {
-    color: white;
     box-shadow: 0 0 0.5em var(--primary-color-600);
     background: var(--primary-color-600);
   }
 
   &:active {
     background: var(--primary-color-400);
+  }
+}
+
+@media only screen and (max-width: 1500px) {
+  .sidebar-link {
+    justify-content: center;
+  }
+
+  .name {
+    display: none;
   }
 }
 </style>

@@ -33,7 +33,6 @@ export default {
   display: inline-flex;
   border-radius: 1rem;
   padding: 1rem;
-  color: $color;
   justify-content: flex-end;
   background: transparent;
 

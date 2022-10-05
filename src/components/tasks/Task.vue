@@ -14,11 +14,147 @@
             @click="deleteTask(); $emit('taskDeleted', task)"
     >delete
     </button>
+
+    <context-menu>
+      <ul class="context-menu-content_task">
+        <li style="display: flex; flex-direction: column; gap: inherit">
+          <h5 style="align-self: flex-start;">Priority</h5>
+          <ul class="priority-list">
+            <li v-for="(p, i) in ['none', 'low', 'medium', 'high']">
+              <button type="button"
+                      :class="[`priority_${p}`, { active: priority === p }]"
+                      @click="setPriority(p)"
+              >
+                <template v-if="i > 0">{{ "!".repeat(i) }}</template>
+                <template v-else>-</template>
+              </button>
+            </li>
+          </ul>
+        </li>
+
+        <li class="divider">
+          <hr>
+        </li>
+
+        <li class="favorite-task">
+          <button type="button" class="favorite-task"
+                  :class="{ active: isFavorite }"
+                  @click="toggleIsFavorite">
+            Favor task
+            <span class="material-symbols-outlined">star</span>
+          </button>
+        </li>
+
+        <li>
+          <button class="delete-task-btn"
+                  type="button"
+                  @click="deleteTask(); $emit('taskDeleted', task)"
+          >
+            Delete
+            <span class="material-symbols-outlined">delete</span>
+          </button>
+
+        </li>
+      </ul>
+    </context-menu>
   </div>
 </template>
 
 <style lang="scss" scoped>
 @import "@/scss/globals.scss";
+
+.context-menu-content_task {
+  .divider {
+    display: flex;
+
+    hr {
+      flex: 1;
+      $color: var(--primary-color-700);
+      background: $color;
+      border-color: $color;
+    }
+  }
+}
+
+.context-menu-content_task {
+  button.favorite-task {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .material-symbols-outlined {
+      color: yellow;
+    }
+
+    // Fill out star if the task is set as favorite
+    &.active {
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 1;
+      }
+    }
+
+    background: transparent;
+    border: thin solid transparent;
+    padding: 0.25em;
+    border-radius: 0.5em;
+    transition: all 50ms linear;
+
+    &:hover {
+      border-color: yellow;
+      background: transparentize(yellow, 0.8);
+    }
+  }
+}
+
+.priority-list {
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+  gap: 0.5em;
+
+  @mixin priority($color) {
+    color: $color;
+    transition: all 50ms linear;
+
+    &.active {
+      background: transparentize($color, 0.8);
+      border: thin solid transparentize($color, 0.7);
+    }
+
+    &:hover {
+      background: transparentize($color, 0.6);
+      border: thin solid transparentize($color, 0.5);
+    }
+  }
+
+  li {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;;
+
+    button {
+      @include priority(white);
+      flex: 1;
+      border-radius: 1em;
+      border: none;
+      background: transparent;
+    }
+  }
+
+  .priority_low {
+    @include priority(yellow);
+  }
+
+  .priority_medium {
+    @include priority(orange);
+  }
+
+  .priority_high {
+    @include priority(red);
+  }
+}
 
 .task {
   display: flex;
@@ -49,26 +185,36 @@
   .delete-task-btn {
     display: flex;
     align-items: center;
-    justify-items: center;
+    justify-content: center;
     padding: 0 0.5rem;
     border: none;
+    color: $red;
+    background: transparentize($red, 0.7);
+    border-radius: 0.5rem;
+    outline: $red solid 0.1rem;
+    transition: all 50ms ease-in-out;
 
-    // If the button is a material icons buttons
-    &.material-symbols-outlined {
-      color: $red;
-      background: transparentize($red, 0.7);
-      border: none;
-      border-radius: 0.5rem;
-      outline: $red solid 0.1rem;
-      box-shadow: inset 0 0 0.1rem white,
-      0 0 0.2rem var(--primary-color-300);
-      transition: all 50ms ease-in-out;
+    &:hover, &:focus {
+      //font-size: 2rem;
+      background: transparentize($red, 0.5);
+      transform: scale(1.05) translateZ(0);
+    }
+  }
+}
 
-      &:hover, &:focus {
-        //font-size: 2rem;
-        background: transparentize($red, 0.5);
-        transform: scale(1.05) translateZ(0);
-      }
+.context-menu-content_task {
+  display: flex;
+  padding: 0.5rem;
+  flex-direction: column;
+  gap: 0.5em;
+
+  .delete-task-btn {
+    flex: 1;
+    justify-content: space-between;
+    padding: 0.5em;
+
+    &:hover {
+      transform: none;
     }
   }
 }
@@ -78,10 +224,11 @@
 import TagList from "@/components/tasks/TagList";
 import TaskCheckbox from "@/components/tasks/TaskCheckbox";
 import { loadTaskTags } from "@/services/api/loadTaskTags";
+import ContextMenu from "@/components/contextMenu/ContextMenu";
 
 export default {
   name: "Task",
-  components: { TaskCheckbox, TagList },
+  components: { ContextMenu, TaskCheckbox, TagList },
   emits: ["taskSelected", "taskDeleted"],
   props: {
     task: {
@@ -91,6 +238,12 @@ export default {
     },
   },
   methods: {
+    toggleIsFavorite() {
+      this.isFavorite = !this.isFavorite;
+    },
+    setPriority(priority) {
+      this.priority = priority;
+    },
     removeFocus() {
       document.activeElement.blur();
     },
@@ -121,6 +274,8 @@ export default {
     return {
       changes: {},
       tags: [],
+      priority: "none",
+      isFavorite: false,
     };
   },
 };
