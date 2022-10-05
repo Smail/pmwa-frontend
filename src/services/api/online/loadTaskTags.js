@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export async function loadTaskTags(taskId) {
   const tags = [];
   const response = await axios.get(`tasks/${ taskId }/tags`);
