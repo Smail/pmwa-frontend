@@ -7,6 +7,7 @@ import { updateUser } from "@/services/api/updateUser";
 import { updateTask } from "@/services/api/updateTask";
 import { deleteTask } from "@/services/api/deleteTask";
 import { updateTaskOnlyServer } from "@/services/api/updateTaskOnlyServer";
+import { signUp } from "@/services/api/signUp";
 
 export default createStore({
   state: {
@@ -104,6 +105,7 @@ export default createStore({
   actions: {
     updateUser: updateUser,
     signIn: signIn,
+    signUp: signUp,
     requestUserData: requestUserData,
     logOut: logOut,
     loadTasks: loadTasks,
