@@ -22,7 +22,7 @@ const routes = [
     alias: "/logout",
     redirect: to => {
       // Redirect to sign in screen
-      return { name: 'signin' }
+      return { name: "signin" };
     },
   },
   {
