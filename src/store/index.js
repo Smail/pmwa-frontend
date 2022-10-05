@@ -62,7 +62,7 @@ export default createStore({
         if (!updatableKeys.includes(key)) throw new Error(`Unknown key on user object '${ key }'`);
       }
 
-      for (const key of updatableKeys) {
+      for (const key of Object.keys(user)) {
         state.user[key] = user[key];
       }
       console.debug(`%c[SUCCESS] %s`, "color: lime", "Local user update");
