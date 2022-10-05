@@ -184,9 +184,6 @@ export default {
     if (chartCanvas == null) return;
     console.log("Hallo");
   },
-  updated() {
-    console.log("updated");
-  },
   beforeMount() {
     let chartCanvas = document.getElementById("myChart");
 
