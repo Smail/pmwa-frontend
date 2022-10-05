@@ -6,10 +6,9 @@ A productivity web application written in Vue. The application is still in devel
 
 * Todo list / Notes
 * Calendar
-* Kanban board
 * Fitness Tracker
 
-Note: Not all the listed features are (fully) implemented.
+Note: Not all the listed features are fully implemented, yet.
 Check the [backlog](./BACKLOG.md) for a fully featured list of currently available or planned features.
 
 ### Todo list / Task Tracker
