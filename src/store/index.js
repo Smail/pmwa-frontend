@@ -8,6 +8,7 @@ import { updateTask } from "@/services/api/updateTask";
 import { deleteTask } from "@/services/api/deleteTask";
 import { updateTaskOnlyServer } from "@/services/api/updateTaskOnlyServer";
 import { signUp } from "@/services/api/signUp";
+import { hasValidRefreshToken } from "@/services/hasValidRefreshToken";
 
 export default createStore({
   state: {
@@ -29,7 +30,14 @@ export default createStore({
       theme: null,
     },
   },
-  getters: {},
+  getters: {
+    couldLogIn: (state) => {
+      if (state.isLoggedIn) return true;
+      return (process.env.VUE_APP_IS_DEMO) ?
+        (localStorage["user"] != null && localStorage["isLoggedIn"] === "true") :
+        hasValidRefreshToken();
+    },
+  },
   mutations: {
     setUser: (state, user) => {
       const requiredKeys = Object.keys(state.user);

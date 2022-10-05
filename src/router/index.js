@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import store from "../store";
-import { hasValidRefreshToken } from "@/services/hasValidRefreshToken";
 import { logErrorAndAlert } from "@/util/logErrorAndAlert";
 
 const routes = [
@@ -77,7 +76,7 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  if (to.meta.needsAuthentication && !store.state.isLoggedIn && hasValidRefreshToken()) {
+  if (to.meta.needsAuthentication && store.getters.couldLogIn) {
     await store.dispatch("signIn").catch(e => logErrorAndAlert(e.message, "Could not sign in"));
   }
   if (!to.meta.needsAuthentication || store.state.isLoggedIn) {
