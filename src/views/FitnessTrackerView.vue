@@ -20,6 +20,7 @@
               Your browser does not support the canvas element and therefore no charts can be displayed at this time.
               Please try updating or changing your browser
             </canvas>
+            <weight-graph></weight-graph>
           </div>
           <button class="material-symbols-outlined chart-nav-btn" style="margin-left: 1rem;" type="button">
             chevron_right
