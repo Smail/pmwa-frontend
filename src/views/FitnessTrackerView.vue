@@ -76,10 +76,12 @@
 import Chart from "chart.js/auto";
 import moment from "moment";
 import { titleizeString } from "@/util/titleizeString";
+import Measurement from "@/components/fitness/Measurement";
+import WeightGraph from "@/components/fitness/WeightGraph";
 
 export default {
   name: "FitnessTrackerView",
-  components: {},
+  components: { WeightGraph, Measurement },
   computed: {
     latestWorkout() {
       this.sortWorkouts();
