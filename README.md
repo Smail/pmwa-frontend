@@ -2,6 +2,9 @@
 
 A productivity web application written in Vue. The application is still in development.
 
+<img src="docs/tasks.png" width="640" height="360" alt="Todo list">
+<img src="docs/calendar.png" width="640" height="360" alt="Calendar">
+
 #### Features
 
 * Todo list / Notes
