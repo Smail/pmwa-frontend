@@ -134,7 +134,7 @@ button, input {
 }
 
 @media (prefers-color-scheme: dark) {
-  input {
+  * {
     color-scheme: dark;
   }
 }
