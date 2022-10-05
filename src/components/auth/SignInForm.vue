@@ -46,7 +46,7 @@ export default {
         await this.$store.dispatch("signIn", { username: this.username, password: this.password });
         this.$router.push("/dashboard");
       } catch (e) {
-        logErrorAndAlert(e.message, "An error occurred and we could not sign you in.");
+        logErrorAndAlert(e.message, `An error occurred and we could not sign you in.\nError: ${ e.message }`);
       }
     },
   },
