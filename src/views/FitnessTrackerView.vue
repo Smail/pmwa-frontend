@@ -447,7 +447,7 @@ li.exercise {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     grid-template-rows: auto minmax(0, 1fr);
     grid-template-areas: "charts new"
-                         ". new";
+                         "inputs new";
     gap: 0.5em;
     min-width: 0;
     min-height: 0;
