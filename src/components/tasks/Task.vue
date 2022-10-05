@@ -265,8 +265,12 @@ export default {
     },
   },
   async created() {
-    await loadTaskTags(this.task.id).catch(e => console.error("Could not load tags: %s\n%s",
-        e.message + (e.response?.data != null ? (". " + e.response.data) : ""), JSON.stringify(e)));
+    try {
+      this.tags = await loadTaskTags(this.task.id);
+    } catch (e) {
+      console.error("Could not load tags: %s\n%s",
+          e.message + (e.response?.data != null ? (". " + e.response.data) : ""), JSON.stringify(e));
+    }
     // Save changes when user leaves the page without unnecessarily notifying them.
     window.addEventListener("beforeunload", () => this.update());
   },
