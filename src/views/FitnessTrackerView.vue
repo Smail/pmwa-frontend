@@ -22,6 +22,22 @@
           <button class="material-symbols-outlined chart-nav-btn" style="margin-left: 1rem;">chevron_right</button>
         </div>
       </section>
+      <section class="inputs">
+        <h1 class="section-title">Add Body Measurements</h1>
+        <measurement :units="weightUnits" name="weight"></measurement>
+        <measurement :units="lengthUnits" name="neck"></measurement>
+        <measurement :units="lengthUnits" name="shoulders"></measurement>
+        <measurement :units="lengthUnits" name="chest"></measurement>
+        <measurement :units="lengthUnits" name="upper arm (left)"></measurement>
+        <measurement :units="lengthUnits" name="upper arm (right)"></measurement>
+        <measurement :units="lengthUnits" name="forearm (left)"></measurement>
+        <measurement :units="lengthUnits" name="forearm (right)"></measurement>
+        <measurement :units="lengthUnits" name="waist"></measurement>
+        <measurement :units="lengthUnits" name="thigh (left)"></measurement>
+        <measurement :units="lengthUnits" name="thigh (right)"></measurement>
+        <measurement :units="lengthUnits" name="calf (left)"></measurement>
+        <measurement :units="lengthUnits" name="calf (right)"></measurement>
+      </section>
       <section class="new">
         <h1 class="section-title">Workouts</h1>
 
