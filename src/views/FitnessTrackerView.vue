@@ -387,6 +387,8 @@ export default {
     return {
       chart: null,
       workouts: workoutDataMock,
+      weightUnits: ["kg", "lbs"],
+      lengthUnits: ["cm", "inch"],
     };
   },
 };
