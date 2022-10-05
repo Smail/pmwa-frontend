@@ -21,8 +21,8 @@
           <h5 style="align-self: flex-start;">Priority</h5>
           <ul class="priority-list">
             <li v-for="(p, i) in ['none', 'low', 'medium', 'high']">
-              <button type="button"
-                      :class="[`priority_${p}`, { active: priority === p }]"
+              <button :class="[`priority_${p}`, { active: priority === p }]"
+                      type="button"
                       @click="setPriority(p)"
               >
                 <template v-if="i > 0">{{ "!".repeat(i) }}</template>
@@ -37,8 +37,8 @@
         </li>
 
         <li class="favorite-task">
-          <button type="button" class="favorite-task"
-                  :class="{ active: isFavorite }"
+          <button :class="{ active: isFavorite }" class="favorite-task"
+                  type="button"
                   @click="toggleIsFavorite">
             Favor task
             <span class="material-symbols-outlined">star</span>
