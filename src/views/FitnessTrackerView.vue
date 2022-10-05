@@ -12,14 +12,18 @@
           <!--            <button class="material-symbols-outlined">chevron_left</button>-->
           <!--            <button class="material-symbols-outlined">chevron_right</button>-->
           <!--          </div>-->
-          <button class="material-symbols-outlined chart-nav-btn" style="margin-right: 1rem;">chevron_left</button>
+          <button class="material-symbols-outlined chart-nav-btn" style="margin-right: 1rem;" type="button">
+            chevron_left
+          </button>
           <div id="canvas-container" style="flex: 1;position: relative;">
             <canvas id="myChart">
               Your browser does not support the canvas element and therefore no charts can be displayed at this time.
               Please try updating or changing your browser
             </canvas>
           </div>
-          <button class="material-symbols-outlined chart-nav-btn" style="margin-left: 1rem;">chevron_right</button>
+          <button class="material-symbols-outlined chart-nav-btn" style="margin-left: 1rem;" type="button">
+            chevron_right
+          </button>
         </div>
       </section>
       <section class="inputs">
