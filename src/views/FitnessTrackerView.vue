@@ -456,6 +456,13 @@ li.exercise {
       grid-area: charts;
     }
 
+    .inputs {
+      grid-area: inputs;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
+    }
+
     .new {
       grid-area: new;
       min-width: 0;
