@@ -124,7 +124,7 @@ export default {
         case "weak":
           return "orange";
         case "too weak":
-          return "red"
+          return "red";
         default:
           return "";
       }
@@ -163,7 +163,7 @@ export default {
       this.email = "";
       this.password = "";
       this.repeatedPassword = "";
-    }
+    },
   },
   data() {
     return {
