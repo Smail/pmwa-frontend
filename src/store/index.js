@@ -1,6 +1,6 @@
 import { createStore } from "vuex";
 import { loadTasks } from "@/services/api/loadTasks";
-import { logOut } from "@/services/logOut";
+import { logOut } from "@/services/api/logOut";
 import { requestUserData } from "@/services/api/requestUserData";
 import { signIn } from "@/services/api/signIn";
 import { updateUser } from "@/services/api/updateUser";
