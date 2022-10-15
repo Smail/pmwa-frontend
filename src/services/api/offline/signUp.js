@@ -24,6 +24,7 @@ function createExampleTasks() {
       isDone: Math.random() > 0.5,
       startDate: null,
       endDate: null,
+      tags: [],
     });
   }
 
