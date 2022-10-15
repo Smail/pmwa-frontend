@@ -22,6 +22,8 @@ function createExampleTasks() {
       id: i.toString(),
       name: `Test ${ i }`,
       isDone: Math.random() > 0.5,
+      startDate: null,
+      endDate: null,
     });
   }
 
