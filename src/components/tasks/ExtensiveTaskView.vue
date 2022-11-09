@@ -64,12 +64,6 @@ export default {
       if (this.changes.endDate != null) return moment(this.changes.endDate);
       return this.task.endDate != null ? moment(this.task.endDate) : null;
     },
-    hasStartDate() {
-      return this.startDate != null;
-    },
-    hasEndDate() {
-      return this.changes.endDate != null || this.task.endDate != null;
-    },
   },
   methods: {
     setDate(keyName, date) {
