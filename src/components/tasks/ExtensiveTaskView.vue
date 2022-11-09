@@ -25,6 +25,7 @@
         @input="changes.name = $event.target.innerText; $store.commit('updateTask',  { ...changes, id: task.id })">
       {{ task.name }}
     </h1>
+    <tag-list :task="task"></tag-list>
     <textarea class="task-content"
               placeholder="Dear diary, ..."
               @input="changes.content = $event.target.value; $store.commit('updateTask',  { ...changes, id: task.id })"
@@ -35,10 +36,11 @@
 <script>
 import moment from "moment";
 import TaskCheckbox from "@/components/tasks/TaskCheckbox";
+import TagList from "@/components/tasks/TagList";
 
 export default {
   name: "ExtensiveTaskView",
-  components: { TaskCheckbox },
+  components: { TagList, TaskCheckbox },
   props: {
     task: {
       type: Object,
