@@ -3,7 +3,7 @@
                 class="context-menu_calendar-task"
                 @opened="$emit('opened')"
                 @closed="$emit('closed')">
-    <input class="" type="text" :value="task.name" @input="updateTaskName($event.target.value)">
+    <input type="text" :value="task.name" @input="updateTaskName($event.target.value)">
     <ul>
       <li>
         <delete-button title="Delete task" @click="$emit('deleteTask')">
