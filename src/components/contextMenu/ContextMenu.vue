@@ -15,20 +15,14 @@ export default {
         left: this.x + "px",
       };
     },
-    contextMenu() {
-      return document.getElementById(this.id);
-    },
-    parent() {
-      return this.contextMenu.parentElement;
-    },
   },
   methods: {
     handler(event) {
       const target = event.target;
-      if (this.contextMenu == null) return;
+      if (this.$el == null) return;
       event.preventDefault();
 
-      if (this.contextMenu === target || this.contextMenu.contains(target)) {
+      if (this.$el === target || this.$el.contains(target)) {
         // A right-click on the context menu itself (or anything inside it) will NOT reposition it
         return;
       }
@@ -39,9 +33,9 @@ export default {
       // We must remove the display: none property or
       // otherwise the offset width/height will be 0 when retrieved.
       // This is safe, since the element will be visible anyway after this function.
-      this.contextMenu.style.display = null;
-      const width = this.contextMenu.offsetWidth;
-      const height = this.contextMenu.offsetHeight;
+      this.$el.style.display = null;
+      const width = this.$el.offsetWidth;
+      const height = this.$el.offsetHeight;
 
       // Prevent page overflow
       if (this.x + width > window.innerWidth) {
@@ -66,17 +60,21 @@ export default {
     },
   },
   mounted() {
-    this.parent.addEventListener("contextmenu", this.handler);
+    this.$el.parentElement.addEventListener("contextmenu", this.handler);
     window.addEventListener("blur", this.hide);
     document.addEventListener("mousedown", this.hide);
     // We don't want this click to close the context menu, so we stop its propagation:
-    this.contextMenu.addEventListener("mousedown", this.eventStopPropagation);
+    this.$el.addEventListener("mousedown", this.eventStopPropagation);
+
+    // Hide context menu when it loses focus (within).
+    this.$el.addEventListener("focusout", this.focusOutHandler);
   },
-  unmounted() {
-    this.parent.removeEventListener("contextmenu", this.handler);
+  beforeUnmount() {
+    this.$el.parentElement.removeEventListener("contextmenu", this.handler);
     window.removeEventListener("blur", this.hide);
     document.removeEventListener("mousedown", this.hide);
-    this.contextMenu.removeEventListener("mousedown", this.eventStopPropagation);
+    this.$el.removeEventListener("mousedown", this.eventStopPropagation);
+    this.$el.removeEventListener("focusout", this.focusOutHandler);
   },
   data() {
     return {
