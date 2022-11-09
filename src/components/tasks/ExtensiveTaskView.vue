@@ -126,8 +126,11 @@ export default {
   // When using gap, the spellchecker extension causes the all elements to move, because it injects a hidden element
   // Resort to margin-top on each individual item
   .header, .task-content {
-    margin-top: 1rem;
     $border-color: var(--primary-color-500);
+  }
+
+  .task-content {
+    margin-top: 1rem;
   }
 
   .meta-input-wrapper {
@@ -160,9 +163,15 @@ export default {
     text-align: left;
     border-radius: 0.5rem;
     outline-offset: 0.25em;
+    outline: none;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    border: thin dashed transparent;
 
     &:focus {
-      outline: 1px dashed $border-color;
+      border-color: $border-color;
+      padding-left: 0.25em;
+      margin-left: -0.25em;
     }
   }
 
