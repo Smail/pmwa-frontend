@@ -36,6 +36,7 @@ export default {
   border-radius: 0.5rem;
   outline: $red solid 0.1rem;
   transition: all 50ms ease-in-out;
+  font-size: inherit;
 
   &:hover {
     background: transparentize($red, 0.5);
