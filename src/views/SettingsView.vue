@@ -8,13 +8,13 @@
           <h4>Username:</h4>
           <input v-model="newUser.username" class="settings-change-input"
                  name="new-username" spellcheck="false" type="text"/>
-          <button class="settings-change-btn" type="button" @click="updateUser">Change</button>
+          <button class="settings-change-btn" type="button" @click="updateUser">Save</button>
         </li>
         <li class="settings-list-item">
           <h4>Display name:</h4>
           <input v-model="newUser.displayName" class="settings-change-input"
                  name="new-display-name" spellcheck="false" type="text"/>
-          <button class="settings-change-btn" type="button" @click="updateUser">Change</button>
+          <button class="settings-change-btn" type="button" @click="updateUser">Save</button>
         </li>
         <li class="settings-list-item">
           <h4>Locale:</h4>
