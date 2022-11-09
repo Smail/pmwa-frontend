@@ -1,18 +1,34 @@
 <template>
-  <span class="tag">{{ name }}</span>
+  <div :style="{ backgroundColor: bgColor }" class="tag">
+    <span class="name"
+          contenteditable="true"
+          spellcheck="false"
+          @input="updateTagName">
+      {{ name }}
+    </span>
+    <button :style="{ backgroundColor: bgColorCloseButton }"
+            class="tag-delete-btn material-symbols-outlined"
+            type="button"
+            @click="deleteTag"
+    >
+      close
+    </button>
+
+    <tag-context-menu :tag="tag" @delete-tag="$emit('deleteTag')"></tag-context-menu>
+  </div>
 </template>
 
 <script>
+import TagContextMenu from "@/components/contextMenu/TagContextMenu";
+
 export default {
   name: "Tag",
+  components: { TagContextMenu },
+  emits: ["deleteTag"],
   props: {
-    name: {
-      type: String,
+    tag: {
+      type: Object,
       required: true,
-    },
-    color: {
-      type: String,
-      default: "#ffcc00",
     },
     enforceSameHslLightingValue: {
       type: Boolean,
@@ -20,6 +36,16 @@ export default {
     },
   },
   computed: {
+    id() {
+      return this.tag.id;
+    },
+    name() {
+      return this.tag.name;
+    },
+    color() {
+      // Return default color if none is available
+      return (this.tag.color != null) ? this.tag.color : "#ffcc00";
+    },
     colorAsHsl() {
       if (this.isHslColorString(this.color)) return this.color;
 
@@ -37,14 +63,20 @@ export default {
 
       return this.rgbToHsl(rgb[0], rgb[1], rgb[2]);
     },
-    // Don't delete: This property is used in CSS as v-bind
     bgColor() {
       if (this.enforceSameHslLightingValue) {
         const hsl = this.colorAsHsl;
-        return "hsla(" + hsl[0] + ", " + hsl[1] + "%, " + this.hslLightAmount + "%, 0.7)";
+        return `hsla(${ hsl[0] }, ${ hsl[1] }%, ${ this.hslLightAmount }%, 0.7)`;
       }
 
       return this.color;
+    },
+    bgColorCloseButton() {
+      const hsl = this.colorAsHsl;
+      return `hsla(${ hsl[0] }, ${ hsl[1] }%, ${ this.hslLightAmountCloseButton }%, 0.7)`;
+    },
+    hslLightAmountCloseButton() {
+      return Math.max(this.hslLightAmount - 20, 0);
     },
   },
   methods: {
@@ -278,6 +310,20 @@ export default {
 
       return colors[color.toLowerCase()];
     },
+    updateTagName(event) {
+      const name = event.target.innerText;
+      const data = event.data?.replaceAll("\n", "");
+
+      if (data != null && name.length + data.length >= 30) {
+        // Reset inner text to last text
+        event.target.innerText = this.name;
+      } else {
+        this.$store.commit("updateTag", { id: this.id, name });
+      }
+    },
+    deleteTag() {
+      this.$store.commit("deleteTag", { id: this.id });
+    }
   },
   data() {
     return {
@@ -287,16 +333,29 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .tag {
-  cursor: pointer;
   display: flex;
   align-items: center;
-  background: v-bind('bgColor');
   padding: 0.1rem 0.25rem;
   border-radius: 1rem;
-  outline: v-bind('bgColor') solid 0.1rem;
   font-size: 0.6rem;
-  font-family: monospace;
+  gap: 0.5em;
+
+  .name {
+    font-family: monospace;
+    white-space: nowrap;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .tag-delete-btn {
+    font-size: inherit;
+    border-radius: 100%;
+    border: none;
+
+  }
 }
 </style>
