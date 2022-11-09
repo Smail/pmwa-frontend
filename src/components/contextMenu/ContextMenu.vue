@@ -96,7 +96,7 @@ export default {
   box-sizing: border-box;
   position: fixed;
   background: linear-gradient(75deg, var(--primary-color-300-0\.1), var(--primary-color-400-0\.1));
-  z-index: 9999;
+  z-index: 10;
   overflow: hidden;
   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
   border-radius: 0.5rem;
