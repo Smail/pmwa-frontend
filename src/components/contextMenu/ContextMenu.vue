@@ -1,5 +1,5 @@
 <template>
-  <div :id="id" class="context-menu" :style="style" v-show="!isHidden">
+  <div class="context-menu" :style="style" v-show="!isHidden" tabindex="-1">
     <slot></slot>
   </div>
 </template>
@@ -80,7 +80,6 @@ export default {
   },
   data() {
     return {
-      id: Math.random().toString(36).substring(2),
       x: 0,
       y: 0,
       isHidden: true,
