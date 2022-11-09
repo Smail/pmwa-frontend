@@ -109,6 +109,32 @@ export default createStore({
       state.tasks.splice(idx, 1);
       console.debug(`%c[SUCCESS] %s`, "color: lime", "Task local deletion");
     },
+    updateTag: (state, { id, name, color }) => {
+      if (id == null) throw new Error(`Invalid argument: id is '${ id }'`);
+      for (const tasks of state.tasks) {
+        for (const tag of tasks.tags) {
+          if (tag.id === id) {
+            if (name !== undefined) tag.name = name.replaceAll("\n", "");
+            if (color !== undefined) tag.color = color;
+          }
+        }
+      }
+    },
+    deleteTag: (state, { id }) => {
+      if (id == null) throw new Error(`Invalid argument: ID is '${ id }'`);
+      for (const tasks of state.tasks) {
+        tasks.tags = tasks.tags.filter(tag => tag.id !== id);
+      }
+    },
+    createTag: (state, { taskId, tag }) => {
+      if (tag == null) throw new Error(`Invalid argument: tag is '${ tag }'`);
+      const idx = state.tasks.findIndex(task => task.id === taskId);
+      if (idx < 0) throw new Error(`Invalid argument: Unknown task ID '${ taskId }'`);
+
+      if (tag.id == null) throw new Error(`Missing key 'id' in tag`);
+
+      state.tasks[idx].tags.push(tag);
+    },
   },
   actions: {
     updateUser: updateUser,
