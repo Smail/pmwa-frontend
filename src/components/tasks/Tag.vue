@@ -9,7 +9,7 @@
     <button :style="{ backgroundColor: bgColorCloseButton }"
             class="tag-delete-btn material-symbols-outlined"
             type="button"
-            @click="deleteTag"
+            @click="$emit('deleteTag')"
     >
       close
     </button>
@@ -321,9 +321,6 @@ export default {
         this.$store.commit("updateTag", { id: this.id, name });
       }
     },
-    deleteTag() {
-      this.$store.commit("deleteTag", { id: this.id });
-    }
   },
   data() {
     return {

@@ -9,6 +9,7 @@ import { deleteTask } from "@/services/api/deleteTask";
 import { updateTaskOnlyServer } from "@/services/api/updateTaskOnlyServer";
 import { signUp } from "@/services/api/signUp";
 import { hasValidRefreshToken } from "@/services/hasValidRefreshToken";
+import { removeTaskTag } from "@/services/api/removeTaskTag";
 
 export default createStore({
   state: {
@@ -120,10 +121,38 @@ export default createStore({
         }
       }
     },
-    deleteTag: (state, { id }) => {
-      if (id == null) throw new Error(`Invalid argument: ID is '${ id }'`);
-      for (const tasks of state.tasks) {
-        tasks.tags = tasks.tags.filter(tag => tag.id !== id);
+    /**
+     * Removes a tag from a specific task
+     *
+     * @param state
+     * @param taskId
+     * @param tagId
+     */
+    removeTaskTag: (state, { taskId, tagId }) => {
+      if (taskId == null) throw new Error(`Invalid argument: taskId is null`);
+      if (tagId == null) throw new Error(`Invalid argument: tagId is null`);
+      const task = state.tasks.find(task => task.id === taskId);
+
+      if (task == null) {
+        console.warn(`No task with ID ${ taskId } could be found.`);
+        return;
+      }
+
+      // TODO update on server; create action
+      task.tags = task.tags.filter(tag => tag.id !== tagId);
+    },
+    /**
+     * Deletes a tag completely, i.e., everywhere.
+     *
+     * @param state
+     * @param id
+     */
+    deleteTag: (state, { tagId }) => {
+      if (tagId == null) throw new Error(`Invalid argument: id is null`);
+
+      // TODO update on server; create action
+      for (const task of state.tasks) {
+        task.tags = task.tags.filter(tag => tag.id !== tagId);
       }
     },
     createTag: (state, { taskId, tag }) => {
@@ -146,6 +175,7 @@ export default createStore({
     updateTask: updateTask,
     updateTaskOnlyServer: updateTaskOnlyServer,
     deleteTask: deleteTask,
+    removeTaskTag: removeTaskTag,
   },
   modules: {},
 });

@@ -126,6 +126,7 @@ export default {
   // When using gap, the spellchecker extension causes the all elements to move, because it injects a hidden element
   // Resort to margin-top on each individual item
   .header, .task-content {
+    // Change border color for header and task content section
     $border-color: var(--primary-color-500);
   }
 
@@ -162,11 +163,11 @@ export default {
   .header {
     text-align: left;
     border-radius: 0.5rem;
-    outline-offset: 0.25em;
     outline: none;
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
     border: thin dashed transparent;
+    white-space: pre-wrap;
 
     &:focus {
       border-color: $border-color;

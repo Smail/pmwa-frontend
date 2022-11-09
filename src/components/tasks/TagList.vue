@@ -1,7 +1,7 @@
 <template>
   <ul class="tags">
     <li v-for="tag in tags" class="tag">
-      <tag :tag="tag"></tag>
+      <tag :tag="tag" @delete-tag="removeTag(tag)" :key="tag.id"></tag>
     </li>
     <li class="add-tag">
       <form class="add-tag"
@@ -59,6 +59,9 @@ export default {
         tag: { id: Math.ceil(Math.random() * 9000000), name: this.newTagName },
       });
       this.newTagName = "";
+    },
+    removeTag(tag) {
+      this.$store.dispatch("removeTaskTag", { taskId: this.task.id, tagId: tag.id });
     },
   },
   data() {
