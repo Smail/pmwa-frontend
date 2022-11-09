@@ -10,6 +10,8 @@ import { updateTaskOnlyServer } from "@/services/api/updateTaskOnlyServer";
 import { signUp } from "@/services/api/signUp";
 import { hasValidRefreshToken } from "@/services/hasValidRefreshToken";
 import { removeTaskTag } from "@/services/api/removeTaskTag";
+import { createTag } from "@/services/api/createTag";
+import { updateTag } from "@/services/api/updateTag";
 
 export default createStore({
   state: {
@@ -110,11 +112,11 @@ export default createStore({
       state.tasks.splice(idx, 1);
       console.debug(`%c[SUCCESS] %s`, "color: lime", "Task local deletion");
     },
-    updateTag: (state, { id, name, color }) => {
-      if (id == null) throw new Error(`Invalid argument: id is '${ id }'`);
-      for (const tasks of state.tasks) {
-        for (const tag of tasks.tags) {
-          if (tag.id === id) {
+    updateTag: (state, { tagId, name, color }) => {
+      if (tagId == null) throw new Error(`Invalid argument: id is '${ tagId }'`);
+      for (const task of state.tasks) {
+        for (const tag of task.tags) {
+          if (tag.id === tagId) {
             if (name !== undefined) tag.name = name.replaceAll("\n", "");
             if (color !== undefined) tag.color = color;
           }
@@ -157,9 +159,9 @@ export default createStore({
     },
     createTag: (state, { taskId, tag }) => {
       if (tag == null) throw new Error(`Invalid argument: tag is '${ tag }'`);
+
       const idx = state.tasks.findIndex(task => task.id === taskId);
       if (idx < 0) throw new Error(`Invalid argument: Unknown task ID '${ taskId }'`);
-
       if (tag.id == null) throw new Error(`Missing key 'id' in tag`);
 
       state.tasks[idx].tags.push(tag);
@@ -175,7 +177,9 @@ export default createStore({
     updateTask: updateTask,
     updateTaskOnlyServer: updateTaskOnlyServer,
     deleteTask: deleteTask,
+    createTag: createTag,
     removeTaskTag: removeTaskTag,
+    updateTag: updateTag,
   },
   modules: {},
 });

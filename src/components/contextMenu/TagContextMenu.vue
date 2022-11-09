@@ -62,7 +62,7 @@ export default {
   },
   methods: {
     submitModalForm(event) {
-      this.$store.commit("updateTag", {
+      this.$store.dispatch("updateTag", {
         id: this.tag.id,
         name: event.target.elements["name"].value,
         color: event.target.elements["color"].value,
@@ -76,12 +76,12 @@ export default {
         // Reset inner text to last text
         event.target.innerText = this.tag.name;
       } else {
-        this.$store.commit("updateTag", { id: this.tag.id, name });
+        this.$store.dispatch("updateTag", { id: this.tag.id, name });
       }
     },
     updateTagColor(event) {
       console.log(this.tag);
-      this.$store.commit("updateTag", {
+      this.$store.dispatch("updateTag", {
         id: this.tag.id,
         color: event.target.value,
       });

@@ -54,7 +54,7 @@ export default {
     },
     createNewTag() {
       this.newTagName = this.newTagName.replaceAll("\n", "").substring(0, 30);
-      this.$store.commit("createTag", {
+      this.$store.dispatch("createTag", {
         taskId: this.task.id,
         tag: { id: Math.ceil(Math.random() * 9000000), name: this.newTagName },
       });

@@ -318,7 +318,7 @@ export default {
         // Reset inner text to last text
         event.target.innerText = this.name;
       } else {
-        this.$store.commit("updateTag", { id: this.id, name });
+        this.$store.dispatch("updateTag", { tagId: this.id, name });
       }
     },
   },
