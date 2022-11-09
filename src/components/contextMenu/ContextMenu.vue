@@ -58,6 +58,11 @@ export default {
     eventStopPropagation(e) {
       e.stopPropagation();
     },
+    focusOutHandler(e) {
+      if (!this.$el.contains(e.relatedTarget)) {
+        this.hide();
+      }
+    }
   },
   mounted() {
     this.$el.parentElement.addEventListener("contextmenu", this.handler);
