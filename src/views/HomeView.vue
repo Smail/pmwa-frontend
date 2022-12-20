@@ -21,6 +21,12 @@
 export default {
   name: "HomeView",
   components: {},
+  mounted() {
+    document.body.style.height = "initial";
+  },
+  unmounted() {
+    document.body.style.height = null;
+  }
 };
 </script>
 
