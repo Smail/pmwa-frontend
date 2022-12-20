@@ -1,8 +1,8 @@
 <template>
   <div class="fitness-tracker">
-    <section class="section-header">
+    <div class="section-header">
       <h1 class="section-title">Fitness Tracker</h1>
-    </section>
+    </div>
     <main class="main">
       <section class="charts"
                style="/* Overflow hidden is needed, so that the chartJS chart can shrink.*/overflow: hidden">
@@ -406,13 +406,11 @@ li.exercise {
   flex-direction: column;
   gap: 0.5rem;
 
-  section {
+  section,
+  .section-header {
     border-radius: 1rem;
     padding: 1rem;
     background: var(--primary-color-900-0\.9);
-  }
-
-  .section-header {
   }
 
   .section-title {
