@@ -46,7 +46,7 @@ export default {
   },
   created() {
     // Prefetch background images
-    this.$store.state.themes.forEach(t => this.preloadedImages.push(new Image().src = require(`/public/${ t }.png`)));
+    this.$store.state.themes.forEach(t => this.preloadedImages.push(new Image().src = require(`/public/assets/${ t }.png`)));
   },
   data() {
     return {

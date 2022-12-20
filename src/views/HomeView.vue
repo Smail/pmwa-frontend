@@ -3,15 +3,15 @@
     <h1>Tasks. Simple. Fast.</h1>
     <span class="scroll-down-notification material-symbols-outlined">keyboard_double_arrow_down</span>
     <section>
-      <img alt="Preview of tasks management view" src="@/../public/tasks.png">
+      <img alt="Preview of tasks management view" src="../../public/assets/tasks.png">
       <h2 style="font-family: monospace"># Markdown support</h2>
     </section>
     <section>
-      <img alt="Preview of tasks management view" src="@/../public/calendar_simple.png">
+      <img alt="Preview of tasks management view" src="../../public/assets/calendar_simple.png">
       <h2>Link your tasks to a calendar</h2>
     </section>
     <section>
-      <img alt="Preview of tasks management view" src="@/../public/calendar_large.png">
+      <img alt="Preview of tasks management view" src="../../public/assets/calendar_large.png">
       <h2>Give me more days!</h2>
     </section>
   </div>

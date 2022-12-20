@@ -86,7 +86,7 @@ export default createStore({
       localStorage["userPreferredTheme"] = theme;
 
       // Set page background
-      const backgroundImage = require(`/public/${ theme }.png`);
+      const backgroundImage = require(`/public/assets/${ theme }.png`);
       document.body.style.backgroundImage = `url("${ backgroundImage }")`;
     },
     updateTask: (state, task) => {
