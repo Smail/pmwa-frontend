@@ -57,18 +57,6 @@ const routes = [
     component: () => import("../views/TasksView.vue"),
   },
   {
-    path: "/flashcards",
-    name: "flashcards",
-    meta: { needsAuthentication: true },
-    component: () => import("../views/FlashcardsView.vue"),
-  },
-  {
-    path: "/projects",
-    name: "projects",
-    meta: { needsAuthentication: true },
-    component: () => import("../views/ProjectsView.vue"),
-  },
-  {
     path: "/settings",
     name: "settings",
     meta: { needsAuthentication: true },
