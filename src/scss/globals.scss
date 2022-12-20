@@ -61,7 +61,7 @@ $colors: (
   // The purpose is to synchronize all kinds of color transitions, otherwise some elements have for example a
   // transition duration of 50ms, while others have one of 1s and this does not look nice, when basically the whole page
   // transitions into a new color scheme and elements apply the colors at different times (and speeds).
-  // The transition delay must me manually refactored in the setTimeout functions, that remove this class.
+  // The transition delay must be manually refactored in the setTimeout functions, which remove this class.
   $p: 1s ease-in-out;
   transition: background-image $p, color $p, background $p,
   background-color $p, outline-color $p, border-color $p, box-shadow $p !important;
