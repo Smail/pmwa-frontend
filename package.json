@@ -7,10 +7,13 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@fontsource/poppins": "^4.5.10",
     "axios": "^0.27.2",
     "chart.js": "^3.9.1",
     "core-js": "^3.25.1",
     "http-status-codes": "^2.2.0",
+    "material-icons": "^1.13.1",
+    "material-symbols": "^0.4.5",
     "moment": "^2.29.4",
     "vue": "^3.2.39",
     "vue-axios": "^3.4.1",
